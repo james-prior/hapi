@@ -77,5 +77,8 @@ class Alert(object):
 
     def check_alert(self, current_value):
         """Check for alert to a given _value_."""
-        if not self.lower_threshold <= float(current_value) <= self.upper_threshold:
-            self.logger.info("[!] ALERT DETECTED. Value: %s.", current_value)
+        if self.lower_threshold <= float(current_value) <= self.upper_threshold:
+            return False
+
+        self.logger.info("[!] ALERT DETECTED. Value: %s.", current_value)
+        return True

@@ -58,11 +58,15 @@ class Asset(object):
         self.system = "Test"
         self.enabled = True
         self.value = None
-        self.alert = Alert(self.id)
+        self.alert = None
 
     def __str__(self):
         """Return Asset information in JSON."""
         return str([{"id": self.id, "name": self.name, "value": self.value}])
+
+    def load_asset_info(self):
+        """Load asset information based on dabase."""
+        pass
 
 class SmartModule(object):
     """Represents a HAPI Smart Module (Implementation).
@@ -102,6 +106,7 @@ class SmartModule(object):
         self.launch_time = self.rtc.get_datetime()
         self.asset = Asset()
         self.asset.id = self.rtc.get_id()
+        self.asset.alert = Alert(1)
         self.asset.context = self.rtc.get_context()
         self.asset.type = self.rtc.get_type()
         self.ai = asset_interface.AssetInterface(self.asset.type, self.rtc.mock)
@@ -193,8 +198,9 @@ class SmartModule(object):
                 self.comm.unsubscribe("SCHEDULER/RESPONSE")
                 self.comm.subscribe("STATUS/RESPONSE")
                 self.comm.subscribe("ASSET/RESPONSE" + "/#")
-                self.comm.send("SCHEDULER/RESPONSE", self.hostname + ".local")
-                self.comm.send("ANNOUNCE", self.hostname + ".local is running the Scheduler.")
+                self.comm.subscribe("ALERT")
+                self.comm.send("SCHEDULER/RESPONSE", self.hostname)
+                self.comm.send("ANNOUNCE", self.hostname + " is running the Scheduler.")
                 self.log.info("Scheduler program loaded.")
             except Exception as excpt:
                 self.log.exception("Error initializing scheduler. %s.", excpt)
