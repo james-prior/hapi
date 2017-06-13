@@ -16,12 +16,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #*********************************************************************
 
-HAPI Remote Terminal Unit Firmware Code v3.0.0
+HAPI Remote Terminal Unit Firmware Code V3.1.0
 Authors: Tyler Reed, Mark Miller
 ESP Modification: John Archbold
 
-Sketch Date: May 2nd 2017
-Sketch Version: v3.0.0
+Sketch Date: June 13th, 2017
+Sketch Version: V3.1.0
 Implement of MQTT-based HAPInode (HN) for use in Monitoring and Control
 Implements mDNS discovery of MQTT broker
 Implements definitions for 
@@ -36,6 +36,16 @@ Communications Method
 
 #ifndef HAPIBOARD_H
 #define HAPIBOARD_H
+
+enum pin_control_enum {
+    UNUSED_PIN, // or reserved
+    DIGITAL_INPUT_PIN,
+    DIGITAL_INPUT_PULLUP_PIN,
+    DIGITAL_OUTPUT_PIN,
+    ANALOG_OUTPUT_PIN,
+    ANALOG_INPUT_PIN
+};
+
 
 #ifdef HN_ENET             // Mega256
 #define NUM_DIGITAL 54    // Number of digital I/O pins
@@ -63,14 +73,6 @@ Communications Method
 #define cLamp_PIN 14      // Lamp control pin
 #define sLux_PIN  4       // Light sensor pin
 
-enum pin_control_enum {
-    UNUSED_PIN, // or reserved
-    DIGITAL_INPUT_PIN,
-    DIGITAL_INPUT_PULLUP_PIN,
-    DIGITAL_OUTPUT_PIN,
-    ANALOG_OUTPUT_PIN,
-    ANALOG_INPUT_PIN
-};
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
 int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
@@ -192,7 +194,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 #define cpHDn_PIN 12      // pHDown pump control pin
 #define spHDn_PIN A0      // pHDown pump sensor pin
 #define cLamp_PIN 12      // Lamp control pin
-#define sLamp_PIN A0      // Lamp sensor pin
+#define sLamp_PIN A0      // Analog Lamp sensor pin
 
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
@@ -215,8 +217,7 @@ int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
   DIGITAL_OUTPUT_PIN, // 14
   DIGITAL_OUTPUT_PIN, // 15
   DIGITAL_OUTPUT_PIN, // 16
-
-  ANALOG_INPUT_PIN    // 17 // A0 Analog Input ^^^ what does A0 mean?
+  ANALOG_INPUT_PIN    // 17
 };
 
 // Default pin states

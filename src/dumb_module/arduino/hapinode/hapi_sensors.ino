@@ -16,12 +16,12 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #*********************************************************************
 
-HAPI Remote Terminal Unit Firmware Code v3.0.0
+HAPI Remote Terminal Unit Firmware Code V3.1.0
 Authors: Tyler Reed, Mark Miller
 ESP Modification: John Archbold
 
-Sketch Date: May 2nd 2017
-Sketch Version: v3.0.0
+Sketch Date: June 13th, 2017
+Sketch Version: V3.1.0
 Implement of MQTT-based HAPInode (HN) for use in Monitoring and Control
 Implements mDNS discovery of MQTT broker
 Implements definitions for
@@ -37,7 +37,7 @@ Communications Method
 void setupSensors(void){
 // Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
   for (int i = 0; i < ArrayLength(pinControl); i++) {
-    switch (pinControl[i])
+    switch (pinControl[i]) {
     case DIGITAL_INPUT_PIN:
       pinMode(i, INPUT);
       break;
@@ -72,7 +72,7 @@ void setupSensors(void){
 // Start the I2C
   Wire.begin(SDA_PIN,SCL_PIN);      // Default
   Wire.setClock(400000);  // choose 400 kHz I2C rate
-  delay(1000);
+  Alarm.delay(100);
 }
 
 String getPinArray() {
