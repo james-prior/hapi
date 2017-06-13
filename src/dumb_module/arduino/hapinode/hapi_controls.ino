@@ -35,9 +35,11 @@ void setupControls(void){
 
 void checkControls(void) {
   CFuncDef c;
-  for (int i=0;i<ArrayLength(HapicFunctions);i++) {
-    c = HapicFunctions[i];                // initialize access structure
-    c.oPtr(i);                            // call the check function
+  currentTime = now();            // Update currentTime and ..
+                                  //  check all the control functions
+  for (int device=0;device<ArrayLength(HapicFunctions);device++) { // For each device
+    c = HapicFunctions[device];                //  initialize access structure
+    c.oPtr(device);                            //  call the check function
   }
 }
 
@@ -46,13 +48,6 @@ float poll_on_off_thing_controller(int i) {
   ControlData d;
   c = HapicFunctions[i];
   d = HapicData[i];
-/*
-  Serial.print("device:pin -> ");
-  Serial.print(i);
-  Serial.print(" :  ");
-  Serial.println(d.hc_controlpin);
-  delay(5000);
-*/
   if (d.hc_active) { // is it on?
     if (d.hc_end > currentTime) {     // Yes, should it be turned off?
       d.hc_active = false;
