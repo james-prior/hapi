@@ -12,7 +12,7 @@ With a constant stream of data flowing from indoor farms and a diverse array of 
 
 # Under heavy development
 We're currently under heavy development.
-We would love to have you participate! Drop us a note and we'll add you into our product development Slack server so you can keep up with the latest.
+We would love to have you participate! We develop in the open, unlike another 'time' of the HAPI ecosphere
 
 # Requirements
 The default developing platform is Raspbian, a GNU/Linux Distribution for Raspberry Pi.
@@ -27,27 +27,20 @@ See src/smart-module/README.rst for details about smart module.
 **Soon.**
 
 ## HAPI
-http://hapihq.com/
+Not: http://hapihq.com/ ... pending as to web presence
 
 ## Wiki Page
 Don't forget to check our Wiki Page.
-Note: we're currently redefining a few things. You might want to check it again later.
+Pull requests welcomed
 
 ![HAPI Wiki Page](/../../wiki "Wiki Page")
 
 ## Open Source
-HAPI is an open project, meaning anyone and everyone can participate to the best of their ability.
-While many aspects of the project are highly technical, there are also areas where non-technical expertise is needed.
-
-If you would like to see what’s going on and what cool stuff we’ll be working on next, contact us.
+This HAPI is an open project, meaning anyone and everyone can participate under conventional Open Source processes
+No closed process, 'team servers', closed mailing lists or such as to substantive development matters
 
 ## Contact
-If you have any question or sugestion, you can contact us through the link below.
-http://hapihq.com/contact-us-2/
-
-However if you have found any problem or just want to make a suggestion, please check the Issue page.
+If you have found a bug, or have any question or sugestion, please open a bug
 
 ## System Overview
 ![System Overview of the HAPI Project](/readme/system-overview.png?raw=true "HAPI Project System Overview")
-
-Please note: we're currently working on the system design. Some changes on this image will probably be necessary in the near future.
