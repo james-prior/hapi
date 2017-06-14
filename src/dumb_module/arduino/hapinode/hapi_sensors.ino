@@ -38,22 +38,21 @@ void setupSensors(void){
 // Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
   for (int i = 0; i < ArrayLength(pinControl); i++) {
     switch (pinControl[i]) {
-      case DIGITAL_INPUT_PIN:
-        pinMode(i, INPUT);
-        break;
-      case DIGITAL_INPUT_PULLUP_PIN:
-        pinMode(i, INPUT_PULLUP);
-        break;
-      case DIGITAL_OUTPUT_PIN:
-        pinMode(i, OUTPUT);
-        digitalWrite(i, (pinDefaults[i] ? HIGH : LOW));
-        break;
-      case ANALOG_OUTPUT_PIN:
-        pinMode(i, OUTPUT);
-        break;
-      default:
-        break;
-    }
+    case DIGITAL_INPUT_PIN:
+      pinMode(i, INPUT);
+      break;
+    case DIGITAL_INPUT_PULLUP_PIN:
+      pinMode(i, INPUT_PULLUP);
+      break;
+    case DIGITAL_OUTPUT_PIN:
+      pinMode(i, OUTPUT);
+      digitalWrite(i, (pinDefaults[i] ? HIGH : LOW));
+      break;
+    case ANALOG_OUTPUT_PIN:
+      pinMode(i, OUTPUT);
+      break;
+    default:
+      break;
   }
 
 // Start the DHT-22

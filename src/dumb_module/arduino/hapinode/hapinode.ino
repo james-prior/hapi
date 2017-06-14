@@ -243,7 +243,7 @@ int WaterFlowRate = 0;
 //LIGHT Devices
 
 //oneWire Devices
-OneWire oneWire(WIRE_PIN );
+OneWire oneWire(WIRE_PIN);
 DallasTemperature wp_sensors(&oneWire);
 
 //Define DHT devices and allocate resources
@@ -271,7 +271,7 @@ struct FuncDef {   //define a structure to associate a Name to generic function 
 FuncDef sfunc1 = {"tmp", "Env", "C", -1, &readTemperatured};
 FuncDef sfunc2 = {"hum", "Env", "%", -1, &readHumidity};
 FuncDef sfunc3 = {"lux", "Env", "lux", sLux_PIN, &readLightSensor};
-FuncDef sfunc4 = {"tmw", "Water", "C", WIRE_PIN , &read1WireTemperature};
+FuncDef sfunc4 = {"tmw", "Water", "C", WIRE_PIN, &read1WireTemperature};
 FuncDef sfunc5 = {"phv", "Water", "pH", spH_PIN, &readpH};
 FuncDef sfunc6 = {"tds", "Water", "ppm", sTDS_PIN, &readTDS};
 FuncDef sfunc7 = {"flo", "Water", "lpm", sWtrFlow_PIN, &readFlow};
@@ -360,7 +360,7 @@ void setup() {
 //  digitalWrite(LED_PIN, HIGH);
   Serial.begin(115200);       // Debug port
   while (!Serial) ;           //  wait for Arduino Serial Monitor
-  
+
 // Start Debug port and sensors
 // ============================
   setupSensors();             // Initialize I/O and start devices
@@ -492,6 +492,7 @@ void setup() {
     } while (!MQTTClient.subscribe(mqtt_listen_array[i]));
   }
   currentTime = now();
+
   Serial.println(F("Setup Complete. Listening for topics .."));
 // Create the recurring calls, to trigger at or after time
   Alarm.timerRepeat(1, flashLED);         // Every    second

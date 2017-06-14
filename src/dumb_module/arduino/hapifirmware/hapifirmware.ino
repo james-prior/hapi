@@ -65,7 +65,7 @@ Communications Protocol: Ethernet, USB
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
 // Default pin allocation
-#define ONE_WIRE_BUS 8   // Reserved pin for 1-Wire bus
+#define WIRE_PIN 8   // Reserved pin for 1-Wire bus
 #define PH_SENSORPIN A1  // Reserved pin for pH probe
 #define DHTTYPE DHT22    // Sets DHT type
 #define DHTPIN 12        // Reserved pin for DHT-22 sensor
@@ -181,7 +181,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
 // Default pin allocation
-#define ONE_WIRE_BUS 8   // Reserved pin for 1-Wire bus
+#define WIRE_PIN 8   // Reserved pin for 1-Wire bus
 #define PH_SENSORPIN A1  // Reserved pin for pH probe
 #define DHTTYPE DHT22    // Sets DHT type
 #define DHTPIN 12        // Reserved pin for DHT-22 sensor
@@ -229,7 +229,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
 // Default pin allocation
-#define ONE_WIRE_BUS 8   // Reserved pin for 1-Wire bus
+#define WIRE_PIN 8   // Reserved pin for 1-Wire bus
 #define PH_SENSORPIN A1  // Reserved pin for pH probe
 #define DHTTYPE DHT22    // Sets DHT type
 #define DHTPIN 12        // Reserved pin for DHT-22 sensor
@@ -266,7 +266,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
 // Default pin allocation
-#define ONE_WIRE_BUS 13   // Reserved pin for 1-Wire bus
+#define WIRE_PIN 13   // Reserved pin for 1-Wire bus
 #define PH_SENSORPIN 14   // Reserved pin for pH probe
 #define DHTTYPE DHT22     // Sets DHT type
 #define DHTPIN 12         // Reserved pin for DHT-22 sensor
@@ -294,7 +294,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 #endif
 
 
-OneWire oneWire(ONE_WIRE_BUS);
+OneWire oneWire(WIRE_PIN);
 DallasTemperature wp_sensors(&oneWire);
 
 //**** Begin Main Variable Definition Section ****
@@ -366,7 +366,7 @@ struct FuncDef {   //define a structure to associate a Name to generic function 
 FuncDef func1 = {"tmp", "dht", -1, &readTemperature};
 FuncDef func2 = {"hmd", "dht", -1, &readHumidity};
 FuncDef func3 = {"trm", "thermistor", 2, &readThermistorTemp};
-FuncDef func4 = {"res1tmp", "DS18B20", ONE_WIRE_BUS, &readWaterTemperature};
+FuncDef func4 = {"res1tmp", "DS18B20", WIRE_PIN, &readWaterTemperature};
 FuncDef func5 = {"phl", "pH Sensor", PH_SENSORPIN, &readpH};
 
 FuncDef HapiFunctions[CUSTOM_FUNCTIONS] = {func1, func2, func3, func4, func5};
