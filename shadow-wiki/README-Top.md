@@ -2,7 +2,11 @@ Welcome to the wiki!
 
 The process for setting up a development environment is unclear.  This page is a pile of interesting content, and needs refactoring pull requests
 
+FOSS Development is a Social Voluntary model -- the problem with Social 
+Voluntary from the standpoint of some, is that your volunteers can walk away, 
+as they are not being paid to volunteer ... duh
 
+GPLv3+ is a fine license for encouraging experimentation
 
 ==== Open Source Practice
 
