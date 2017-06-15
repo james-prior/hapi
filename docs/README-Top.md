@@ -96,7 +96,7 @@ DS3231 module (<$1) and synchronise that using ntp from the mqtt broker.
 The second is the delay() function. As these devices may be used with LiPo
 batteries, we want the code to be electron efficient. Arduino has a simple
 timer e.g. http://playground.arduino.cc/Code/SimpleTimer which does not use
-sleep mode. Other libraries are available that do sue sleep mode e.g.
+sleep mode. Other libraries are available that do use sleep mode e.g.
 https://github.com/n0m1/Sleep_n0m1 . However, I have not yet had the time
 to verify that they work across mega2560, ESP8266 and ESP32.
 
