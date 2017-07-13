@@ -38,12 +38,12 @@ Communications Method
 #define HAPIBOARD_H
 
 enum pin_control_enum {
-    UNUSED_PIN, // or reserved
-    DIGITAL_INPUT_PIN,
-    DIGITAL_INPUT_PULLUP_PIN,
-    DIGITAL_OUTPUT_PIN,
-    ANALOG_OUTPUT_PIN,
-    ANALOG_INPUT_PIN
+  UNUSED_PIN, // or reserved
+  DIGITAL_INPUT_PIN,
+  DIGITAL_INPUT_PULLUP_PIN,
+  DIGITAL_OUTPUT_PIN,
+  ANALOG_OUTPUT_PIN,
+  ANALOG_INPUT_PIN
 };
 
 
