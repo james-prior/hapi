@@ -37,6 +37,8 @@ Communications Method
 #ifndef HAPIBOARD_H
 #define HAPIBOARD_H
 
+#define ArrayLength(x) (sizeof(x)/sizeof(*(x)))
+
 enum pin_control_enum {
   UNUSED_PIN, // or reserved
   DIGITAL_INPUT_PIN,

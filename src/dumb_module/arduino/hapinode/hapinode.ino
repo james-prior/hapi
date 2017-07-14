@@ -268,7 +268,6 @@ struct FuncDef {   //define a structure to associate a Name to generic function 
   GenericFP fPtr;
 };
 
-#define ArrayLength(x) (sizeof(x)/sizeof(*(x)))
 // Create a FuncDef for each custom function
 // Format: abbreviation, context, pin, data function
 FuncDef sfunc1 = {"tmp", "Env", "C", -1, &readTemperatured};
