@@ -705,25 +705,25 @@ int freeRam (){
 
 void setup() {
 
-  // Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
-  for (int x = 0; x < (NUM_DIGITAL+NUM_ANALOG); x++) {
-    if (pinControl[x] == 1) {
-      pinMode(x, INPUT); // Digital Input
-    }
-    if (pinControl[x] == 2) {
-      pinMode(x, INPUT_PULLUP); // Digital Inputs w/ Pullup Resistors
-    }
-    if (pinControl[x] == 3) {
-      pinMode(x, OUTPUT); // Digital Outputs
-      if (pinDefaults[x] == 0) {
-        digitalWrite(x, LOW);
-      }
-      else{
-        digitalWrite(x, HIGH);
-      }
-    }
-    if (pinControl[x] == 4) {
-      pinMode(x, OUTPUT); // Analog Outputs
+  // Initialize Digital Pins for Input or Output
+  // From the arrays pinControl and pinDefaults
+  for (int i = 0; i < (NUM_DIGITAL+NUM_ANALOG); i++) {
+    switch (pinControl[i]) {
+    case DIGITAL_INPUT_PIN:
+      pinMode(i, INPUT);
+      break;
+    case DIGITAL_INPUT_PULLUP_PIN:
+      pinMode(i, INPUT_PULLUP);
+      break;
+    case DIGITAL_OUTPUT_PIN:
+      pinMode(i, OUTPUT);
+      digitalWrite(i, pinDefaults[i] ? HIGH : LOW);
+      break;
+    case ANALOG_OUTPUT_PIN:
+      pinMode(i, OUTPUT);
+      break;
+    default:
+      break;
     }
   }
 
