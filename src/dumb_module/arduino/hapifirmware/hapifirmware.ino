@@ -60,7 +60,6 @@ Communications Protocol: Ethernet, USB
 
 #ifdef RTU_ENET
 #define NUM_DIGITAL 54    // Number of digital I/O pins
-#define NUM_ANALOG  16    // Number of analog I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default digital state data
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
@@ -176,7 +175,6 @@ int pinDefaults[] = {
 
 #ifdef RTU_USB
 #define NUM_DIGITAL 54    // Number of digital I/O pins
-#define NUM_ANALOG  16    // Number of analog I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default digital state data
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
@@ -224,7 +222,6 @@ int pinDefaults[] = {
 
 #ifdef RTU_UNO
 #define NUM_DIGITAL 14    // Number of digital I/O pins
-#define NUM_ANALOG   6    // Number of analog I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default digital state data
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
@@ -261,7 +258,6 @@ int pinDefaults[] = {
 
 #ifdef RTU_ESP
 #define NUM_DIGITAL 17    // Number of digital I/O pins
-#define NUM_ANALOG  1     // Number of analog I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default state data
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
@@ -293,6 +289,7 @@ int pinDefaults[] = {
 
 #endif
 
+#define NUM_ANALOG (ArrayLength(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
 #if ArrayLength(pinControl) != ArrayLength(pinDefaults)
 #error ArrayLength(pinControl) != ArrayLength(pinDefaults)
 #endif

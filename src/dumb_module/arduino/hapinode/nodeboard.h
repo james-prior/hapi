@@ -51,7 +51,6 @@ enum pin_control_enum {
 
 #ifdef HN_ENET             // Mega256
 #define NUM_DIGITAL 54    // Number of digital I/O pins
-#define NUM_ANALOG  16    // Number of analog I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default digital state data
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 // Default pin allocation
@@ -172,7 +171,6 @@ int pinDefaults[] = {
 
 #ifdef HN_ESP8266
 #define NUM_DIGITAL 17    // Number of digital I/O pins
-#define NUM_ANALOG  1     // Number of analog I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default state data
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 
@@ -235,7 +233,6 @@ int pinDefaults[] = {
 
 #ifdef HN_ESP32
 #define NUM_DIGITAL 54    // Number of digital I/O pins
-#define NUM_ANALOG  16    // Number of analog I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default digital state data
                                      // 2 bytes per digital I/O pin, 1st byte = State, 2nd byte = Value
 // Default pin allocation
@@ -359,6 +356,7 @@ int pinDefaults[] = {
 };
 #endif
 
+#define NUM_ANALOG (ArrayLength(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
 #if ArrayLength(pinControl) != ArrayLength(pinDefaults)
 #error ArrayLength(pinControl) != ArrayLength(pinDefaults)
 #endif
