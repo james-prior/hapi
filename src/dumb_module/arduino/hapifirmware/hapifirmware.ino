@@ -81,7 +81,7 @@ enum pin_control_enum {
 };
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-enum pin_control_enum pinControl[NUM_DIGITAL+NUM_ANALOG] = {
+enum pin_control_enum pinControl[] = {
   // DIGITAL
   UNUSED_PIN,                //  0
   UNUSED_PIN,                //  1
@@ -159,7 +159,7 @@ enum pin_control_enum pinControl[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
 // 0 = LOW, 1 = HIGH
-int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
+int pinDefaults[] = {
                                   // DIGITAL
   0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 10 - 19
@@ -190,7 +190,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin modes
 // 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
+int pinControl[] = {
                                   // DIGITAL
   0, 0, 3, 3, 0, 3, 3, 3, 3, 3,   //  0 -  9
   0, 2, 1, 3, 0, 0, 0, 0, 0, 0,   // 10 - 19
@@ -206,7 +206,7 @@ int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
 // 0 = LOW, 1 = HIGH
-int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
+int pinDefaults[] = {
                                   // DIGITAL
   0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 10 - 19
@@ -238,7 +238,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin modes
 // 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
+int pinControl[] = {
                                   // DIGITAL
   0, 0, 3, 3, 3, 3, 3, 0, 2, 1, 	//  0 -  9
 
@@ -250,7 +250,7 @@ int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
 // 0 = LOW, 1 = HIGH
-int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
+int pinDefaults[] = {
                                   // DIGITAL
   0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
   0, 0, 0, 0,                     // 10 - 13
@@ -274,7 +274,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin modes
 // 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
+int pinControl[] = {
   3, 3, 3, 1, 3, 3, 0, 0,   //  0 -  8  // Digital i/o
   0, 0, 0, 0, 3, 3, 3, 3,   //  9 - 15
   3,                        // 16
@@ -284,7 +284,7 @@ int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
 // 0 = LOW, 1 = HIGH
-int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
+int pinDefaults[] = {
   1, 1, 1, 1, 1, 1, 0, 0,   //  0 -  8  // Digital i/o
   0, 0, 0, 0, 1, 1, 1, 1,   //  9 - 15
   1,                        // 16
@@ -293,6 +293,9 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 
 #endif
 
+#if ArrayLength(pinControl) != ArrayLength(pinDefaults)
+#error ArrayLength(pinControl) != ArrayLength(pinDefaults)
+#endif
 
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature wp_sensors(&oneWire);
@@ -375,7 +378,7 @@ FuncDef HapiFunctions[CUSTOM_FUNCTIONS] = {func1, func2, func3, func4, func5};
 String getPinArray() {
   // Returns all pin configuration information
   String response = "";
-  for (int i = 0; i < NUM_DIGITAL+NUM_ANALOG; i++) {
+  for (int i = 0; i < ArrayLength(pinControl); i++) {
     if (i <= (NUM_DIGITAL-1)) {
       response += String(i) + String(pinControl[i]);
     }
@@ -707,7 +710,7 @@ void setup() {
 
   // Initialize Digital Pins for Input or Output
   // From the arrays pinControl and pinDefaults
-  for (int i = 0; i < (NUM_DIGITAL+NUM_ANALOG); i++) {
+  for (int i = 0; i < ArrayLength(pinControl); i++) {
     switch (pinControl[i]) {
     case DIGITAL_INPUT_PIN:
       pinMode(i, INPUT);
@@ -838,7 +841,7 @@ void loop() {
       // res  - resets the Arduino
       if ((inputCommand == "res") && !idle_mode) {
         cmdFound = true;
-        for (int x = 0; x < NUM_DIGITAL+NUM_ANALOG; x++) {
+        for (int x = 0; x < ArrayLength(pinControl); x++) {
           if (pinControl[x] == 3) {
             digitalWrite(x, LOW); // If this Pin is a Digital Output Turn it off
           }

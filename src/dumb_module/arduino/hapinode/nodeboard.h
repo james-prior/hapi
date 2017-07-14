@@ -77,7 +77,7 @@ enum pin_control_enum {
 
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
+int pinControl[] = {
   // digital
   UNUSED_PIN,               //  0
   UNUSED_PIN,               //  1
@@ -155,7 +155,7 @@ int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin states
 // Defaults determine the value of output pins with the HN initializes
 // 0 = LOW, 1 = HIGH
-int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
+int pinDefaults[] = {
                                   // DIGITAL
   0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 10 - 19
@@ -200,7 +200,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
+int pinControl[] = {
   // digital
   DIGITAL_OUTPUT_PIN, //  0
   DIGITAL_OUTPUT_PIN, //  1
@@ -225,7 +225,7 @@ int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin states
 // Defaults determine the value of output pins with the HN initializes
 // 0 = LOW, 1 = HIGH
-int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
+int pinDefaults[] = {
   1, 1, 1, 1, 1, 1, 0, 0,   //  0 -  7  // Digital i/o
   0, 0, 0, 0, 1, 1, 1, 1,   //  8 - 15
   1,                        // 16
@@ -267,7 +267,7 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
 
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
+int pinControl[] = {
   // digital
   UNUSED_PIN,         //  0
   UNUSED_PIN,         //  1
@@ -345,7 +345,7 @@ int pinControl[NUM_DIGITAL+NUM_ANALOG] = {
 // Default pin states
 // Defaults determine the value of output pins with the HN initializes
 // 0 = LOW, 1 = HIGH
-int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
+int pinDefaults[] = {
                                   // DIGITAL
   0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 10 - 19
@@ -357,6 +357,10 @@ int pinDefaults[NUM_DIGITAL+NUM_ANALOG] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 54 - 63
   0, 0, 0, 0, 0, 0                // 64 - 69
 };
+#endif
+
+#if ArrayLength(pinControl) != ArrayLength(pinDefaults)
+#error ArrayLength(pinControl) != ArrayLength(pinDefaults)
 #endif
 
 #endif //HAPIBOARD_H
