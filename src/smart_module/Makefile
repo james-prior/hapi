@@ -1,6 +1,5 @@
-ENV_DIC = ../../venv
+ENV_DIC = venv/
 PACKAGES = avahi-daemon python-dev python-pip mosquitto sqlite3
-PYTHON_FILES = $(wildcard *.py)
 PIP_REQ = requirements.txt
 SDL = https://raw.githubusercontent.com/switchdoclabs/RTC_SDL_DS3231/master/SDL_DS3231.py
 UPDATE = yes
@@ -8,9 +7,9 @@ VIRTUAL_ENV = virtualenv
 
 system:
 	@echo "[*] Installing: $(PACKAGES)"
-ifeq ($(UPDATE),yes)
+	ifeq ($(UPDATE),yes)
 	@sudo apt-get update
-endif
+	endif
 	@sudo apt-get -y install $(PACKAGES)
 	@echo "[*] Fetching standalone module from github: $(SDL)"
 	@wget $(SDL)
@@ -22,22 +21,20 @@ clean-pyc:
 	@echo "[!] Cleaning compiled files."
 	@rm -rfv *.pyc
 
-compile: $(PYTHON_FILES)
-	@echo "[*] Compilling all..."
-	@python -m compileall .
-
 clean-logs:
 	@echo "[!] Cleaning log files."
 	@rm -rfv *.log
+
+clean-all: clean-pyc clean-logs
 
 virtual:
 	@echo "[*] Building virtual environment for Python."
 	@sudo pip install virtualenv
 	@${VIRTUAL_ENV} $(ENV_DIC)
-	@echo "[!] Make sure you have sourced the virtualenv. If not, run: 'source ${ENV_DIC}/bin/activate'"
+	@echo -e "\033[33;5;7m[!] If not, run: 'source ${ENV_DIC}/bin/activate'\033[0m"
 
-packages: requirements.txt
+packages: $(PIP_REQ)
 	@echo "[!] Installing necessary packages."
-	@pip install -r requirements.txt
+	@pip install -r $(PIP_REQ)
 
-.PHONY: system compile clean-pyc clean-logs virtual packages
+.PHONY: system clean-pyc clean-logs clean-all virtual packages
