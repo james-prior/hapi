@@ -792,9 +792,9 @@ void loop() {
         cmdFound = true;
         inputPort = inputString.substring(3, 6);
         inputControl = inputString.substring(6, 9);
-        if (pinControl[inputPort.toInt()] == 5) {
+        if (pinControl[inputPort.toInt()] == ANALOG_INPUT_PIN) {
           analogWrite(inputPort.toInt(), inputControl.toInt());
-        } // END OF if pinControl=5
+        } // END OF if pinControl==ANALOG_INPUT_PIN
       }  // END Of aoc
 
       // doc (Digital Output Control) Sets a single digital output
@@ -803,7 +803,7 @@ void loop() {
         inputPort = inputString.substring(4, 6);
         inputControl = inputString.substring(6, 7);
         inputTimer = inputString.substring(7, 10);
-        if (pinControl[inputPort.toInt()] == 3) {
+        if (pinControl[inputPort.toInt()] == DIGITAL_OUTPUT_PIN) {
           if (inputTimer.toInt() > 0) {
             int currVal = digitalRead(inputPort.toInt());
             digitalWrite(inputPort.toInt(), inputControl.toInt());
@@ -814,7 +814,7 @@ void loop() {
             digitalWrite(inputPort.toInt(), inputControl.toInt());
           }
 
-        } // END OF if pinControl=3
+        } // END OF if pinControl==DIGITAL_OUTPUT_PIN
       }  // END Of doc
 
       // Get pin modes
@@ -839,11 +839,11 @@ void loop() {
       if ((inputCommand == "res") && !idle_mode) {
         cmdFound = true;
         for (int x = 0; x < ArrayLength(pinControl); x++) {
-          if (pinControl[x] == 3) {
-            digitalWrite(x, LOW); // If this Pin is a Digital Output Turn it off
+          if (pinControl[x] == DIGITAL_OUTPUT_PIN) {
+            digitalWrite(x, LOW);
           }
-          if (pinControl[inputPort.toInt()] == 4) {
-            analogWrite(x, 0); // If this Pin is a Analog Output Set Value to 0
+          if (pinControl[inputPort.toInt()] == ANALOG_OUTPUT_PIN) {
+            analogWrite(x, 0);
           }
         }
         delay(100);
