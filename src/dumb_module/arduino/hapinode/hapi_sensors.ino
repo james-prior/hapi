@@ -151,7 +151,7 @@ float read1WireTemperature(int iDevice) {
   return returnValue;
 }
 
-float readpH(int Device) {
+float read_thing(int Device) {
   // readpH - Reads pH from an analog pH sensor (Robot Mesh SKU: SEN0161, Module version 1.0)
   unsigned long int avgValue;  //Store the average value of the sensor feedback
   float b;
@@ -179,7 +179,13 @@ float readpH(int Device) {
   avgValue = 0;
   for (int i = 2; i < 8; i++)               // Take the average value of 6 center samples
     avgValue += buf[i];
-  float phValue = ((((float)avgValue * 5.0) / 1024) / 6); // Convert the analog into millivolt
+  float return_value = ((((float)avgValue * 5.0) / 1024) / 6); // Convert the analog into millivolt
+
+  return return_value;
+}
+
+float readpH(int Device) {
+  float phValue = read_thing(Device);
 
   phValue = 3.5 * phValue;                  //convert the millivolt into pH value
 //  Serial.print(F("pH: "));
@@ -188,34 +194,7 @@ float readpH(int Device) {
 }
 
 float readTDS(int Device) {
-  // readTDS - Reads pH from an analog TDS sensor
-  unsigned long int avgValue;  //Store the average value of the sensor feedback
-  float b;
-  int buf[10], temp;
-  ControlData d;
-  d = HapicData[Device];
-
-  for (int i = 0; i < 10; i++) // Get 10 sample values from the sensor
-  {
-    buf[i] = analogRead(d.hcs_sensepin);  // Get the correct pin from the ControlData structure
-    delay(10);
-  }
-  for (int i = 0; i < 9; i++) // Sort the analog from small to large
-  {
-    for (int j = i + 1; j < 10; j++)
-    {
-      if (buf[i] > buf[j])
-      {
-        temp = buf[i];
-        buf[i] = buf[j];
-        buf[j] = temp;
-      }
-    }
-  }
-  avgValue = 0;
-  for (int i = 2; i < 8; i++)               // Take the average value of 6 center samples
-    avgValue += buf[i];
-  float TDSValue = ((((float)avgValue * 5.0) / 1024) / 6); // Convert the analog into millivolt
+  float TDSValue = read_thing(Device);
 
 //TODO Need temperature compensation for TDS
   TDSValue = 1.0 * TDSValue;                  // Convert the millivolt into TDS value
