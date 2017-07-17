@@ -198,12 +198,13 @@ float read_thing(int Device) {
   int pin;
   unsigned long int sum;
 
+  // Get samples.
   pin = HapicData[Device].hcs_sensepin;
-  for (int i = 0; i < ArrayLength(buf); i++) // Get samples
-  {
-    buf[i] = analogRead(pin);  // Get the correct pin from the ControlData structure
-    delay(10);
+  for (int i = 0; i < ArrayLength(buf); i++) {
+    buf[i] = analogRead(pin);
+    delay(10/*^^^evil magic number*/);
   }
+
   // Sort the values in ascending order.
   sort(
     buf,
