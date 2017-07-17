@@ -192,14 +192,14 @@ int compare_int(int *x, int *y)
 #define N_OUTLIERS (2)
 
 float read_thing(int Device) {
-  unsigned long int sum;
   int buf[N_SAMPLES];
-  ControlData d;
-  d = HapicData[Device];
+  int pin;
+  unsigned long int sum;
 
+  pin = HapicData[Device].hcs_sensepin;
   for (int i = 0; i < ArrayLength(buf); i++) // Get samples
   {
-    buf[i] = analogRead(d.hcs_sensepin);  // Get the correct pin from the ControlData structure
+    buf[i] = analogRead(pin);  // Get the correct pin from the ControlData structure
     delay(10);
   }
   // Sort the values in ascending order.
