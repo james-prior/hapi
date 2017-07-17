@@ -192,7 +192,6 @@ int compare_int(int *x, int *y)
 #define N_OUTLIERS (2)
 
 float read_thing(int Device) {
-  // readpH - Reads pH from an analog pH sensor (Robot Mesh SKU: SEN0161, Module version 1.0)
   unsigned long int sum;
   int buf[N_SAMPLES];
   ControlData d;
