@@ -157,7 +157,6 @@ float read1WireTemperature(int iDevice) {
 float read_thing(int Device) {
   // readpH - Reads pH from an analog pH sensor (Robot Mesh SKU: SEN0161, Module version 1.0)
   unsigned long int avgValue;  //Store the average value of the sensor feedback
-  float b;
   int buf[N_SAMPLES], temp;
   ControlData d;
   d = HapicData[Device];
