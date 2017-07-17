@@ -151,13 +151,50 @@ float read1WireTemperature(int iDevice) {
   return returnValue;
 }
 
+void swap(unsigned char *x, unsigned char *y, size_t n)
+{
+  unsigned char t;
+  size_t i;
+
+  for (i = 0; i < n; i++) {
+    t = x[i];
+    x[i] = y[i];
+    y[i] = t;
+  }
+}
+
+void sort(
+  void *values,
+  size_t n,
+  size_t size,
+  int (*compare)(const void *, const void *))
+{
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = i + 1; j < n; j++) {
+      if ((*compare)(values+i*size, values+j*size) > 0) {
+        swap(values+i*size, values+j*size, size);
+      }
+    }
+  }
+}
+
+int compare_int(int *x, int *y)
+{
+    if (*x == *y)
+        return 0;
+    else if (*x > *y)
+        return 1;
+    else /* *x < *y */
+        return -1;
+}
+
 #define N_SAMPLES (10)
 #define N_OUTLIERS (2)
 
 float read_thing(int Device) {
   // readpH - Reads pH from an analog pH sensor (Robot Mesh SKU: SEN0161, Module version 1.0)
   unsigned long int avgValue;  //Store the average value of the sensor feedback
-  int buf[N_SAMPLES], temp;
+  int buf[N_SAMPLES];
   ControlData d;
   d = HapicData[Device];
 
@@ -166,18 +203,13 @@ float read_thing(int Device) {
     buf[i] = analogRead(d.hcs_sensepin);  // Get the correct pin from the ControlData structure
     delay(10);
   }
-  for (int i = 0; i < ArrayLength(buf) - 1; i++) // Sort the analog from small to large
-  {
-    for (int j = i + 1; j < ArrayLength(buf); j++)
-    {
-      if (buf[i] > buf[j])
-      {
-        temp = buf[i];
-        buf[i] = buf[j];
-        buf[j] = temp;
-      }
-    }
-  }
+  // Sort the values in ascending order.
+  sort(
+    buf,
+    ArrayLength(buf),
+    sizeof(*buf),
+    (int (*)(const void *, const void *))compare_int);
+
   avgValue = 0;
   for (int i = N_OUTLIERS; i < ArrayLength(buf) - N_OUTLIERS; i++) // Take the average value of center samples
     avgValue += buf[i];
