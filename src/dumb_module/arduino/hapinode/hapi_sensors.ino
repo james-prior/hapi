@@ -191,7 +191,8 @@ int compare_int(int *x, int *y)
 #define N_SAMPLES (10)
 #define N_OUTLIERS (2)
 
-#define VCC (5.0) // Unit is 1 Volt. ^^^Should this be different for some boards?
+#define VCC (5.0) // Unit is 1 Volt. ^^^ Should be in some header. ^^^Should this be different for some boards?
+#define MAX_ADC_VALUE ((1<<10)-1) // ^^^ Should be in some header.
 
 float read_thing(int Device) {
   int buf[N_SAMPLES];
@@ -218,7 +219,8 @@ float read_thing(int Device) {
   for (int i = N_OUTLIERS; i < ArrayLength(buf) - N_OUTLIERS; i++)
     sum += buf[i];
   averaged_voltage = sum;
-  averaged_voltage *= VCC / ((1<<10) * (ArrayLength(buf) - 2*N_OUTLIERS));
+  averaged_voltage *= VCC /
+    (MAX_ADC_VALUE * (ArrayLength(buf) - 2*N_OUTLIERS));
 
   return averaged_voltage;
 }
