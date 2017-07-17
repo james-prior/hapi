@@ -191,12 +191,13 @@ int compare_int(int *x, int *y)
 #define N_SAMPLES (10)
 #define N_OUTLIERS (2)
 
-#define VCC (5.0) // Unit is 1 Volt. Should this be different for some boards???
+#define VCC (5.0) // Unit is 1 Volt. ^^^Should this be different for some boards?
 
 float read_thing(int Device) {
   int buf[N_SAMPLES];
   int pin;
   unsigned long int sum;
+  float averaged_voltage;
 
   // Get samples.
   pin = HapicData[Device].hcs_sensepin;
@@ -211,14 +212,15 @@ float read_thing(int Device) {
     sizeof(*buf),
     (int (*)(const void *, const void *))compare_int);
 
-  sum = 0;
-  for (int i = N_OUTLIERS; i < ArrayLength(buf) - N_OUTLIERS; i++) // Take the average value of center samples
-    sum += buf[i];
   // Average the samples, ignoring N_OUTLIERS high and N_OUTLIERS low samples.
   // Also convert to Volts.
-  float return_value = ((((float)sum * VCC) / 1024) / (ArrayLength(buf) - 2*N_OUTLIERS));
+  sum = 0;
+  for (int i = N_OUTLIERS; i < ArrayLength(buf) - N_OUTLIERS; i++)
+    sum += buf[i];
+  averaged_voltage = sum;
+  averaged_voltage *= VCC / ((1<<10) * (ArrayLength(buf) - 2*N_OUTLIERS));
 
-  return return_value;
+  return averaged_voltage;
 }
 
 float readpH(int Device) {
