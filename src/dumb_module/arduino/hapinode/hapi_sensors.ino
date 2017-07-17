@@ -151,22 +151,25 @@ float read1WireTemperature(int iDevice) {
   return returnValue;
 }
 
+#define N_SAMPLES (10)
+#define N_OUTLIERS (2)
+
 float read_thing(int Device) {
   // readpH - Reads pH from an analog pH sensor (Robot Mesh SKU: SEN0161, Module version 1.0)
   unsigned long int avgValue;  //Store the average value of the sensor feedback
   float b;
-  int buf[10], temp;
+  int buf[N_SAMPLES], temp;
   ControlData d;
   d = HapicData[Device];
 
-  for (int i = 0; i < 10; i++) // Get 10 sample values from the sensor
+  for (int i = 0; i < ArrayLength(buf); i++) // Get samples
   {
     buf[i] = analogRead(d.hcs_sensepin);  // Get the correct pin from the ControlData structure
     delay(10);
   }
-  for (int i = 0; i < 9; i++) // Sort the analog from small to large
+  for (int i = 0; i < ArrayLength(buf) - 1; i++) // Sort the analog from small to large
   {
-    for (int j = i + 1; j < 10; j++)
+    for (int j = i + 1; j < ArrayLength(buf); j++)
     {
       if (buf[i] > buf[j])
       {
@@ -177,9 +180,9 @@ float read_thing(int Device) {
     }
   }
   avgValue = 0;
-  for (int i = 2; i < 8; i++)               // Take the average value of 6 center samples
+  for (int i = N_OUTLIERS; i < ArrayLength(buf) - N_OUTLIERS; i++) // Take the average value of center samples
     avgValue += buf[i];
-  float return_value = ((((float)avgValue * 5.0) / 1024) / 6); // Convert the analog into millivolt
+  float return_value = ((((float)avgValue * 5.0) / 1024) / (ArrayLength(buf) - 2*N_OUTLIERS)); // Convert the analog into millivolt
 
   return return_value;
 }
