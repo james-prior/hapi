@@ -205,7 +205,6 @@ float read_thing(int Device) {
     delay(10/*^^^evil magic number*/);
   }
 
-  // Sort the values in ascending order.
   sort(
     buf,
     ArrayLength(buf),
