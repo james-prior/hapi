@@ -193,7 +193,7 @@ int compare_int(int *x, int *y)
 
 float read_thing(int Device) {
   // readpH - Reads pH from an analog pH sensor (Robot Mesh SKU: SEN0161, Module version 1.0)
-  unsigned long int avgValue;  //Store the average value of the sensor feedback
+  unsigned long int sum;
   int buf[N_SAMPLES];
   ControlData d;
   d = HapicData[Device];
@@ -210,10 +210,10 @@ float read_thing(int Device) {
     sizeof(*buf),
     (int (*)(const void *, const void *))compare_int);
 
-  avgValue = 0;
+  sum = 0;
   for (int i = N_OUTLIERS; i < ArrayLength(buf) - N_OUTLIERS; i++) // Take the average value of center samples
-    avgValue += buf[i];
-  float return_value = ((((float)avgValue * 5.0) / 1024) / (ArrayLength(buf) - 2*N_OUTLIERS)); // Convert the analog into millivolt
+    sum += buf[i];
+  float return_value = ((((float)sum * 5.0) / 1024) / (ArrayLength(buf) - 2*N_OUTLIERS)); // Convert the analog into millivolt
 
   return return_value;
 }
