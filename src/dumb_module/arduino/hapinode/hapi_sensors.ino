@@ -226,22 +226,27 @@ float read_thing(int Device) {
 }
 
 float readpH(int Device) {
-  float phValue = read_thing(Device);
+  float voltage;
+  float ph_value;
 
-  phValue = 3.5 * phValue;                  //convert the millivolt into pH value
-//  Serial.print(F("pH: "));
-//  Serial.println(phValue);
-  return phValue;
+  voltage = read_thing(Device);
+  ph_value = 3.5 * voltage;
+  //  Serial.print(F("pH: "));
+  //  Serial.println(ph_value);
+  return ph_value;
 }
 
 float readTDS(int Device) {
-  float TDSValue = read_thing(Device);
+  float voltage;
+  float tds;
 
-//TODO Need temperature compensation for TDS
-  TDSValue = 1.0 * TDSValue;                  // Convert the millivolt into TDS value
-//  Serial.print(F("TDS: "));
-//  Serial.println(TDSValue);
-  return TDSValue;
+  voltage = read_thing(Device);
+
+  //TODO Need temperature compensation for TDS
+  tds = 1.0 * voltage;
+  //  Serial.print(F("TDS: "));
+  //  Serial.println(tds);
+  return tds;
 }
 
 //  Type                Ambient light (lux)  Photocell resistance (Ω)
