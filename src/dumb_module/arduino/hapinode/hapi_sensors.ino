@@ -194,7 +194,7 @@ int compare_int(int *x, int *y)
 #define VCC (5.0) // Unit is 1 Volt. ^^^ Should be in some header. ^^^Should this be different for some boards?
 #define MAX_ADC_VALUE ((1<<10)-1) // ^^^ Should be in some header.
 
-float read_thing(int Device) {
+float read_voltage(int Device) {
   int buf[N_SAMPLES];
   int pin;
   unsigned long int sum;
@@ -229,7 +229,7 @@ float readpH(int Device) {
   float voltage;
   float ph_value;
 
-  voltage = read_thing(Device);
+  voltage = read_voltage(Device);
   ph_value = 3.5 * voltage;
   //  Serial.print(F("pH: "));
   //  Serial.println(ph_value);
@@ -240,7 +240,7 @@ float readTDS(int Device) {
   float voltage;
   float tds;
 
-  voltage = read_thing(Device);
+  voltage = read_voltage(Device);
 
   //TODO Need temperature compensation for TDS
   tds = 1.0 * voltage;
