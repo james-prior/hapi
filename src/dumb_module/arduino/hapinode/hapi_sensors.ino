@@ -117,10 +117,8 @@ float readTemperatured(int iDevice) {
   if (isnan(temperature)) {
     temperature = -1;
   }
-  else {
-    if (!metric) {
-      temperature = FAHRENHEIT(temperature);
-    }
+  else if (!metric) {
+    temperature = FAHRENHEIT(temperature);
   }
 //  Serial.print(F("DHT Temperature: "));
 //  Serial.println(temperature);
@@ -136,11 +134,8 @@ float read1WireTemperature(int iDevice) {
   if (isnan(temperature)) {
     temperature = -1;
   }
-  else
-  {
-    if (!metric) {
-      temperature = FAHRENHEIT(temperature);
-    }
+  else if (!metric) {
+    temperature = FAHRENHEIT(temperature);
   }
 //  Serial.print(F("18B20 Temperature: "));
 //  Serial.println(temperature);
