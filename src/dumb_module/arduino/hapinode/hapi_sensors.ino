@@ -50,7 +50,7 @@ void setupSensors(void){
       break;
     case DIGITAL_OUTPUT_PIN:
       pinMode(i, OUTPUT);
-      digitalWrite(i, (pinDefaults[i] ? HIGH : LOW));
+      digitalWrite(i, pinDefaults[i]);
       break;
     case ANALOG_OUTPUT_PIN:
       pinMode(i, OUTPUT);
