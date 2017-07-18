@@ -36,6 +36,8 @@ Communications Method
   MQTT        Listens for messages on Port 1883
 */
 
+#define FAHRENHEIT(celsius) ((celsius) * 9.0 / 5.0 + 32.0) //^^^ belongs in some header
+
 void setupSensors(void){
 // Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
   for (int i = 0; i < ArrayLength(pinControl); i++) {
@@ -117,7 +119,7 @@ float readTemperatured(int iDevice) {
   }
   else {
     if (!metric) {
-      temperature = (temperature * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
+      temperature = FAHRENHEIT(temperature);
     }
   }
 //  Serial.print(F("DHT Temperature: "));
@@ -137,7 +139,7 @@ float read1WireTemperature(int iDevice) {
   else
   {
     if (!metric) {
-      temperature = (temperature * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
+      temperature = FAHRENHEIT(temperature);
     }
   }
 //  Serial.print(F("18B20 Temperature: "));
