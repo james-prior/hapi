@@ -95,50 +95,53 @@ String getPinArray() {
 }
 
 float readHumidity(int iDevice) {
-  // readHumidity  - Uses the DHT Library to read the current humidity
+  // readHumidity
+  // Uses the DHT Library to read the current humidity
   float humidity;
+
   //humidity = dhts[iDevice].readHumidity();
   humidity = dht1.readHumidity();
-
   if (isnan(humidity)) {
     humidity = -1;
   }
-  //  Serial.print(F("DHT Humidity: "));
-  //  Serial.println(humidity);
+  // Serial.print(F("DHT Humidity: "));
+  // Serial.println(humidity);
   return humidity;
 }
 
 float readTemperatured(int iDevice) {
-  // readTemperature  - Uses the DHT Library to read the current temperature
+  // readTemperature
+  // Uses the DHT Library to read the current temperature
   float temperature;
+
   //temperature = dhts[iDevice].readTemperature();
   temperature = dht1.readTemperature();
-
   if (isnan(temperature)) {
     temperature = -1;
   }
   else if (!metric) {
     temperature = FAHRENHEIT(temperature);
   }
-//  Serial.print(F("DHT Temperature: "));
-//  Serial.println(temperature);
+  // Serial.print(F("DHT Temperature: "));
+  // Serial.println(temperature);
   return temperature;
 }
 
 float read1WireTemperature(int iDevice) {
-  // readWaterTemperature  - Uses the Dallas Temperature library to read the waterproof temp sensor
+  // readWaterTemperature
+  // Uses the Dallas Temperature library to read the waterproof temp sensor
   float temperature;
+
   wp_sensors.requestTemperatures();
   temperature = wp_sensors.getTempCByIndex(0);
-
   if (isnan(temperature)) {
     temperature = -1;
   }
   else if (!metric) {
     temperature = FAHRENHEIT(temperature);
   }
-//  Serial.print(F("18B20 Temperature: "));
-//  Serial.println(temperature);
+  // Serial.print(F("18B20 Temperature: "));
+  // Serial.println(temperature);
   return temperature;
 }
 
