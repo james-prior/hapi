@@ -40,7 +40,7 @@ Communications Method
 
 void setupSensors(void){
 // Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
-  for (int i = 0; i < ArrayLength(pinControl); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
     switch (pinControl[i]) {
     case DIGITAL_INPUT_PIN:
       pinMode(i, INPUT);
@@ -83,7 +83,7 @@ void setupSensors(void){
 String getPinArray() {
   // Returns all pin configuration information
   String response = "";
-  for (int i = 0; i < ArrayLength(pinControl); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
     if (i < NUM_DIGITAL) {
       response += String(i) + String(pinControl[i]);
     }
@@ -196,25 +196,25 @@ float read_voltage(int Device) {
 
   // Get samples.
   pin = HapicData[Device].hcs_sensepin;
-  for (int i = 0; i < ArrayLength(buf); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(buf); i++) {
     buf[i] = analogRead(pin);
     delay(10/*^^^evil magic number*/);
   }
 
   sort(
     buf,
-    ArrayLength(buf),
+    ARRAY_LENGTH(buf),
     sizeof(*buf),
     (int (*)(const void *, const void *))compare_int);
 
   // Average the samples, ignoring N_OUTLIERS high and N_OUTLIERS low samples.
   // Also convert to Volts.
   sum = 0;
-  for (int i = N_OUTLIERS; i < ArrayLength(buf) - N_OUTLIERS; i++)
+  for (int i = N_OUTLIERS; i < ARRAY_LENGTH(buf) - N_OUTLIERS; i++)
     sum += buf[i];
   averaged_voltage = sum;
   averaged_voltage *= VCC /
-    (MAX_ADC_VALUE * (ArrayLength(buf) - 2*N_OUTLIERS));
+    (MAX_ADC_VALUE * (ARRAY_LENGTH(buf) - 2*N_OUTLIERS));
 
   return averaged_voltage;
 }
@@ -279,7 +279,7 @@ float readSensorPin(int Device) {
 }
 
 void hapiSensors(void) {
-  for (int device = 0; device < ArrayLength(HapisFunctions); device++) {
+  for (int device = 0; device < ARRAY_LENGTH(HapisFunctions); device++) {
     currentTime = now();                  // Set the time
     sendMQTTAsset(SENSORID_FN, device);   // Read the sensor value
   }

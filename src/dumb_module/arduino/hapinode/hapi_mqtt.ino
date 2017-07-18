@@ -112,22 +112,22 @@ boolean sendAllMQTTAssets(void) {
       ;
   }
   // Process Custom Functions
-  for (int i = 0; i < ArrayLength(HapisFunctions); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(HapisFunctions); i++) {
     while (!(sendMQTTAsset(SENSORID_FN, i)))  // Until it is sent
       ;
   }
   // Process Custom Functions
-  for (int i = 0; i < ArrayLength(HapicFunctions); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++) {
     while (!(sendMQTTAsset(CONTROLID_FN, i)))  // Until it is sent
       ;
   }
   // Process Custom Functions
-  for (int i = 0; i < ArrayLength(HapicFunctions); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++) {
     while (!(sendMQTTAsset(CONTROLDATA1_FN, i)))  // Until it is sent
       ;
   }
   // Process Custom Functions
-  for (int i = 0; i < ArrayLength(HapicFunctions); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++) {
     while (!(sendMQTTAsset(CONTROLDATA2_FN, i)))  // Until it is sent
       ;
   }
@@ -370,7 +370,7 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length) {
 // Function IO
           Number = INVALID_VALUE;
           AssetIdx = SENSORID_FN;                    // Asset Function IO
-          for (int i=0;i < ArrayLength(HapisFunctions);i++) {    // Scan for a match on the sensor name
+          for (int i=0;i < ARRAY_LENGTH(HapisFunctions);i++) {    // Scan for a match on the sensor name
             f = HapisFunctions[i];                    // Point to Asset read function structure
             if (strcmp(command_topic["Asset"],f.fName) == 0) {  // Asset match?
               Number = i;                             // Match for Sensor name
@@ -383,7 +383,7 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length) {
           else {                                      // Did not find a sensor, so try controls
             Serial.println(F(" .. not Sensor Read"));
             AssetIdx = CONTROLID_FN;                 // Control Function IO
-            for (int i=0;i < ArrayLength(HapicFunctions);i++) { // Scan for a match on the control name
+            for (int i=0;i < ARRAY_LENGTH(HapicFunctions);i++) { // Scan for a match on the control name
               c = HapicFunctions[i];                  // Point to control function structure
               if (strcmp(command_topic["Asset"],c.fName) == 0) {  // Asset match?
                 Number = i;                           // Match for control name
@@ -471,7 +471,7 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length) {
 // Handle sensors
       AssetIdx = SENSORID_FN;                    // Sensor Function IO
       Number = INVALID_VALUE;
-      for (int i=0;i < ArrayLength(HapisFunctions);i++) {    // Scan for a match on the sensor name
+      for (int i=0;i < ARRAY_LENGTH(HapisFunctions);i++) {    // Scan for a match on the sensor name
         f = HapisFunctions[i];                    // Point to sensor read function structure
         strcpy(hn_topic,mqtt_topic_array[ASSETSTART+1]);     // Set base topic for a specific asset query
         strcat(hn_topic,hostString);              // NodeId next
@@ -489,7 +489,7 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length) {
       Serial.println(hn_topic);
 // Handle Controls
       AssetIdx = CONTROLID_FN;                   // Control Function IO
-      for (int i=0;i < ArrayLength(HapicFunctions);i++) {   // Scan for a match on the control name
+      for (int i=0;i < ARRAY_LENGTH(HapicFunctions);i++) {   // Scan for a match on the control name
         c = HapicFunctions[i];                    // Point to control function structure
         strcpy(hn_topic,mqtt_topic_array[1]);     // Set base topic for an asset query
         strcat(hn_topic,hostString);              // NodeId next
@@ -511,7 +511,7 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length) {
 // Wildcards are not allowed in CONFIG
 // It must have a valid NodeId, Asset and data to work
       Number = INVALID_VALUE;
-      for (int i=0;i < ArrayLength(HapicFunctions);i++) {     // Scan for a match on the control name
+      for (int i=0;i < ARRAY_LENGTH(HapicFunctions);i++) {     // Scan for a match on the control name
         c = HapicFunctions[i];                    // Point to control function structure
         strcpy(hn_topic,mqtt_topic_array[CONFIGSTART]);       // Set base topic for a specific asset query
         strcat(hn_topic,hostString);              // NodeId next

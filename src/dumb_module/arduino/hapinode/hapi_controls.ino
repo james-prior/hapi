@@ -45,7 +45,7 @@ void checkControls(void) {
   CFuncDef c;
   currentTime = now();            // Update currentTime and ..
                                   //  check all the control functions
-  for (int device=0;device<ArrayLength(HapicFunctions);device++) { // For each device
+  for (int device=0;device<ARRAY_LENGTH(HapicFunctions);device++) { // For each device
     c = HapicFunctions[device];                //  initialize access structure
     c.oPtr(device);                            //  call the check function
   }

@@ -441,9 +441,9 @@ int pinDefaults[] = {
 
 #endif
 
-#define NUM_ANALOG (ArrayLength(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
-#if ArrayLength(pinControl) != ArrayLength(pinDefaults)
-#error ArrayLength(pinControl) != ArrayLength(pinDefaults)
+#define NUM_ANALOG (ARRAY_LENGTH(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
+#if ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
+#error ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
 #endif
 
 OneWire oneWire(ONE_WIRE_BUS);
@@ -527,7 +527,7 @@ FuncDef HapiFunctions[CUSTOM_FUNCTIONS] = {func1, func2, func3, func4, func5};
 String getPinArray() {
   // Returns all pin configuration information
   String response = "";
-  for (int i = 0; i < ArrayLength(pinControl); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
     if (i < NUM_DIGITAL) {
       response += String(i) + String(pinControl[i]);
     }
@@ -859,7 +859,7 @@ void setup() {
 
   // Initialize Digital Pins for Input or Output
   // From the arrays pinControl and pinDefaults
-  for (int i = 0; i < ArrayLength(pinControl); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
     switch (pinControl[i]) {
     case DIGITAL_INPUT_PIN:
       pinMode(i, INPUT);
@@ -990,7 +990,7 @@ void loop() {
       // res  - resets the Arduino
       if ((inputCommand == "res") && !idle_mode) {
         cmdFound = true;
-        for (int x = 0; x < ArrayLength(pinControl); x++) {
+        for (int x = 0; x < ARRAY_LENGTH(pinControl); x++) {
           if (pinControl[x] == DIGITAL_OUTPUT_PIN) {
             digitalWrite(x, LOW);
           }

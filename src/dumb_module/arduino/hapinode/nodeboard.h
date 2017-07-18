@@ -37,7 +37,7 @@ Communications Method
 #ifndef HAPIBOARD_H
 #define HAPIBOARD_H
 
-#define ArrayLength(x) (sizeof(x)/sizeof(*(x)))
+#define ARRAY_LENGTH(x) (sizeof(x)/sizeof(*(x)))
 
 enum pin_control_enum {
   UNUSED_PIN, // or reserved
@@ -493,9 +493,9 @@ int pinDefaults[] = {
 };
 #endif
 
-#define NUM_ANALOG (ArrayLength(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
-#if ArrayLength(pinControl) != ArrayLength(pinDefaults)
-#error ArrayLength(pinControl) != ArrayLength(pinDefaults)
+#define NUM_ANALOG (ARRAY_LENGTH(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
+#if ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
+#error ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
 #endif
 
 #endif //HAPIBOARD_H
