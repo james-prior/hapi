@@ -94,61 +94,55 @@ String getPinArray() {
 
 float readHumidity(int iDevice) {
   // readHumidity  - Uses the DHT Library to read the current humidity
-  float returnValue;
-  float h;
-  //h = dhts[iDevice].readHumidity();
-  h = dht1.readHumidity();
+  float humidity;
+  //humidity = dhts[iDevice].readHumidity();
+  humidity = dht1.readHumidity();
 
-  if (isnan(h)) {
-    returnValue = -1;
+  if (isnan(humidity)) {
+    humidity = -1;
   }
-  else {
-    returnValue = h;
-  }
-//  Serial.print(F("DHT Humidity: "));
-//  Serial.println(returnValue);
-  return returnValue;
+  //  Serial.print(F("DHT Humidity: "));
+  //  Serial.println(humidity);
+  return humidity;
 }
 
 float readTemperatured(int iDevice) {
   // readTemperature  - Uses the DHT Library to read the current temperature
-  float returnValue;
-  float h;
-  //h = dhts[iDevice].readTemperature();
-  h = dht1.readTemperature();
+  float temperature;
+  //temperature = dhts[iDevice].readTemperature();
+  temperature = dht1.readTemperature();
 
-  if (isnan(h)) {
-    returnValue = -1;
+  if (isnan(temperature)) {
+    temperature = -1;
   }
   else {
-    returnValue = h;
     if (!metric) {
-      returnValue = (returnValue * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
+      temperature = (temperature * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
     }
   }
 //  Serial.print(F("DHT Temperature: "));
-//  Serial.println(returnValue);
-  return returnValue;
+//  Serial.println(temperature);
+  return temperature;
 }
 
 float read1WireTemperature(int iDevice) {
   // readWaterTemperature  - Uses the Dallas Temperature library to read the waterproof temp sensor
-  float returnValue;
+  float temperature;
   wp_sensors.requestTemperatures();
-  returnValue = wp_sensors.getTempCByIndex(0);
+  temperature = wp_sensors.getTempCByIndex(0);
 
-  if (isnan(returnValue)) {
-    returnValue = -1;
+  if (isnan(temperature)) {
+    temperature = -1;
   }
   else
   {
     if (!metric) {
-      returnValue = (returnValue * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
+      temperature = (temperature * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
     }
   }
 //  Serial.print(F("18B20 Temperature: "));
-//  Serial.println(returnValue);
-  return returnValue;
+//  Serial.println(temperature);
+  return temperature;
 }
 
 void swap(unsigned char *x, unsigned char *y, size_t n)
