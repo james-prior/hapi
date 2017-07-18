@@ -157,18 +157,79 @@ enum pin_control_enum pinControl[] = {
 
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
-// 0 = LOW, 1 = HIGH
 int pinDefaults[] = {
-                                  // DIGITAL
-  0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 10 - 19
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 20 - 29
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 30 - 39
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 40 - 49
-  0, 0, 0, 0,                     // 50 - 53
-                                  // ANALOG
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 54 - 63
-  0, 0, 0, 0, 0, 0                // 64 - 69
+  // digital
+  LOW,  //  0
+  LOW,  //  1
+  HIGH, //  2
+  HIGH, //  3
+  LOW,  //  4
+  HIGH, //  5
+  HIGH, //  6
+  HIGH, //  7
+  HIGH, //  8
+  HIGH, //  9
+  LOW,  // 10
+  LOW,  // 11
+  LOW,  // 12
+  LOW,  // 13
+  LOW,  // 14
+  LOW,  // 15
+  LOW,  // 16
+  LOW,  // 17
+  LOW,  // 18
+  LOW,  // 19
+  LOW,  // 20
+  LOW,  // 21
+  LOW,  // 22
+  LOW,  // 23
+  LOW,  // 24
+  LOW,  // 25
+  LOW,  // 26
+  LOW,  // 27
+  LOW,  // 28
+  LOW,  // 29
+  LOW,  // 30
+  LOW,  // 31
+  LOW,  // 32
+  LOW,  // 33
+  LOW,  // 34
+  LOW,  // 35
+  LOW,  // 36
+  LOW,  // 37
+  LOW,  // 38
+  LOW,  // 39
+  LOW,  // 40
+  LOW,  // 41
+  LOW,  // 42
+  LOW,  // 43
+  LOW,  // 44
+  LOW,  // 45
+  LOW,  // 46
+  LOW,  // 47
+  LOW,  // 48
+  LOW,  // 49
+  LOW,  // 50
+  LOW,  // 51
+  LOW,  // 52
+  LOW,  // 53
+  // analog
+  LOW,  // 54
+  LOW,  // 55
+  LOW,  // 56
+  LOW,  // 57
+  LOW,  // 58
+  LOW,  // 59
+  LOW,  // 60
+  LOW,  // 61
+  LOW,  // 62
+  LOW,  // 63
+  LOW,  // 64
+  LOW,  // 65
+  LOW,  // 66
+  LOW,  // 67
+  LOW,  // 68
+  LOW   // 69
 };
 #endif
 
@@ -203,18 +264,79 @@ int pinControl[] = {
 
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
-// 0 = LOW, 1 = HIGH
 int pinDefaults[] = {
-                                  // DIGITAL
-  0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 10 - 19
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 20 - 29
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 30 - 39
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 40 - 49
-  0, 0, 0, 0,                     // 50 - 53
-                                  // ANALOG
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // 54 - 63
-  0, 0, 0, 0, 0, 0                // 64 - 69
+  // digital
+  LOW,  //  0
+  LOW,  //  1
+  HIGH, //  2
+  HIGH, //  3
+  LOW,  //  4
+  HIGH, //  5
+  HIGH, //  6
+  HIGH, //  7
+  HIGH, //  8
+  HIGH, //  9
+  LOW,  // 10
+  LOW,  // 11
+  LOW,  // 12
+  LOW,  // 13
+  LOW,  // 14
+  LOW,  // 15
+  LOW,  // 16
+  LOW,  // 17
+  LOW,  // 18
+  LOW,  // 19
+  LOW,  // 20
+  LOW,  // 21
+  LOW,  // 22
+  LOW,  // 23
+  LOW,  // 24
+  LOW,  // 25
+  LOW,  // 26
+  LOW,  // 27
+  LOW,  // 28
+  LOW,  // 29
+  LOW,  // 30
+  LOW,  // 31
+  LOW,  // 32
+  LOW,  // 33
+  LOW,  // 34
+  LOW,  // 35
+  LOW,  // 36
+  LOW,  // 37
+  LOW,  // 38
+  LOW,  // 39
+  LOW,  // 40
+  LOW,  // 41
+  LOW,  // 42
+  LOW,  // 43
+  LOW,  // 44
+  LOW,  // 45
+  LOW,  // 46
+  LOW,  // 47
+  LOW,  // 48
+  LOW,  // 49
+  LOW,  // 50
+  LOW,  // 51
+  LOW,  // 52
+  LOW,  // 53
+  // analog
+  LOW,  // 54
+  LOW,  // 55
+  LOW,  // 56
+  LOW,  // 57
+  LOW,  // 58
+  LOW,  // 59
+  LOW,  // 60
+  LOW,  // 61
+  LOW,  // 62
+  LOW,  // 63
+  LOW,  // 64
+  LOW,  // 65
+  LOW,  // 66
+  LOW,  // 67
+  LOW,  // 68
+  LOW   // 69
 };
 
 #endif
@@ -246,13 +368,29 @@ int pinControl[] = {
 
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
-// 0 = LOW, 1 = HIGH
 int pinDefaults[] = {
-                                  // DIGITAL
-  0, 0, 1, 1, 0, 1, 1, 1, 1, 1,   //  0 -  9
-  0, 0, 0, 0,                     // 10 - 13
-                                  // ANALOG
-  0, 0, 0, 0, 0, 0                // 14 - 20
+  // digital
+  LOW,  //  0
+  LOW,  //  1
+  HIGH, //  2
+  HIGH, //  3
+  LOW,  //  4
+  HIGH, //  5
+  HIGH, //  6
+  HIGH, //  7
+  HIGH, //  8
+  HIGH, //  9
+  LOW,  // 10
+  LOW,  // 11
+  LOW,  // 12
+  LOW,  // 13
+  // analog
+  LOW,  // 14
+  LOW,  // 15
+  LOW,  // 16
+  LOW,  // 17
+  LOW,  // 18
+  LOW   // 19
 };
 #endif
 
@@ -279,12 +417,26 @@ int pinControl[] = {
 
 // Default pin states
 // Defaults determine the value of output pins with the RTU initializes
-// 0 = LOW, 1 = HIGH
 int pinDefaults[] = {
-  1, 1, 1, 1, 1, 1, 0, 0,   //  0 -  8  // Digital i/o
-  0, 0, 0, 0, 1, 1, 1, 1,   //  9 - 15
-  1,                        // 16
-  5                         // A0       //Analog Input
+  HIGH, //  0
+  HIGH, //  1
+  HIGH, //  2
+  HIGH, //  3
+  HIGH, //  4
+  HIGH, //  5
+  LOW,  //  6
+  LOW,  //  7
+  LOW,  //  8
+  LOW,  //  9
+  LOW,  // 10
+  LOW,  // 11
+  HIGH, // 12
+  HIGH, // 13
+  HIGH, // 14
+  HIGH, // 15
+  HIGH, // 16
+  // analog
+  5     // A0 input
 };
 
 #endif
