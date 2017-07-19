@@ -187,12 +187,11 @@ const char* mqtt_topic_exception = "EXCEPTION/";        // General Exception top
 const char* mqtt_topic_config = "CONFIG/";              // General Configuration topic
 char mqtt_topic[256] = "";                              // Topic for this HN
 
-#define MAXTOPICS 5
 #define STATUSSTART 0
 #define ASSETSTART 1
 #define CONFIGSTART 4
 #define INVALID_VALUE 9999
-const char* mqtt_topic_array[MAXTOPICS] = {
+const char* mqtt_topic_array[] = {
   "STATUS/QUERY",
   "ASSET/QUERY",
   "ASSET/QUERY/",
