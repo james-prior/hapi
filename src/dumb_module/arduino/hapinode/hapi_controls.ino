@@ -24,16 +24,6 @@ ESP Modification: John Archbold
 
 Sketch Date: June 29th, 2017
 Sketch Version: V3.1.1
-Implement of MQTT-based HAPInode (HN) for use in Monitoring and Control
-Implements mDNS discovery of MQTT broker
-Implements definitions for
-  ESP-NodeMCU
-  ESP8266
-  WROOM32
-Communications Protocol
-  WiFi
-Communications Method
-  MQTT        Listens for messages on Port 1883
 */
 
 void setupControls(void){
@@ -45,7 +35,7 @@ void checkControls(void) {
   CFuncDef c;
   currentTime = now();            // Update currentTime and ..
                                   //  check all the control functions
-  for (int device=0;device<ARRAY_LENGTH(HapicFunctions);device++) { // For each device
+  for (int device=0;device<ARRAY_LENGTH(HapicFunctions);device++) {
     c = HapicFunctions[device];                //  initialize access structure
     c.oPtr(device);                            //  call the check function
   }
