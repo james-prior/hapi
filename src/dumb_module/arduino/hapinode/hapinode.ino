@@ -198,8 +198,7 @@ const char* mqtt_topic_array[] = {
   "ASSET/QUERY/*",
   "CONFIG/QUERY/"
 };
-#define MAXLISTEN 12
-const char* mqtt_listen_array[MAXLISTEN] = {
+const char* mqtt_listen_array[] = {
   "COMMAND/",
   "CONFIG/",
   "EXCEPTION/",
@@ -490,7 +489,7 @@ void setup() {
 // Subscribe to the TOPICs
 
   Serial.println(F("Subscribing to MQTT topics ..."));
-  for (int i = 0; i < MAXLISTEN; i++) {
+  for (int i = 0; i < ARRAY_LENGTH(mqtt_listen_array); i++) {
     Serial.print(i+1);
     Serial.print(F(" - "));
     Serial.println(mqtt_listen_array[i]);
