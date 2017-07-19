@@ -38,7 +38,8 @@ Communications Method
 
 time_t getNtpTime()
 {
-  while (udp.parsePacket() > 0) ; // discard any previously received packets
+  while (udp.parsePacket() > 0) // discard any previously received packets
+    ;
   Serial.println(F("Transmit NTP Request"));
   sendNTPpacket(ntpServerIP);
   uint32_t beginWait = millis();
