@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "misc.h"
+
 /*
 #*********************************************************************
 #Copyright 2016 Maya Culpa, LLC
@@ -35,8 +37,6 @@ Communications Protocol
 Communications Method
   MQTT        Listens for messages on Port 1883
 */
-
-#define FAHRENHEIT(celsius) ((celsius) * 9.0 / 5.0 + 32.0) //^^^ belongs in some header
 
 void setupSensors(void){
 // Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
