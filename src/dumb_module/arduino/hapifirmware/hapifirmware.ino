@@ -481,8 +481,8 @@ EthernetServer rtuServer = EthernetServer(80);
 EthernetClient client;
 #endif
 #ifdef RTU_ESP
-const char* ssid = HAPI_SSID;
-const char* password = HAPI_PWD;
+const char *ssid = HAPI_SSID;
+const char *password = HAPI_PWD;
 int WiFiStatus = 0;
 WiFiServer rtuServer = WiFiServer(80);
 WiFiClient client;

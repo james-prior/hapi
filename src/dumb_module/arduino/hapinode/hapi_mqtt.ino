@@ -222,7 +222,7 @@ boolean createAssetJSON(int AssetIdx, int Number) {
   Serial.println(MQTTOutput);
 }
 
-boolean publishJSON(const char* topic) {
+boolean publishJSON(const char *topic) {
 // PUBLISH to the MQTT Broker
   if (MQTTClient.publish(topic, MQTTOutput)) {
     return true;
@@ -248,12 +248,12 @@ boolean publishJSON(const char* topic) {
   }
 }
 
-void MQTTcallback(char* topic, byte* payload, unsigned int length) {
+void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
   int i;
-  const char* Node = "*";     // NodeId for target HAPInode, preset for anyone
-  const char* Command = " ";  // Command to execute
-  char* hn_topic;             // Variable to hold all node topics
+  const char *Node = "*";     // NodeId for target HAPInode, preset for anyone
+  const char *Command = " ";  // Command to execute
+  char *hn_topic;             // Variable to hold all node topics
   FuncDef f;                  // Read Data Functions
   CFuncDef c;                 // Control functions
   ControlData cd;             // Data for control functions
@@ -266,7 +266,7 @@ void MQTTcallback(char* topic, byte* payload, unsigned int length) {
   StaticJsonBuffer<200> hn_topic_command;            // Parsing buffer
 
   Serial.println(topic);
-// Copy topic to char* buffer
+// Copy topic to char *buffer
   for(i = 0; i < length; i++){
     MQTTInput[i] = (char)payload[i];
     Serial.print(MQTTInput[i]);
