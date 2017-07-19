@@ -38,8 +38,7 @@ Communications Method
 
 void(* resetFunc) (void) = 0; //declare reset function @ address
 
-boolean sendMQTTStatus(void){
-
+boolean sendMQTTStatus(void) {
   StaticJsonBuffer<128> hn_topic_status;                   // Status data for this HN
   JsonObject& status_message = hn_topic_status.createObject();
 
@@ -249,7 +248,6 @@ boolean publishJSON(const char *topic) {
 }
 
 void MQTTcallback(char *topic, byte *payload, unsigned int length) {
-
   int i;
   const char *Node = "*";     // NodeId for target HAPInode, preset for anyone
   const char *Command = " ";  // Command to execute
@@ -267,7 +265,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
   Serial.println(topic);
 // Copy topic to char *buffer
-  for(i = 0; i < length; i++){
+  for (i = 0; i < length; i++) {
     MQTTInput[i] = (char)payload[i];
     Serial.print(MQTTInput[i]);
   }
@@ -276,14 +274,12 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
 //Parse the topic data
   JsonObject& command_topic = hn_topic_command.parseObject(MQTTInput);
-  if (!command_topic.success())
-  {
+  if (!command_topic.success()) {
     return;
   }
   else {
     Serial.println(F("Parsing .. "));
-    for (JsonObject::iterator it=command_topic.begin(); it!=command_topic.end(); ++it)
-    {
+    for (JsonObject::iterator it=command_topic.begin(); it!=command_topic.end(); ++it) {
       Serial.print(it->key);
       Serial.print(F(":"));
       Serial.println(it->value.as<char*>());

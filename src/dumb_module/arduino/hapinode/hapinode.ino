@@ -151,7 +151,7 @@ char hostString[64] = {0};          // mDNS Hostname for this HAPInode
 IPAddress ntpServerIP;                // Place to store IP address of mqttbroker.local
 char ntpServer_hostname[64] = MQTT_broker_default;    // Assume mqttbroker is also the time server
 const int NTP_PACKET_SIZE = 48;       // NTP time stamp is in the first 48 bytes of the message
-byte packetBuffer[ NTP_PACKET_SIZE];  //buffer to hold incoming and outgoing packets
+byte packetBuffer[NTP_PACKET_SIZE];  //buffer to hold incoming and outgoing packets
 const unsigned int localPort = UDP_port;    // local port to listen for UDP packets
 
 int timeZone = +10; // Eastern Standard Time (Au)

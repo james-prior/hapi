@@ -38,7 +38,7 @@ Communications Method
   MQTT        Listens for messages on Port 1883
 */
 
-void setupSensors(void){
+void setupSensors(void) {
 // Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
   for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
     switch (pinControl[i]) {

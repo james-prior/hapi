@@ -560,8 +560,7 @@ void writeLine(String response, boolean EOL) {
 
   char inChar;
 
-  for (int i = 0; i < response.length(); i++)
-    {
+  for (int i = 0; i < response.length(); i++) {
     inChar = (char)response.charAt(i);
 #ifdef RTU_ENET
     rtuServer.write(inChar);
@@ -575,20 +574,20 @@ void writeLine(String response, boolean EOL) {
     #ifdef RTU_UNO
     Serial.write(inChar);
 #endif
-    }
+  }
   if ((String)inChar != "\n") {
     if (EOL) {
 #ifdef RTU_ENET
-    rtuServer.write(inChar);
+      rtuServer.write(inChar);
 #endif
-    #ifdef RTU_ESP
-    rtuServer.write(inChar);
+      #ifdef RTU_ESP
+      rtuServer.write(inChar);
 #endif
 #ifdef RTU_USB
-    Serial.write(inChar);
+      Serial.write(inChar);
 #endif
-    #ifdef RTU_UNO
-    Serial.write(inChar);
+      #ifdef RTU_UNO
+      Serial.write(inChar);
 #endif
     }
   }
@@ -638,8 +637,7 @@ float readWaterTemperature(int iDevice) {
   if (isnan(returnValue)) {
     returnValue = -1;
   }
-  else
-  {
+  else {
     if (!metric) {
       returnValue = (returnValue * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
     }
@@ -653,17 +651,13 @@ float readpH(int iDevice) {
   float b;
   int buf[10], temp;
 
-  for (int i = 0; i < 10; i++) //Get 10 sample value from the sensor for smooth the value
-  {
+  for (int i = 0; i < 10; i++) { //Get 10 sample value from the sensor for smooth the value
     buf[i] = analogRead(iDevice);
     delay(10);
   }
-  for (int i = 0; i < 9; i++) //sort the analog from small to large
-  {
-    for (int j = i + 1; j < 10; j++)
-    {
-      if (buf[i] > buf[j])
-      {
+  for (int i = 0; i < 9; i++) { //sort the analog from small to large
+    for (int j = i + 1; j < 10; j++) {
+      if (buf[i] > buf[j]) {
         temp = buf[i];
         buf[i] = buf[j];
         buf[j] = temp;
@@ -839,11 +833,10 @@ String getStatus() {
   retval += "Idle Mode: " + (idle_mode ? "True" : "False");
 
   return retval;
-
 }
 
 
-int freeRam (){
+int freeRam() {
 #ifdef RTU_ESP
 // Gets free ram on the ESP8266
   return ESP.getFreeHeap();
@@ -894,8 +887,7 @@ void setup() {
   Serial.println("Initializing network....");
   if (Ethernet.begin(mac) == 0) {
     Serial.println("Failed to obtain IP address  ...");
-  } else
-  {
+  } else {
     Serial.print("IP address: ");
     Serial.println(Ethernet.localIP());
   }

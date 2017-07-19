@@ -26,7 +26,7 @@ Sketch Date: June 29th, 2017
 Sketch Version: V3.1.1
 */
 
-void setupControls(void){
+void setupControls(void) {
   int i;
   // Initialize
 }
