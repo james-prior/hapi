@@ -172,51 +172,51 @@ boolean createAssetJSON(int AssetIdx, int Number) {
   asset_message["t"] = currentTime;               //  into the JSON message
 
   switch(AssetIdx) {
-    case SENSORID_DIO:
-      asset_message["Asset"] = F("DIO");            // Asset ID
-      asset_message["ctxt"] = F("PIN");             // Context
-      asset_message["unit"] = F("");                // Units of measurement
-      pinValue = digitalRead(Number);
-      asset_message["data"] = pinValue;           // Data
-      break;
-    case SENSORID_AIO:
-      asset_message["Asset"] = F("AIO");
-      asset_message["ctxt"] = F("PIN");
-      asset_message["unit"] = F("");
-      pinValue = analogRead(Number);
-      asset_message["data"] = pinValue;
-      break;
-    case SENSORID_FN:
-      f = HapisFunctions[Number];
-      asset_message["Asset"] =  (String)f.fName;
-      asset_message["ctxt"] =  (String)f.fType;
-      asset_message["unit"] =  (String)f.fUnit;
-      funcVal = f.fPtr(Number);
-      asset_message["data"] =  funcVal;     // Two decimal points
-      break;
-    case CONTROLID_FN:
-      c = HapicFunctions[Number];
-      asset_message["Asset"] =  (String)c.fName;
-      asset_message["ctxt"] =  (String)c.fType;
-      asset_message["unit"] =  (String)c.fUnit;
-      funcVal = c.iPtr(Number);
-      asset_message["data"] =  funcVal;     // Two decimal points
-      break;
-    case CONTROLDATA1_FN:
-      asset_message["Asset"] =  (String)d.hc_name;
-      asset_message["pol"] =  (boolean)d.hc_polarity;
-      asset_message["stt"] =  (unsigned long )d.hc_start;
-      asset_message["end"] =  (unsigned long)d.hc_end;
-      asset_message["rpt"] =  (unsigned long)d.hc_repeat;
-      break;
-    case CONTROLDATA2_FN:
-      asset_message["Asset"] =  (String)d.hc_name;
-      asset_message["von"] =  (float)d.hcs_onValue;
-      asset_message["voff"] =  (float)d.hcs_offValue;
-      break;
+  case SENSORID_DIO:
+    asset_message["Asset"] = F("DIO");            // Asset ID
+    asset_message["ctxt"] = F("PIN");             // Context
+    asset_message["unit"] = F("");                // Units of measurement
+    pinValue = digitalRead(Number);
+    asset_message["data"] = pinValue;           // Data
+    break;
+  case SENSORID_AIO:
+    asset_message["Asset"] = F("AIO");
+    asset_message["ctxt"] = F("PIN");
+    asset_message["unit"] = F("");
+    pinValue = analogRead(Number);
+    asset_message["data"] = pinValue;
+    break;
+  case SENSORID_FN:
+    f = HapisFunctions[Number];
+    asset_message["Asset"] =  (String)f.fName;
+    asset_message["ctxt"] =  (String)f.fType;
+    asset_message["unit"] =  (String)f.fUnit;
+    funcVal = f.fPtr(Number);
+    asset_message["data"] =  funcVal;     // Two decimal points
+    break;
+  case CONTROLID_FN:
+    c = HapicFunctions[Number];
+    asset_message["Asset"] =  (String)c.fName;
+    asset_message["ctxt"] =  (String)c.fType;
+    asset_message["unit"] =  (String)c.fUnit;
+    funcVal = c.iPtr(Number);
+    asset_message["data"] =  funcVal;     // Two decimal points
+    break;
+  case CONTROLDATA1_FN:
+    asset_message["Asset"] =  (String)d.hc_name;
+    asset_message["pol"] =  (boolean)d.hc_polarity;
+    asset_message["stt"] =  (unsigned long )d.hc_start;
+    asset_message["end"] =  (unsigned long)d.hc_end;
+    asset_message["rpt"] =  (unsigned long)d.hc_repeat;
+    break;
+  case CONTROLDATA2_FN:
+    asset_message["Asset"] =  (String)d.hc_name;
+    asset_message["von"] =  (float)d.hcs_onValue;
+    asset_message["voff"] =  (float)d.hcs_offValue;
+    break;
 
-    default:
-      break;
+  default:
+    break;
   }
   asset_message.printTo(MQTTOutput, 128);          // MQTT JSON string is max 96 bytes
   Serial.println(MQTTOutput);
