@@ -188,14 +188,14 @@ int compare_int(int *x, int *y)
 #define VCC (5.0) // Unit is 1 Volt. ^^^ Should be in some header. ^^^Should this be different for some boards?
 #define MAX_ADC_VALUE ((1<<10)-1) // ^^^ Should be in some header.
 
-float read_voltage(int Device) {
+float read_voltage(int device) {
   int buf[N_SAMPLES];
   int pin;
   unsigned long int sum;
   float averaged_voltage;
 
   // Get samples.
-  pin = HapicData[Device].hcs_sensepin;
+  pin = HapicData[device].hcs_sensepin;
   for (int i = 0; i < ARRAY_LENGTH(buf); i++) {
     buf[i] = analogRead(pin);
     delay(10/*^^^evil magic number*/);
@@ -219,22 +219,22 @@ float read_voltage(int Device) {
   return averaged_voltage;
 }
 
-float readpH(int Device) {
+float readpH(int device) {
   float voltage;
   float ph_value;
 
-  voltage = read_voltage(Device);
+  voltage = read_voltage(device);
   ph_value = 3.5 * voltage;
   //  Serial.print(F("pH: "));
   //  Serial.println(ph_value);
   return ph_value;
 }
 
-float readTDS(int Device) {
+float readTDS(int device) {
   float voltage;
   float tds;
 
-  voltage = read_voltage(Device);
+  voltage = read_voltage(device);
 
   //TODO Need temperature compensation for TDS
   tds = 1.0 * voltage;
@@ -251,11 +251,11 @@ float readTDS(int Device) {
 //  Dark overcast day   Bright room 100 lux   1.5 KΩ
 //  Overcast day        1000 lux              300 Ω
 
-float readLightSensor(int Device) {
+float readLightSensor(int device) {
   // Simple code to read a Light value from a CDS sensor, with 10k to ground
   float Lux;
   ControlData d;
-  d = HapicData[Device];
+  d = HapicData[device];
 
   int RawADC = analogRead(d.hcs_sensepin);
 //TODO
@@ -263,16 +263,16 @@ float readLightSensor(int Device) {
   return Lux;
 }
 
-float readFlow(int Device) {
+float readFlow(int device) {
   // readWaterFlowRate  - Uses an input pulse that creates an average flow rate
   //                      The averaging is done in software and stores a 30second rolling count
   ControlData d;
-  d = HapicData[Device];
+  d = HapicData[device];
 //TODO
   return (float)WaterFlowRate;
 }
 
-float readSensorPin(int Device) {
+float readSensorPin(int device) {
   float pinData;
 //TODO
   return pinData;
