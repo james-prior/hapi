@@ -143,7 +143,7 @@ boolean stringComplete = false;    // A boolean indicating when received string 
 //**** Begin Communications Section ****
 // the media access control (ethernet hardware) address for the shield
 // Need to manually change this for USB, Ethernet
-byte mac[] = { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55 };
+byte mac[] = {0x55, 0x55, 0x55, 0x55, 0x55, 0x55};
 char mac_str[16] = "555555555555";  // Default mac id      
 char hostString[64] = {0};          // mDNS Hostname for this HAPInode
 
@@ -163,8 +163,8 @@ int timeZone = +10; // Eastern Standard Time (Au)
 
 #ifdef HN_WiFi
 // Local wifi network parameters (set in nodewifi.h)
-const char* ssid = HAPI_SSID;
-const char* password = HAPI_PWD;
+const char *ssid = HAPI_SSID;
+const char *password = HAPI_PWD;
 int WiFiStatus = 0;
 WiFiClient HNClient;
 WiFiUDP udp;                          // A UDP instance to let us send and receive packets over UDP
@@ -179,26 +179,26 @@ EthernetUDP udp;
 
 //**** Begin MQTT Section ****
 char MQTT_broker_hostname[64] = MQTT_broker_default;    // Space to hold mqtt broker hostname
-const char* clientID = "HAPInode";
-const char* mqtt_topic_command = "COMMAND/";            // General Command topic
-const char* mqtt_topic_status = "STATUS/RESPONSE/";     // General Status topic
-const char* mqtt_topic_asset = "ASSET/RESPONSE/";       // Genral Asset topic
-const char* mqtt_topic_exception = "EXCEPTION/";        // General Exception topic
-const char* mqtt_topic_config = "CONFIG/";              // General Configuration topic
+const char *clientID = "HAPInode";
+const char *mqtt_topic_command = "COMMAND/";            // General Command topic
+const char *mqtt_topic_status = "STATUS/RESPONSE/";     // General Status topic
+const char *mqtt_topic_asset = "ASSET/RESPONSE/";       // Genral Asset topic
+const char *mqtt_topic_exception = "EXCEPTION/";        // General Exception topic
+const char *mqtt_topic_config = "CONFIG/";              // General Configuration topic
 char mqtt_topic[256] = "";                              // Topic for this HN
 
 #define STATUSSTART 0
 #define ASSETSTART 1
 #define CONFIGSTART 4
 #define INVALID_VALUE 9999
-const char* mqtt_topic_array[] = {
+const char *mqtt_topic_array[] = {
   "STATUS/QUERY",
   "ASSET/QUERY",
   "ASSET/QUERY/",
   "ASSET/QUERY/*",
   "CONFIG/QUERY/"
 };
-const char* mqtt_listen_array[] = {
+const char *mqtt_listen_array[] = {
   "COMMAND/",
   "CONFIG/",
   "EXCEPTION/",
@@ -218,7 +218,7 @@ char MQTTOutput[256];                                   // String storage for th
 char MQTTInput[256];                                    // String storage for the JSON data
 
 // Callback function header
-void MQTTcallback(char* topic, byte* payload, unsigned int length);
+void MQTTcallback(char *topic, byte *payload, unsigned int length);
 PubSubClient MQTTClient(HNClient);                      // 1883 is the listener port for the Broker
 
 // Prepare JSON string objects
@@ -244,7 +244,7 @@ int WaterFlowRate = 0;
 //LIGHT Devices
 
 //oneWire Devices
-OneWire oneWire(WIRE_PIN );
+OneWire oneWire(WIRE_PIN);
 DallasTemperature wp_sensors(&oneWire);
 
 //Define DHT devices and allocate resources
@@ -259,9 +259,9 @@ DHT dhts[1] = {dht1};             //add the DHT device to the array of DHTs
 //used when setting or a reading a pin isn't enough, as in the instance of library calls.
 typedef float (* GenericFP)(int); //generic pointer to a function that takes an int and returns a float
 struct FuncDef {   //define a structure to associate a Name to generic function pointer.
-  const char* fName;
-  const char* fType;
-  const char* fUnit;
+  const char *fName;
+  const char *fType;
+  const char *fUnit;
   int fPin;
   GenericFP fPtr;
 };
@@ -282,9 +282,9 @@ FuncDef HapisFunctions[] = {sfunc1, sfunc2, sfunc3, sfunc4, sfunc5, sfunc6, sfun
 //used when setting or a reading a pin isn't enough, as in the instance of library calls.
 typedef float (* GenericFP)(int); //generic pointer to a function that takes an int and returns a float
 struct CFuncDef {   //define a structure to associate a Name to generic control pointer.
-  const char* fName;
-  const char* fType;
-  const char* fUnit;
+  const char *fName;
+  const char *fType;
+  const char *fUnit;
   int fPin;
   GenericFP oPtr;
   GenericFP iPtr;
@@ -301,7 +301,7 @@ CFuncDef cfunc6 = {"lmp", "Lamp", "lpm", 6, &controlLamps, &readLightSensor};
 CFuncDef HapicFunctions[] = {cfunc1, cfunc2, cfunc3, cfunc4, cfunc5, cfunc6};
 
 struct ControlData {
-  const char* hc_name;              // Sensor name abbreviation
+  const char *hc_name;              // Sensor name abbreviation
   int hc_controlpin;
   boolean hc_polarity;              // Active low control output
   unsigned long hc_start;           // Start time (unix time)
@@ -323,7 +323,7 @@ ControlData HapicData[] = {ccontrol1, ccontrol2, ccontrol3, ccontrol4, ccontrol5
 
 //**** End Sensors Section ****
 
-void b2c(byte* bptr, char* cptr, int len) {
+void b2c(byte *bptr, char *cptr, int len) {
   int i;
   char c;
   for (i=0; i<len; i++) {
@@ -342,7 +342,7 @@ void b2c(byte* bptr, char* cptr, int len) {
 //  Serial.println(F(""));
 }
 
-int freeRam (){
+int freeRam() {
 #if defined(HN_ESP8266) || defined(HN_ESP32)
 // Gets free ram on the ESP8266, ESP32
   return ESP.getFreeHeap();
@@ -350,7 +350,7 @@ int freeRam (){
 // Gets free ram on the Arduino
   extern int __heap_start, *__brkval;
   int v;
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+  return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 #endif
 }
 
