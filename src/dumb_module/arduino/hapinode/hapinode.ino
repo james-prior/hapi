@@ -310,12 +310,14 @@ void b2c(byte *bptr, char *cptr, int len) {
   for (i=0; i<len; i++) {
     c = (bptr[i] >> 4) & 0x0f;
     c += '0';
-    if (c > '9') c += ('A' - '9' - 1);
+    if (c > '9')
+      c += ('A' - '9' - 1);
     *cptr++ = c;
 //    Serial.print(c, HEX);
     c = bptr[i] & 0x0f;
     c += '0';
-    if (c > '9') c += ('A' - '9' - 1);
+    if (c > '9')
+      c += ('A' - '9' - 1);
     *cptr++ = c;
 //    Serial.print(c, HEX);
   }

@@ -272,7 +272,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     if (command_topic.containsKey("Node")) { // NodeId is required for all messages, even if it is "*"
       Node = command_topic["Node"];
     }
-//    else return;
+//    else
+//      return;
 
 // Check for COMMAND/ topic based commands
 // =======================================
@@ -281,7 +282,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         if (command_topic.containsKey("Cmnd")) {  // Cmnd is required
           Command = command_topic["Cmnd"];
         }
-        else return;
+        else
+          return;
 
 // Commands that do not require an Asset ID
 // ----------------------------------------
@@ -303,7 +305,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
             if (command_topic.containsKey("pin")) {   // pin - required
               Number = command_topic["pin"];
             }
-            else return;
+            else
+              return;
             if (strcmp(Command, "din") == 0) {
               AssetIdx = SENSORID_DIO;
               sendMQTTAsset(AssetIdx, Number);         // Publish digital data
@@ -313,7 +316,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
               if (command_topic.containsKey("data")) {  // Data - required
                 data = command_topic["data"];
               }
-              else return;
+              else
+                return;
               digitalWrite(Number, data);               // Set the digital pin
               return;
             }
@@ -325,7 +329,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
             if (command_topic.containsKey("pin")) {   // pin - required
               Number = command_topic["pin"];
             }
-            else return;
+            else
+              return;
             if (strcmp(Command, "ain") == 0) {
               AssetIdx = SENSORID_AIO;
               sendMQTTAsset(AssetIdx, Number);         // Publish analog data
@@ -335,7 +340,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
               if (command_topic.containsKey("data")) {  // Data - required
                 data = command_topic["data"];
               }
-              else return;
+              else
+                return;
 #ifndef HN_ESP32
               analogWrite(Number, data);               // Set the analog pin
 #endif
@@ -397,11 +403,13 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
               }
               return;
             }
-            else return;         // Found a valid control name but no valid command or data
+            else
+              return;         // Found a valid control name but no valid command or data
           }
           Serial.println(F(" .. not Control I/O"));
         } // Command topic contains a SensorId
-        else return;
+        else
+          return;
       } // End (strcmp COMMAND/ topic
 
       Serial.println(F(" .. not COMMAND/"));
@@ -414,7 +422,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         }
 // Add extra CONFIG values here
 // ----------------------------
-        else return;
+        else
+          return;
       }
       Serial.println(F(" .. not CONFIG/"));
 
