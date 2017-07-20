@@ -482,7 +482,6 @@ void(* resetFunc) (void) = 0; //declare reset function @ address 0
 
 //**** Begin DHT Device Section ****
 //Define DHT devices and allocate resources
-#define NUM_DHTS 1 //total number of DHTs on this device
 DHT dht1(DHTPIN, DHT22); //For each DHT, create a new variable given the pin and Type
 DHT dhts[] = {dht1};
 
@@ -748,7 +747,7 @@ String buildResponse() {
     f = HapiFunctions[i];
 
     if (f.fType.equals("dht")) {
-      for (int j = 0; j < NUM_DHTS; j++) {
+      for (int j = 0; j < ARRAY_LENGTH(dhts); j++) {
         funcVal = f.fPtr(j);
         assembleResponse(response, f.fName, String((int)funcVal));
       }
@@ -860,7 +859,7 @@ void setup() {
   }
 
   dht1.begin(); // Start the DHT-22
-  /*for (int i = 0; i < NUM_DHTS; i++) {
+  /*for (int i = 0; i < ARRAY_LENGTH(dhts); i++) {
     dhts[i].begin();
   }*/
 

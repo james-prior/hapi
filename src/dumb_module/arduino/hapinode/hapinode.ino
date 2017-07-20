@@ -230,7 +230,6 @@ OneWire oneWire(WIRE_PIN);
 DallasTemperature wp_sensors(&oneWire);
 
 //Define DHT devices and allocate resources
-#define NUM_DHTS 1        //total number of DHTs on this device
 #define DHTTYPE DHT22     // Sets DHT type
 
 DHT dht1(DHT_PIN, DHT22);   //For each DHT, create a new variable given the pin and Type

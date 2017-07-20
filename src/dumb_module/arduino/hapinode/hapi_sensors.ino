@@ -45,7 +45,7 @@ void setupSensors(void) {
 
 // Start the DHT-22
   dht1.begin();
-  /*for (int i = 0; i < NUM_DHTS; i++) {
+  /*for (int i = 0; i < ARRAY_LENGTH(dhts); i++) {
     dhts[i].begin();
   }*/
 
