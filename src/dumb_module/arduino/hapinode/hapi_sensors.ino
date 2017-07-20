@@ -262,7 +262,7 @@ float readSensorPin(int device) {
 }
 
 void hapiSensors(void) {
-  for (int device = 0; device < ARRAY_LENGTH(HapisFunctions); device++) {
+  for (int device = 0; device < ARRAY_LENGTH(s_functions); device++) {
     currentTime = now();                  // Set the time
     sendMQTTAsset(SENSORID_FN, device);   // Read the sensor value
   }

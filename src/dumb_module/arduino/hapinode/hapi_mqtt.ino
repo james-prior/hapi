@@ -89,7 +89,7 @@ boolean sendAllMQTTAssets(void) {
     while (!sendMQTTAsset(SENSORID_AIO, i+NUM_DIGITAL))  // Until it is sent
       ;
   // Process Custom Functions
-  for (int i = 0; i < ARRAY_LENGTH(HapisFunctions); i++)
+  for (int i = 0; i < ARRAY_LENGTH(s_functions); i++)
     while (!sendMQTTAsset(SENSORID_FN, i))  // Until it is sent
       ;
   // Process Custom Functions
@@ -108,7 +108,7 @@ boolean sendAllMQTTAssets(void) {
 }
 
 boolean sendMQTTAsset(int AssetIdx, int Number) {
-  FuncDef f = HapisFunctions[Number];               // Pointer to current sensor
+  FuncDef f = s_functions[Number];               // Pointer to current sensor
   createAssetJSON(AssetIdx, Number);                // (Store result in MQTTOutput)
   strcpy(mqtt_topic, mqtt_topic_asset);             // Generic asset response topic
   strcat(mqtt_topic, hostString);                   // Add the NodeId
@@ -128,7 +128,7 @@ boolean sendMQTTException(int AssetIdx, int Number) {
 
 boolean createAssetJSON(int AssetIdx, int Number) {
   //For custom functions
-  FuncDef f = HapisFunctions[Number];
+  FuncDef f = s_functions[Number];
   CFuncDef c = c_functions[Number];
   ControlData d = c_data[Number];
   int pinValue;
@@ -160,7 +160,7 @@ boolean createAssetJSON(int AssetIdx, int Number) {
     asset_message["data"] = pinValue;
     break;
   case SENSORID_FN:
-    f = HapisFunctions[Number];
+    f = s_functions[Number];
     asset_message["Asset"] =  (String)f.fName;
     asset_message["ctxt"] =  (String)f.fType;
     asset_message["unit"] =  (String)f.fUnit;
@@ -337,8 +337,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 // Function IO
     Number = INVALID_VALUE;
     AssetIdx = SENSORID_FN;                    // Asset Function IO
-    for (int i=0;i < ARRAY_LENGTH(HapisFunctions);i++) {    // Scan for a match on the sensor name
-      f = HapisFunctions[i];                    // Point to Asset read function structure
+    for (int i=0;i < ARRAY_LENGTH(s_functions);i++) {    // Scan for a match on the sensor name
+      f = s_functions[i];                    // Point to Asset read function structure
       if (strcmp(command_topic["Asset"], f.fName) == 0) {  // Asset match?
         Number = i;                             // Match for Sensor name
       }
@@ -438,8 +438,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 // Handle sensors
   AssetIdx = SENSORID_FN;                    // Sensor Function IO
   Number = INVALID_VALUE;
-  for (int i = 0;i < ARRAY_LENGTH(HapisFunctions); i++) {    // Scan for a match on the sensor name
-    f = HapisFunctions[i];                    // Point to sensor read function structure
+  for (int i = 0;i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
+    f = s_functions[i];                    // Point to sensor read function structure
     strcpy(hn_topic, mqtt_topic_array[ASSETSTART+1]);     // Set base topic for a specific asset query
     strcat(hn_topic, hostString);              // NodeId next
     strcat(hn_topic, "/");                     //  .. MQTT separator

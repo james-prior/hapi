@@ -256,7 +256,7 @@ FuncDef sfunc4 = {"tmw", "Water", "C", WIRE_PIN , &read1WireTemperature};
 FuncDef sfunc5 = {"phv", "Water", "pH", spH_PIN, &readpH};
 FuncDef sfunc6 = {"tds", "Water", "ppm", sTDS_PIN, &readTDS};
 FuncDef sfunc7 = {"flo", "Water", "lpm", sWtrFlow_PIN, &readFlow};
-FuncDef HapisFunctions[] = {sfunc1, sfunc2, sfunc3, sfunc4, sfunc5, sfunc6, sfunc7};
+FuncDef s_functions[] = {sfunc1, sfunc2, sfunc3, sfunc4, sfunc5, sfunc6, sfunc7};
 
 // Custom control devices
 //Custom functions are special functions for reading sensors or controlling devices. They are
