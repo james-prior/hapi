@@ -88,27 +88,27 @@ boolean sendAllMQTTAssets(void) {
   }
   //Process analog pins
   for (int i = 0; i < NUM_ANALOG; i++) {
-    while (!(sendMQTTAsset(SENSORID_AIO, i+NUM_DIGITAL)))  // Until it is sent
+    while (!sendMQTTAsset(SENSORID_AIO, i+NUM_DIGITAL))  // Until it is sent
       ;
   }
   // Process Custom Functions
   for (int i = 0; i < ARRAY_LENGTH(HapisFunctions); i++) {
-    while (!(sendMQTTAsset(SENSORID_FN, i)))  // Until it is sent
+    while (!sendMQTTAsset(SENSORID_FN, i))  // Until it is sent
       ;
   }
   // Process Custom Functions
   for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++) {
-    while (!(sendMQTTAsset(CONTROLID_FN, i)))  // Until it is sent
+    while (!sendMQTTAsset(CONTROLID_FN, i))  // Until it is sent
       ;
   }
   // Process Custom Functions
   for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++) {
-    while (!(sendMQTTAsset(CONTROLDATA1_FN, i)))  // Until it is sent
+    while (!sendMQTTAsset(CONTROLDATA1_FN, i))  // Until it is sent
       ;
   }
   // Process Custom Functions
   for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++) {
-    while (!(sendMQTTAsset(CONTROLDATA2_FN, i)))  // Until it is sent
+    while (!sendMQTTAsset(CONTROLDATA2_FN, i))  // Until it is sent
       ;
   }
   return true;
@@ -276,7 +276,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
 // Check for COMMAND/ topic based commands
 // =======================================
-    if ((strcmp(Node, hostString) == 0) || (strcmp(Node, "*") == 0)) { // Handle wildcard
+    if (strcmp(Node, hostString) == 0 || strcmp(Node, "*") == 0) { // Handle wildcard
       if (strcmp(topic, mqtt_topic_command) == 0) {
         if (command_topic.containsKey("Cmnd")) {  // Cmnd is required
           Command = command_topic["Cmnd"];

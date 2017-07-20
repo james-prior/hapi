@@ -918,7 +918,7 @@ void loop() {
 
       Serial.println(inputCommand);
 
-      if ((inputCommand == "aoc") && !idle_mode) {
+      if (inputCommand == "aoc" && !idle_mode) {
         cmdFound = true;
         inputPort = inputString.substring(3, 6);
         inputControl = inputString.substring(6, 9);
@@ -928,7 +928,7 @@ void loop() {
       }  // END Of aoc
 
       // doc (Digital Output Control) Sets a single digital output
-      if ((inputCommand == "doc") && !idle_mode) {
+      if (inputCommand == "doc" && !idle_mode) {
         cmdFound = true;
         inputPort = inputString.substring(4, 6);
         inputControl = inputString.substring(6, 7);
@@ -966,7 +966,7 @@ void loop() {
       }
 
       // res  - resets the Arduino
-      if ((inputCommand == "res") && !idle_mode) {
+      if (inputCommand == "res" && !idle_mode) {
         cmdFound = true;
         for (int x = 0; x < ARRAY_LENGTH(pinControl); x++) {
           if (pinControl[x] == DIGITAL_OUTPUT_PIN) {
