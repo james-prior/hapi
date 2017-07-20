@@ -519,7 +519,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         HapicData[Number].hcs_offValue = command_topic["voff"];
       }
       return;
-  }
+    }
     Serial.print(F(" .. not "));
     Serial.println(hn_topic);
 
