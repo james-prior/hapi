@@ -15,19 +15,6 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #*********************************************************************
-
-HAPI Remote Terminal Unit Firmware Code v2.2.0
-Authors: Tyler Reed, Mark Miller
-ESP Modification: John Archbold
-Release: September 2016 v2.2.0 Debug
-Sketch Date: April 22nd 2017
-Sketch Version: v2.2.0
-Implements of Remote Terminal Unit (RTU) for use in Monitoring and Control
-Implements HAPI Command Language Interpreter (CLI) for the Arduino Mega
-Implements definitions for Mega2560-ethernet, Mega2560-usb, ESP-NodeMCU
-Listens for Telnet connections on Port 80
-Target Board: NodeMCU
-Communications Protocol: Ethernet, USB
 */
 
 
