@@ -58,7 +58,7 @@ void setupSensors(void) {
   flowrate.interval(5);
 
 // Start the I2C
-  Wire.begin(SDA_PIN,SCL_PIN);      // Default
+  Wire.begin(SDA_PIN, SCL_PIN);      // Default
   Wire.setClock(400000);  // choose 400 kHz I2C rate
   Alarm.delay(100);
 }

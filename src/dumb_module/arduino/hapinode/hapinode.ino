@@ -362,7 +362,7 @@ void setup() {
 
   b2c(&mac[3], &mac_str[0], 3);         //convert mac to ASCII value for unique station ID
   HN_Id = HN_base + String(mac_str);
-  HN_Id.toCharArray(hostString,(HN_Id.length()+1));
+  HN_Id.toCharArray(hostString, (HN_Id.length()+1));
 
 #ifdef HN_2560
   Serial.println(hostString);
@@ -419,9 +419,9 @@ void setup() {
       Serial.print(MDNS.port(i));
       Serial.println(F(")"));
       if (MDNS.port(i) == MQTT_port) {
-        MDNS.hostname(i).toCharArray(MQTT_broker_hostname,(MDNS.hostname(i).length()+1));
+        MDNS.hostname(i).toCharArray(MQTT_broker_hostname, (MDNS.hostname(i).length()+1));
 // TODO check for separate ntp server
-        MDNS.hostname(i).toCharArray(ntpServer_hostname,(MDNS.hostname(i).length()+1));
+        MDNS.hostname(i).toCharArray(ntpServer_hostname, (MDNS.hostname(i).length()+1));
       }
     }
   }
@@ -490,7 +490,7 @@ void setup() {
   Alarm.timerRepeat(1, flashLED);         // Every    second
   Alarm.timerRepeat(2, checkControls);    // Every  2 seconds
   Alarm.timerRepeat(5, hapiSensors);      // Every  5 seconds
-  Alarm.alarmRepeat(3,30,0,updateRTC);    // 3:30am every day
+  Alarm.alarmRepeat(3, 30, 0, updateRTC);    // 3:30am every day
 }
 
 void loop() {
