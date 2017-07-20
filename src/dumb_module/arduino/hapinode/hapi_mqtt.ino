@@ -329,11 +329,9 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
             return;
           }
           if (strcmp(Command, "aout") == 0) {
-            if (command_topic.containsKey("data")) {  // Data - required
-              data = command_topic["data"];
-            }
-            else
+            if (!command_topic.containsKey("data")) // Data - required
               return;
+            data = command_topic["data"];
 #ifndef HN_ESP32
             analogWrite(Number, data);               // Set the analog pin
 #endif
