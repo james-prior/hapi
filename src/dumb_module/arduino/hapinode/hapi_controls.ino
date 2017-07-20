@@ -28,8 +28,8 @@ void checkControls(void) {
   CFuncDef c;
   currentTime = now();            // Update currentTime and ..
                                   //  check all the control functions
-  for (int device=0;device<ARRAY_LENGTH(HapicFunctions);device++) {
-    c = HapicFunctions[device];                //  initialize access structure
+  for (int device=0;device<ARRAY_LENGTH(c_functions);device++) {
+    c = c_functions[device];                //  initialize access structure
     c.oPtr(device);                            //  call the check function
   }
 }
@@ -37,7 +37,7 @@ void checkControls(void) {
 void control_thing(int i) {
   CFuncDef c;
   ControlData d;
-  c = HapicFunctions[i];
+  c = c_functions[i];
   d = HapicData[i];
 
   if (d.hc_active) {                  // Is the thing on?

@@ -279,7 +279,7 @@ CFuncDef cfunc3 = {"ppn", "Pump", "lpm", 3, &controlPumps, &readTDS};
 CFuncDef cfunc4 = {"pHU", "Pump", "lpm", 4, &controlPumps, &readpH};
 CFuncDef cfunc5 = {"pHD", "Pump", "lpm", 5, &controlPumps, &readpH};
 CFuncDef cfunc6 = {"lmp", "Lamp", "lpm", 6, &controlLamps, &readLightSensor};
-CFuncDef HapicFunctions[] = {cfunc1, cfunc2, cfunc3, cfunc4, cfunc5, cfunc6};
+CFuncDef c_functions[] = {cfunc1, cfunc2, cfunc3, cfunc4, cfunc5, cfunc6};
 
 struct ControlData {
   const char *hc_name;              // Sensor name abbreviation

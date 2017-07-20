@@ -93,15 +93,15 @@ boolean sendAllMQTTAssets(void) {
     while (!sendMQTTAsset(SENSORID_FN, i))  // Until it is sent
       ;
   // Process Custom Functions
-  for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++)
+  for (int i = 0; i < ARRAY_LENGTH(c_functions); i++)
     while (!sendMQTTAsset(CONTROLID_FN, i))  // Until it is sent
       ;
   // Process Custom Functions
-  for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++)
+  for (int i = 0; i < ARRAY_LENGTH(c_functions); i++)
     while (!sendMQTTAsset(CONTROLDATA1_FN, i))  // Until it is sent
       ;
   // Process Custom Functions
-  for (int i = 0; i < ARRAY_LENGTH(HapicFunctions); i++)
+  for (int i = 0; i < ARRAY_LENGTH(c_functions); i++)
     while (!sendMQTTAsset(CONTROLDATA2_FN, i))  // Until it is sent
       ;
   return true;
@@ -129,7 +129,7 @@ boolean sendMQTTException(int AssetIdx, int Number) {
 boolean createAssetJSON(int AssetIdx, int Number) {
   //For custom functions
   FuncDef f = HapisFunctions[Number];
-  CFuncDef c = HapicFunctions[Number];
+  CFuncDef c = c_functions[Number];
   ControlData d = HapicData[Number];
   int pinValue;
   float funcVal = -9.99;
@@ -168,7 +168,7 @@ boolean createAssetJSON(int AssetIdx, int Number) {
     asset_message["data"] =  funcVal;     // Two decimal points
     break;
   case CONTROLID_FN:
-    c = HapicFunctions[Number];
+    c = c_functions[Number];
     asset_message["Asset"] =  (String)c.fName;
     asset_message["ctxt"] =  (String)c.fType;
     asset_message["unit"] =  (String)c.fUnit;
@@ -350,8 +350,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     else {                                      // Did not find a sensor, so try controls
       Serial.println(F(" .. not Sensor Read"));
       AssetIdx = CONTROLID_FN;                 // Control Function IO
-      for (int i=0;i < ARRAY_LENGTH(HapicFunctions);i++) { // Scan for a match on the control name
-        c = HapicFunctions[i];                  // Point to control function structure
+      for (int i=0;i < ARRAY_LENGTH(c_functions);i++) { // Scan for a match on the control name
+        c = c_functions[i];                  // Point to control function structure
         if (strcmp(command_topic["Asset"], c.fName) == 0) {  // Asset match?
           Number = i;                           // Match for control name
         }
@@ -366,7 +366,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         return;
 
       // Function out only works for controls
-      c = HapicFunctions[Number];             // Point to control output function structure
+      c = c_functions[Number];             // Point to control output function structure
 // Control
       if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
         HapicData[Number].hc_polarity = command_topic["pol"];
@@ -456,8 +456,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   Serial.println(hn_topic);
 // Handle Controls
   AssetIdx = CONTROLID_FN;                   // Control Function IO
-  for (int i = 0;i < ARRAY_LENGTH(HapicFunctions); i++) {   // Scan for a match on the control name
-    c = HapicFunctions[i];                    // Point to control function structure
+  for (int i = 0;i < ARRAY_LENGTH(c_functions); i++) {   // Scan for a match on the control name
+    c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[1]);     // Set base topic for an asset query
     strcat(hn_topic, hostString);              // NodeId next
     strcat(hn_topic, "/");                     //  .. MQTT separator
@@ -478,8 +478,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 // Wildcards are not allowed in CONFIG
 // It must have a valid NodeId, Asset and data to work
   Number = INVALID_VALUE;
-  for (int i = 0;i < ARRAY_LENGTH(HapicFunctions); i++) {     // Scan for a match on the control name
-    c = HapicFunctions[i];                    // Point to control function structure
+  for (int i = 0;i < ARRAY_LENGTH(c_functions); i++) {     // Scan for a match on the control name
+    c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[CONFIGSTART]);       // Set base topic for a specific asset query
     strcat(hn_topic, hostString);              // NodeId next
     strcat(hn_topic, "/");                     //  .. MQTT separator
@@ -489,7 +489,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     }
   }
   if (Number != INVALID_VALUE) {
-    c = HapicFunctions[Number];             // Point to control output function structure
+    c = c_functions[Number];             // Point to control output function structure
 // Control
     if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
       HapicData[Number].hc_polarity = command_topic["pol"];
