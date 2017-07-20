@@ -87,8 +87,8 @@ boolean sendAllMQTTAssets(void) {
     }
   }
   //Process analog pins
-  for (int x = 0; x < NUM_ANALOG; x++) {
-    while (!(sendMQTTAsset(SENSORID_AIO, x+NUM_DIGITAL)))  // Until it is sent
+  for (int i = 0; i < NUM_ANALOG; i++) {
+    while (!(sendMQTTAsset(SENSORID_AIO, i+NUM_DIGITAL)))  // Until it is sent
       ;
   }
   // Process Custom Functions

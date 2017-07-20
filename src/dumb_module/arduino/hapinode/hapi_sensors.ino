@@ -45,8 +45,8 @@ void setupSensors(void) {
 
 // Start the DHT-22
   dht1.begin();
-  /*for (int x = 0; x < NUM_DHTS; x++) {
-    dhts[x].begin();
+  /*for (int i = 0; i < NUM_DHTS; i++) {
+    dhts[i].begin();
   }*/
 
 // Start the DS18B20

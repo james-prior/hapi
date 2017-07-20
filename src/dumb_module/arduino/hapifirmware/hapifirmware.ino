@@ -732,8 +732,8 @@ String buildResponse() {
   }
 
   //Process analog pins
-  for (int x = 0; x < NUM_ANALOG; x++) {
-    assembleResponse(response, (String)(x + NUM_DIGITAL), (String)analogRead(x));
+  for (int i = 0; i < NUM_ANALOG; i++) {
+    assembleResponse(response, (String)(i + NUM_DIGITAL), (String)analogRead(i));
   }
 
   //Process custom functions
@@ -744,12 +744,12 @@ String buildResponse() {
   char cFuncVal[10];
   String str;
 
-  for (int x = 0; x < CUSTOM_FUNCTIONS; x++) {
-    f = HapiFunctions[x];
+  for (int i = 0; i < CUSTOM_FUNCTIONS; i++) {
+    f = HapiFunctions[i];
 
     if (f.fType.equals("dht")) {
-      for (int x = 0; x < NUM_DHTS; x++) {
-        funcVal = f.fPtr(x);
+      for (int j = 0; j < NUM_DHTS; j++) {
+        funcVal = f.fPtr(j);
         assembleResponse(response, f.fName, String((int)funcVal));
       }
     }
@@ -860,8 +860,8 @@ void setup() {
   }
 
   dht1.begin(); // Start the DHT-22
-  /*for (int x = 0; x < NUM_DHTS; x++) {
-    dhts[x].begin();
+  /*for (int i = 0; i < NUM_DHTS; i++) {
+    dhts[i].begin();
   }*/
 
   wp_sensors.begin(); // Start the DS18B20
