@@ -38,7 +38,7 @@ void control_thing(int i) {
   CFuncDef c;
   ControlData d;
   c = c_functions[i];
-  d = HapicData[i];
+  d = c_data[i];
 
   if (d.hc_active) {                  // Is the thing on?
     if (d.hc_end > currentTime) {     // Yes, should it be turned off?

@@ -130,7 +130,7 @@ boolean createAssetJSON(int AssetIdx, int Number) {
   //For custom functions
   FuncDef f = HapisFunctions[Number];
   CFuncDef c = c_functions[Number];
-  ControlData d = HapicData[Number];
+  ControlData d = c_data[Number];
   int pinValue;
   float funcVal = -9.99;
   StaticJsonBuffer<256> hn_asset;                   // Asset data for this HN
@@ -369,24 +369,24 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
       c = c_functions[Number];             // Point to control output function structure
 // Control
       if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
-        HapicData[Number].hc_polarity = command_topic["pol"];
+        c_data[Number].hc_polarity = command_topic["pol"];
       }
       if (command_topic.containsKey("stt")) {  // Start time (unix secs)
         Serial.println(F("writing stt"));
-        HapicData[Number].hc_start = command_topic["stt"];
+        c_data[Number].hc_start = command_topic["stt"];
       }
       if (command_topic.containsKey("end")) {  // End time (unix secs)
-        HapicData[Number].hc_end = command_topic["end"];
+        c_data[Number].hc_end = command_topic["end"];
       }
       if (command_topic.containsKey("rpt")) {  // Repeat time (s)
-        HapicData[Number].hc_repeat = command_topic["rpt"];
+        c_data[Number].hc_repeat = command_topic["rpt"];
       }
 // Associated sensor
       if (command_topic.containsKey("von")) {  // Value to turn on
-        HapicData[Number].hcs_onValue = command_topic["von"];
+        c_data[Number].hcs_onValue = command_topic["von"];
       }
       if (command_topic.containsKey("voff")) {  // Value to turn off
-        HapicData[Number].hcs_offValue = command_topic["voff"];
+        c_data[Number].hcs_offValue = command_topic["voff"];
       }
       return;
     }
@@ -492,23 +492,23 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     c = c_functions[Number];             // Point to control output function structure
 // Control
     if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
-      HapicData[Number].hc_polarity = command_topic["pol"];
+      c_data[Number].hc_polarity = command_topic["pol"];
     }
     if (command_topic.containsKey("stt")) {  // Start time (unix secs)
-      HapicData[Number].hc_start = command_topic["stt"];
+      c_data[Number].hc_start = command_topic["stt"];
     }
     if (command_topic.containsKey("end")) {  // End time (unix secs)
-      HapicData[Number].hc_end = command_topic["end"];
+      c_data[Number].hc_end = command_topic["end"];
     }
     if (command_topic.containsKey("rpt")) {  // Repeat time (s)
-      HapicData[Number].hc_repeat = command_topic["rpt"];
+      c_data[Number].hc_repeat = command_topic["rpt"];
     }
 // Associated sensor
     if (command_topic.containsKey("von")) {  // Value to turn on
-      HapicData[Number].hcs_onValue = command_topic["von"];
+      c_data[Number].hcs_onValue = command_topic["von"];
     }
     if (command_topic.containsKey("voff")) {  // Value to turn off
-      HapicData[Number].hcs_offValue = command_topic["voff"];
+      c_data[Number].hcs_offValue = command_topic["voff"];
     }
     return;
   }

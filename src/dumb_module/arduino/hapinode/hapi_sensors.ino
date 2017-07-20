@@ -178,7 +178,7 @@ float read_voltage(int device) {
   float averaged_voltage;
 
   // Get samples.
-  pin = HapicData[device].hcs_sensepin;
+  pin = c_data[device].hcs_sensepin;
   for (int i = 0; i < ARRAY_LENGTH(buf); i++) {
     buf[i] = analogRead(pin);
     delay(10/*^^^evil magic number*/);
@@ -238,7 +238,7 @@ float readLightSensor(int device) {
   // Simple code to read a Light value from a CDS sensor, with 10k to ground
   float Lux;
   ControlData d;
-  d = HapicData[device];
+  d = c_data[device];
 
   int RawADC = analogRead(d.hcs_sensepin);
 //TODO
@@ -250,7 +250,7 @@ float readFlow(int device) {
   // readWaterFlowRate  - Uses an input pulse that creates an average flow rate
   //                      The averaging is done in software and stores a 30second rolling count
   ControlData d;
-  d = HapicData[device];
+  d = c_data[device];
 //TODO
   return (float)WaterFlowRate;
 }
