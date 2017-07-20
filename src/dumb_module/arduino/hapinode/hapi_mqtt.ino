@@ -368,32 +368,32 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
             sendMQTTAsset(AssetIdx, Number);       // Publish sensor or control function data
             return;
           }
-          if (strcmp(Command, "fnout") == 0) {      // Function out only works for controls
-            c = HapicFunctions[Number];             // Point to control output function structure
+          if (strcmp(Command, "fnout") != 0) // Found a valid control name but no valid command or data
+            return;
+
+          // Function out only works for controls
+          c = HapicFunctions[Number];             // Point to control output function structure
 // Control
-            if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
-              HapicData[Number].hc_polarity = command_topic["pol"];
-            }
-            if (command_topic.containsKey("stt")) {  // Start time (unix secs)
-              Serial.println(F("writing stt"));
-              HapicData[Number].hc_start = command_topic["stt"];
-            }
-            if (command_topic.containsKey("end")) {  // End time (unix secs)
-              HapicData[Number].hc_end = command_topic["end"];
-            }
-            if (command_topic.containsKey("rpt")) {  // Repeat time (s)
-              HapicData[Number].hc_repeat = command_topic["rpt"];
-            }
-// Associated sensor
-            if (command_topic.containsKey("von")) {  // Value to turn on
-              HapicData[Number].hcs_onValue = command_topic["von"];
-            }
-            if (command_topic.containsKey("voff")) {  // Value to turn off
-              HapicData[Number].hcs_offValue = command_topic["voff"];
-            }
+          if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
+            HapicData[Number].hc_polarity = command_topic["pol"];
           }
-          else
-            ;         // Found a valid control name but no valid command or data
+          if (command_topic.containsKey("stt")) {  // Start time (unix secs)
+            Serial.println(F("writing stt"));
+            HapicData[Number].hc_start = command_topic["stt"];
+          }
+          if (command_topic.containsKey("end")) {  // End time (unix secs)
+            HapicData[Number].hc_end = command_topic["end"];
+          }
+          if (command_topic.containsKey("rpt")) {  // Repeat time (s)
+            HapicData[Number].hc_repeat = command_topic["rpt"];
+          }
+// Associated sensor
+          if (command_topic.containsKey("von")) {  // Value to turn on
+            HapicData[Number].hcs_onValue = command_topic["von"];
+          }
+          if (command_topic.containsKey("voff")) {  // Value to turn off
+            HapicData[Number].hcs_offValue = command_topic["voff"];
+          }
           return;
         }
         Serial.println(F(" .. not Control I/O"));
