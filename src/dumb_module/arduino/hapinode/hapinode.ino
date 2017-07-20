@@ -113,7 +113,6 @@ Communications Method
 //**** Begin Main Variable Definition Section ****
 int loopcount;              // Count of times through main loop (for LED etc)
 unsigned long mscount;      // millisecond counter
-time_t epoch;               // UTC seconds
 time_t currentTime;         // Local value
 
 String HAPI_FW_VERSION = F("V3.1.1");    // The version of the firmware the HN is running

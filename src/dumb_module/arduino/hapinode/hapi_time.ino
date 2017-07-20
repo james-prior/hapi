@@ -2,6 +2,8 @@
 
 void setupTime()
 {
+  time_t epoch;               // UTC seconds
+
   setSyncInterval(60);        // Set minimum seconds between re-sync via now() call
   setSyncProvider(RTC.get);   // Get the time from the RTC during operation
   epoch = getNtpTime();       // Get the time from ntp (if available)
