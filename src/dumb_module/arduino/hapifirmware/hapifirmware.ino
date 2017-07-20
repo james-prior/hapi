@@ -497,7 +497,7 @@ void(* resetFunc) (void) = 0; //declare reset function @ address 0
 //Define DHT devices and allocate resources
 #define NUM_DHTS 1 //total number of DHTs on this device
 DHT dht1(DHTPIN, DHT22); //For each DHT, create a new variable given the pin and Type
-DHT dhts[1] = {dht1}; //add the DHT device to the array of DHTs
+DHT dhts[] = {dht1};
 
 //**** Begin Custom Functions Section ****
 //Custom functions are special functions for reading sensors or controlling devices. They are

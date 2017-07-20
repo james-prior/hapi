@@ -251,7 +251,7 @@ DallasTemperature wp_sensors(&oneWire);
 #define DHTTYPE DHT22     // Sets DHT type
 
 DHT dht1(DHT_PIN, DHT22);   //For each DHT, create a new variable given the pin and Type
-DHT dhts[1] = {dht1};             //add the DHT device to the array of DHTs
+DHT dhts[] = {dht1};
 
 // Custom function devices
 //Custom functions are special functions for reading sensors or controlling devices. They are
