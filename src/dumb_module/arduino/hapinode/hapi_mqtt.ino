@@ -299,11 +299,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         Serial.println(F("Processing Asset"));
 // Digital IO
         if (strcmp(command_topic["Asset"], "DIO") == 0) { // Digital IO
-          if (command_topic.containsKey("pin")) {   // pin - required
-            Number = command_topic["pin"];
-          }
-          else
+          if (!command_topic.containsKey("pin")) // pin - required
             return;
+          Number = command_topic["pin"];
+
           if (strcmp(Command, "din") == 0) {
             AssetIdx = SENSORID_DIO;
             sendMQTTAsset(AssetIdx, Number);         // Publish digital data
