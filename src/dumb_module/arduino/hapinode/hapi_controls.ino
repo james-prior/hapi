@@ -17,13 +17,6 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #*********************************************************************
-
-HAPI Remote Terminal Unit Firmware Code V3.1.1
-Authors: Tyler Reed, Mark Miller
-ESP Modification: John Archbold
-
-Sketch Date: June 29th, 2017
-Sketch Version: V3.1.1
 */
 
 void setupControls(void) {
