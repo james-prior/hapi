@@ -77,7 +77,7 @@ boolean sendAllMQTTAssets(void) {
     case DIGITAL_INPUT_PULLUP_PIN:
     case DIGITAL_OUTPUT_PIN:
     case ANALOG_OUTPUT_PIN:
-      while (!(sendMQTTAsset(SENSORID_DIO, i)))  // Until it is sent
+      while (!sendMQTTAsset(SENSORID_DIO, i))  // Until it is sent
         ;
       break;
     default:
