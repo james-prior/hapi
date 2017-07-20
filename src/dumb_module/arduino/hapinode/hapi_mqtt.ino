@@ -391,10 +391,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
             if (command_topic.containsKey("voff")) {  // Value to turn off
               HapicData[Number].hcs_offValue = command_topic["voff"];
             }
-            return;
           }
           else
-            return;         // Found a valid control name but no valid command or data
+            ;         // Found a valid control name but no valid command or data
+          return;
         }
         Serial.println(F(" .. not Control I/O"));
       } // Command topic contains a SensorId
