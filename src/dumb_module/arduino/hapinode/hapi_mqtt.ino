@@ -309,11 +309,9 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
             return;
           }
           if (strcmp(Command, "dout") == 0) {
-            if (command_topic.containsKey("data")) {  // Data - required
-              data = command_topic["data"];
-            }
-            else
+            if (!command_topic.containsKey("data")) // Data - required
               return;
+            data = command_topic["data"];
             digitalWrite(Number, data);               // Set the digital pin
             return;
           }
