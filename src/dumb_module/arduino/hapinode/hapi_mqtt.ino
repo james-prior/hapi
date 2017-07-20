@@ -366,7 +366,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         if (Number != INVALID_VALUE) {             // If we have a match on the name
           if (strcmp(Command, "fnin") == 0) {
             sendMQTTAsset(AssetIdx, Number);       // Publish sensor or control function data
-          return;
+            return;
           }
           if (strcmp(Command, "fnout") == 0) {      // Function out only works for controls
             c = HapicFunctions[Number];             // Point to control output function structure
