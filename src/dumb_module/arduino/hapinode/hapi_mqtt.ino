@@ -53,20 +53,18 @@ boolean sendMQTTStatus(void) {
 
   // If the message failed to send, try again, as the connection may have broken.
   Serial.println(F("Status Message failed to publish. Reconnecting to MQTT Broker and trying again .. "));
-  if (MQTTClient.connect(clientID, MQTT_broker_username, MQTT_broker_password)) {
-    Serial.println(F("reconnected to MQTT Broker!"));
-    delay(100); // This delay ensures that client.publish doesn't clash with the client.connect call
-    if (MQTTClient.publish(mqtt_topic_status, MQTTOutput)) {
-      Serial.println(F("Status Message published after one retry."));
-      return true;
-    }
-    else {
-      Serial.println(F("Status Message failed to publish after one retry."));
-      return false;
-    }
+  if (!MQTTClient.connect(clientID, MQTT_broker_username, MQTT_broker_password)) {
+    Serial.println(F("Connection to MQTT Broker failed..."));
+    return false;
+  }
+  Serial.println(F("reconnected to MQTT Broker!"));
+  delay(100); // This delay ensures that client.publish doesn't clash with the client.connect call
+  if (MQTTClient.publish(mqtt_topic_status, MQTTOutput)) {
+    Serial.println(F("Status Message published after one retry."));
+    return true;
   }
   else {
-    Serial.println(F("Connection to MQTT Broker failed..."));
+    Serial.println(F("Status Message failed to publish after one retry."));
     return false;
   }
 }
