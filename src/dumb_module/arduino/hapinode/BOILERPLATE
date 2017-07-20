@@ -13,4 +13,4 @@ Implements definitions for
 Communications Protocol
   WiFi
 Communications Method
-  MQTT        Listens for messages on Port 1883
+  MQTT
