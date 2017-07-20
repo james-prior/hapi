@@ -279,12 +279,9 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
   // Handle wildcard
   if (strcmp(topic, mqtt_topic_command) == 0) {
-    if (command_topic.containsKey("Cmnd")) {  // Cmnd is required
-      Command = command_topic["Cmnd"];
-    }
-    else
+    if (!command_topic.containsKey("Cmnd")) // Cmnd is required
       return;
-
+    Command = command_topic["Cmnd"];
 // Commands that do not require an Asset ID
 // ----------------------------------------
     if (strcmp(Command, "assets") == 0) {
