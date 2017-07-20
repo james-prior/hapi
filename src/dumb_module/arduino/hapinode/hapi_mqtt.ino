@@ -320,11 +320,9 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
 // Analog IO
         if (strcmp(command_topic["Asset"], "AIO") == 0) { // Analog IO
-          if (command_topic.containsKey("pin")) {   // pin - required
-            Number = command_topic["pin"];
-          }
-          else
+          if (!command_topic.containsKey("pin")) // pin - required
             return;
+          Number = command_topic["pin"];
           if (strcmp(Command, "ain") == 0) {
             AssetIdx = SENSORID_AIO;
             sendMQTTAsset(AssetIdx, Number);         // Publish analog data
