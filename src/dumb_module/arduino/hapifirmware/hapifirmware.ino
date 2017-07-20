@@ -507,7 +507,7 @@ FuncDef func3 = {"trm", "thermistor", 2, &readThermistorTemp};
 FuncDef func4 = {"res1tmp", "DS18B20", ONE_WIRE_BUS, &readWaterTemperature};
 FuncDef func5 = {"phl", "pH Sensor", PH_SENSORPIN, &readpH};
 
-FuncDef HapiFunctions[CUSTOM_FUNCTIONS] = {func1, func2, func3, func4, func5};
+FuncDef functions[CUSTOM_FUNCTIONS] = {func1, func2, func3, func4, func5};
 //**** End Custom Functions Section ****
 
 String getPinArray() {
@@ -744,7 +744,7 @@ String buildResponse() {
   String str;
 
   for (int i = 0; i < CUSTOM_FUNCTIONS; i++) {
-    f = HapiFunctions[i];
+    f = functions[i];
 
     if (f.fType.equals("dht")) {
       for (int j = 0; j < ARRAY_LENGTH(dhts); j++) {
