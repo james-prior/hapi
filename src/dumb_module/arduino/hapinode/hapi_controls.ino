@@ -34,7 +34,7 @@ void checkControls(void) {
   }
 }
 
-void control_thing(int i) {
+float control_thing(int i) {
   CFuncDef c;
   ControlData d;
   c = c_functions[i];
@@ -58,12 +58,3 @@ void control_thing(int i) {
     digitalWrite(d.hc_controlpin, d.hc_polarity);
   }
 }
-
-float controlPumps(int i) {
-  control_thing(i);
-}
-
-float controlLamps(int i) {
-  control_thing(i);
-}
-
