@@ -346,7 +346,7 @@ int pinDefaults[] = {
 // Analog input pins are assumed to be used as analog input pins
 int pinControl[] = {
                                   // DIGITAL
-  0, 0, 3, 3, 3, 3, 3, 0, 2, 1, 	//  0 -  9
+  0, 0, 3, 3, 3, 3, 3, 0, 2, 1,   //  0 -  9
 
   1, 1, 2, 3,                     // 10 - 13
                                   // ANALOG
