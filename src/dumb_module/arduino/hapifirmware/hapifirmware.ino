@@ -924,7 +924,7 @@ void loop() {
         inputControl = inputString.substring(6, 9);
         if (pinControl[inputPort.toInt()] == ANALOG_INPUT_PIN) {
           analogWrite(inputPort.toInt(), inputControl.toInt());
-        } // END OF if pinControl==ANALOG_INPUT_PIN
+        } // END OF if pinControl == ANALOG_INPUT_PIN
       }  // END Of aoc
 
       // doc (Digital Output Control) Sets a single digital output
@@ -944,7 +944,7 @@ void loop() {
             digitalWrite(inputPort.toInt(), inputControl.toInt());
           }
 
-        } // END OF if pinControl==DIGITAL_OUTPUT_PIN
+        } // END OF if pinControl == DIGITAL_OUTPUT_PIN
       }  // END Of doc
 
       // Get pin modes

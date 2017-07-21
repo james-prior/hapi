@@ -307,7 +307,7 @@ ControlData c_data[] = {ccontrol1, ccontrol2, ccontrol3, ccontrol4, ccontrol5, c
 void b2c(byte *bptr, char *cptr, int len) {
   int i;
   char c;
-  for (i=0; i<len; i++) {
+  for (i = 0; i < len; i++) {
     c = (bptr[i] >> 4) & 0x0f;
     c += '0';
     if (c > '9')

@@ -249,7 +249,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     return;
 
   Serial.println(F("Parsing .. "));
-  for (JsonObject::iterator it=command_topic.begin(); it!=command_topic.end(); ++it) {
+  for (JsonObject::iterator it = command_topic.begin(); it != command_topic.end(); ++it) {
     Serial.print(it->key);
     Serial.print(F(":"));
     Serial.println(it->value.as<char*>());
@@ -337,7 +337,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 // Function IO
     Number = INVALID_VALUE;
     AssetIdx = SENSORID_FN;                    // Asset Function IO
-    for (int i=0;i < ARRAY_LENGTH(s_functions);i++) {    // Scan for a match on the sensor name
+    for (int i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
       f = s_functions[i];                    // Point to Asset read function structure
       if (strcmp(command_topic["Asset"], f.fName) == 0) {  // Asset match?
         Number = i;                             // Match for Sensor name
@@ -350,7 +350,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     else {                                      // Did not find a sensor, so try controls
       Serial.println(F(" .. not Sensor Read"));
       AssetIdx = CONTROLID_FN;                 // Control Function IO
-      for (int i=0;i < ARRAY_LENGTH(c_functions);i++) { // Scan for a match on the control name
+      for (int i = 0; i < ARRAY_LENGTH(c_functions); i++) { // Scan for a match on the control name
         c = c_functions[i];                  // Point to control function structure
         if (strcmp(command_topic["Asset"], c.fName) == 0) {  // Asset match?
           Number = i;                           // Match for control name

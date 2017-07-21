@@ -28,7 +28,7 @@ void checkControls(void) {
   CFuncDef c;
   currentTime = now();            // Update currentTime and ..
                                   //  check all the control functions
-  for (int device=0;device<ARRAY_LENGTH(c_functions);device++) {
+  for (int device = 0; device < ARRAY_LENGTH(c_functions); device++) {
     c = c_functions[device];                //  initialize access structure
     c.oPtr(device);                            //  call the check function
   }
