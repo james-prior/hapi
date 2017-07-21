@@ -25,13 +25,10 @@ void setupControls(void) {
 }
 
 void checkControls(void) {
-  CFuncDef c;
-  currentTime = now();            // Update currentTime and ..
-                                  //  check all the control functions
-  for (int device = 0; device < ARRAY_LENGTH(c_functions); device++) {
-    c = c_functions[device];                //  initialize access structure
-    c.poll_time_thing_function(device);                            //  call the check function
-  }
+  currentTime = now();
+
+  for (int i = 0; i < ARRAY_LENGTH(c_functions); i++)
+    c_functions[i].poll_time_thing_function(i);
 }
 
 float poll_timed_thing(int i) {
