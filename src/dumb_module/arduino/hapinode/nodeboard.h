@@ -59,7 +59,7 @@ enum pin_control_enum {
 
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[] = {
+const enum pin_control_enum pinControl[] = {
   // digital
   UNUSED_PIN,               //  0
   UNUSED_PIN,               //  1
@@ -242,7 +242,7 @@ int pinDefaults[] = {
 
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[] = {
+const enum pin_control_enum pinControl[] = {
   // digital
   DIGITAL_OUTPUT_PIN, //  0
   DIGITAL_OUTPUT_PIN, //  1
@@ -323,7 +323,7 @@ int pinDefaults[] = {
 
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[] = {
+const enum pin_control_enum pinControl[] = {
   // digital
   UNUSED_PIN,         //  0
   UNUSED_PIN,         //  1
