@@ -432,13 +432,13 @@ void writeLine(String response, boolean EOL) {
 #ifdef RTU_ENET
     rtuServer.write(inChar);
 #endif
-    #ifdef RTU_ESP
+#ifdef RTU_ESP
     rtuServer.write(inChar);
 #endif
 #ifdef RTU_USB
     Serial.write(inChar);
 #endif
-    #ifdef RTU_UNO
+#ifdef RTU_UNO
     Serial.write(inChar);
 #endif
   }
@@ -447,13 +447,13 @@ void writeLine(String response, boolean EOL) {
 #ifdef RTU_ENET
       rtuServer.write(inChar);
 #endif
-      #ifdef RTU_ESP
+#ifdef RTU_ESP
       rtuServer.write(inChar);
 #endif
 #ifdef RTU_USB
       Serial.write(inChar);
 #endif
-      #ifdef RTU_UNO
+#ifdef RTU_UNO
       Serial.write(inChar);
 #endif
     }
