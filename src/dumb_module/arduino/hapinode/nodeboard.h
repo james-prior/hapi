@@ -136,7 +136,7 @@ const enum pin_control_enum pinControl[] = {
 
 // Default pin states
 // Defaults determine the value of output pins with the HN initializes
-int pinDefaults[] = {
+const int pinDefaults[] = {
   // digital
   LOW,  //  0
   LOW,  //  1
@@ -266,7 +266,7 @@ const enum pin_control_enum pinControl[] = {
 
 // Default pin states
 // Defaults determine the value of output pins with the HN initializes
-int pinDefaults[] = {
+const int pinDefaults[] = {
   // digital
   HIGH, //  0
   HIGH, //  1
@@ -400,7 +400,7 @@ const enum pin_control_enum pinControl[] = {
 
 // Default pin states
 // Defaults determine the value of output pins with the HN initializes
-int pinDefaults[] = {
+const int pinDefaults[] = {
   // digital
   LOW,  //  0
   LOW,  //  1
