@@ -31,7 +31,7 @@ void poll_timed_things(void) {
     c_functions[i].poll_time_thing_function(i);
 }
 
-float poll_timed_thing(int i) {
+void poll_timed_thing(int i) {
   CFuncDef c;
   ControlData d;
   c = c_functions[i];

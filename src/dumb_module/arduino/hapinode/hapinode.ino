@@ -267,7 +267,7 @@ struct CFuncDef {   //define a structure to associate a Name to generic control 
   const char *fType;
   const char *fUnit;
   int fPin;
-  GenericFP poll_time_thing_function;
+  void (*poll_time_thing_function)(int);
   GenericFP iPtr;
 };
 
