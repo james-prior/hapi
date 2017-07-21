@@ -267,18 +267,18 @@ struct CFuncDef {   //define a structure to associate a Name to generic control 
   const char *fType;
   const char *fUnit;
   int fPin;
-  GenericFP oPtr;
+  GenericFP poll_time_thing_function;
   GenericFP iPtr;
 };
 
 // Create a FuncDef for each custom control function
 // Format: abbreviation, context, Control data index, control function, data function
-CFuncDef cfunc1 = {"ppw", "Pump", "lpm", 1, &control_thing, &readSensorPin};
-CFuncDef cfunc2 = {"ppf", "Pump", "lpm", 2, &control_thing, &readSensorPin};
-CFuncDef cfunc3 = {"ppn", "Pump", "lpm", 3, &control_thing, &readTDS};
-CFuncDef cfunc4 = {"pHU", "Pump", "lpm", 4, &control_thing, &readpH};
-CFuncDef cfunc5 = {"pHD", "Pump", "lpm", 5, &control_thing, &readpH};
-CFuncDef cfunc6 = {"lmp", "Lamp", "lpm", 6, &control_thing, &readLightSensor};
+CFuncDef cfunc1 = {"ppw", "Pump", "lpm", 1, &poll_timed_thing, &readSensorPin};
+CFuncDef cfunc2 = {"ppf", "Pump", "lpm", 2, &poll_timed_thing, &readSensorPin};
+CFuncDef cfunc3 = {"ppn", "Pump", "lpm", 3, &poll_timed_thing, &readTDS};
+CFuncDef cfunc4 = {"pHU", "Pump", "lpm", 4, &poll_timed_thing, &readpH};
+CFuncDef cfunc5 = {"pHD", "Pump", "lpm", 5, &poll_timed_thing, &readpH};
+CFuncDef cfunc6 = {"lmp", "Lamp", "lpm", 6, &poll_timed_thing, &readLightSensor};
 CFuncDef c_functions[] = {cfunc1, cfunc2, cfunc3, cfunc4, cfunc5, cfunc6};
 
 struct ControlData {

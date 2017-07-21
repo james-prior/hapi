@@ -30,11 +30,11 @@ void checkControls(void) {
                                   //  check all the control functions
   for (int device = 0; device < ARRAY_LENGTH(c_functions); device++) {
     c = c_functions[device];                //  initialize access structure
-    c.oPtr(device);                            //  call the check function
+    c.poll_time_thing_function(device);                            //  call the check function
   }
 }
 
-float control_thing(int i) {
+float poll_timed_thing(int i) {
   CFuncDef c;
   ControlData d;
   c = c_functions[i];
