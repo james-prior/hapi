@@ -302,6 +302,10 @@ ControlData ccontrol5 = {"pHD", cpHDn_PIN, true, 0, 0, 0, false, spH_PIN, 0, 0};
 ControlData ccontrol6 = {"lmp", cLamp_PIN, true, 0, 0, 0, false, sLux_PIN, 0, 0};         // Lamp
 ControlData c_data[] = {ccontrol1, ccontrol2, ccontrol3, ccontrol4, ccontrol5, ccontrol6};
 
+#if ARRAY_LENGTH(c_functions) != ARRAY_LENGTH(c_data)
+#error ARRAY_LENGTH(c_functions) != ARRAY_LENGTH(c_data)
+#endif
+
 //**** End Sensors Section ****
 
 void b2c(byte *bptr, char *cptr, int len) {
