@@ -72,11 +72,11 @@ boolean sendMQTTStatus(void) {
 boolean sendAllMQTTAssets(void) {
   //Process digital pins
   for (int i = 0; i < NUM_DIGITAL; i++) {
-    switch (pinControl[i]) {
+    switch (pin_configurations[i].mode) {
     case DIGITAL_INPUT_PIN:
     case DIGITAL_INPUT_PULLUP_PIN:
     case DIGITAL_OUTPUT_PIN:
-    case ANALOG_OUTPUT_PIN:
+    case ANALOG_OUTPUT_PIN: // ^^^ does not jive with NUM_DIGITAL
       while (!sendMQTTAsset(SENSORID_DIO, i))  // Until it is sent
         ;
       break;

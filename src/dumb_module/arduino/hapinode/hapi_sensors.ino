@@ -22,9 +22,9 @@
 */
 
 void setupSensors(void) {
-// Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
-  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
-    switch (pinControl[i]) {
+  // Initialize pins.
+  for (int i = 0; i < ARRAY_LENGTH(pin_configurations); i++) {
+    switch (pin_configurations[i].mode) {
     case DIGITAL_INPUT_PIN:
       pinMode(i, INPUT);
       break;
@@ -33,7 +33,7 @@ void setupSensors(void) {
       break;
     case DIGITAL_OUTPUT_PIN:
       pinMode(i, OUTPUT);
-      digitalWrite(i, pinDefaults[i]);
+      digitalWrite(i, pin_configurations[i].default_value);
       break;
     case ANALOG_OUTPUT_PIN:
       pinMode(i, OUTPUT);
@@ -66,12 +66,12 @@ void setupSensors(void) {
 String getPinArray() {
   // Returns all pin configuration information
   String response = "";
-  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(pin_configurations); i++) {
     if (i < NUM_DIGITAL) {
-      response += String(i) + String(pinControl[i]);
+      response += String(i) + String(pin_configurations[i].mode);
     }
     else {
-      response += "A" + String(i - NUM_DIGITAL) + String(pinControl[i]);
+      response += "A" + String(i - NUM_DIGITAL) + String(pin_configurations[i].mode);
     }
   }
   return response;

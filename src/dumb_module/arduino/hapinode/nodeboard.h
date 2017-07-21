@@ -22,7 +22,7 @@
 
 #define ARRAY_LENGTH(x) (sizeof(x)/sizeof(*(x)))
 
-enum pin_control_enum {
+enum pin_mode_enum {
   UNUSED_PIN, // or reserved
   DIGITAL_INPUT_PIN,
   DIGITAL_INPUT_PULLUP_PIN,
@@ -31,6 +31,10 @@ enum pin_control_enum {
   ANALOG_INPUT_PIN
 };
 
+struct pin_config_struct {
+  pin_mode_enum mode;
+  int default_value;
+};
 
 #ifdef HN_ENET             // Mega256
 #define NUM_DIGITAL 54    // Number of digital I/O pins
@@ -57,160 +61,81 @@ enum pin_control_enum {
 #define cLamp_PIN 14      // Lamp control pin
 #define sLux_PIN  4       // Light sensor pin
 
-// Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-const enum pin_control_enum pinControl[] = {
+const struct pin_config_struct pin_configurations[] = {
   // digital
-  UNUSED_PIN,               //  0
-  UNUSED_PIN,               //  1
-  DIGITAL_OUTPUT_PIN,       //  2
-  DIGITAL_OUTPUT_PIN,       //  3
-  UNUSED_PIN,               //  4
-  DIGITAL_OUTPUT_PIN,       //  5
-  DIGITAL_OUTPUT_PIN,       //  6
-  DIGITAL_OUTPUT_PIN,       //  7
-  DIGITAL_OUTPUT_PIN,       //  8
-  DIGITAL_OUTPUT_PIN,       //  9
-  UNUSED_PIN,               // 10
-  DIGITAL_INPUT_PULLUP_PIN, // 11
-  DIGITAL_INPUT_PIN,        // 12
-  DIGITAL_OUTPUT_PIN,       // 13
-  UNUSED_PIN,               // 14
-  UNUSED_PIN,               // 15
-  UNUSED_PIN,               // 16
-  UNUSED_PIN,               // 17
-  UNUSED_PIN,               // 18
-  UNUSED_PIN,               // 19
-  UNUSED_PIN,               // 20
-  UNUSED_PIN,               // 21
-  DIGITAL_OUTPUT_PIN,       // 22
-  DIGITAL_OUTPUT_PIN,       // 23
-  DIGITAL_OUTPUT_PIN,       // 24
-  DIGITAL_OUTPUT_PIN,       // 25
-  DIGITAL_OUTPUT_PIN,       // 26
-  DIGITAL_OUTPUT_PIN,       // 27
-  DIGITAL_INPUT_PIN,        // 28
-  DIGITAL_INPUT_PIN,        // 29
-  DIGITAL_INPUT_PIN,        // 30
-  DIGITAL_INPUT_PIN,        // 31
-  DIGITAL_INPUT_PIN,        // 32
-  DIGITAL_INPUT_PIN,        // 33
-  DIGITAL_INPUT_PIN,        // 34
-  DIGITAL_INPUT_PIN,        // 35
-  DIGITAL_INPUT_PIN,        // 36
-  DIGITAL_INPUT_PIN,        // 37
-  DIGITAL_INPUT_PIN,        // 38
-  DIGITAL_INPUT_PIN,        // 39
-  DIGITAL_INPUT_PIN,        // 40
-  DIGITAL_INPUT_PIN,        // 41
-  DIGITAL_INPUT_PIN,        // 42
-  DIGITAL_INPUT_PIN,        // 43
-  DIGITAL_INPUT_PIN,        // 44
-  DIGITAL_INPUT_PIN,        // 45
-  DIGITAL_INPUT_PIN,        // 46
-  DIGITAL_INPUT_PIN,        // 47
-  DIGITAL_INPUT_PULLUP_PIN, // 48
-  DIGITAL_INPUT_PULLUP_PIN, // 49
-  UNUSED_PIN,               // 50
-  UNUSED_PIN,               // 51
-  UNUSED_PIN,               // 52
-  UNUSED_PIN,               // 53
+  {UNUSED_PIN,               LOW }, //  0
+  {UNUSED_PIN,               LOW }, //  1
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  2
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  3
+  {UNUSED_PIN,               LOW }, //  4
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  5
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  6
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  7
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  8
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  9
+  {UNUSED_PIN,               LOW }, // 10
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 11
+  {DIGITAL_INPUT_PIN,        LOW }, // 12
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 13
+  {UNUSED_PIN,               LOW }, // 14
+  {UNUSED_PIN,               LOW }, // 15
+  {UNUSED_PIN,               LOW }, // 16
+  {UNUSED_PIN,               LOW }, // 17
+  {UNUSED_PIN,               LOW }, // 18
+  {UNUSED_PIN,               LOW }, // 19
+  {UNUSED_PIN,               LOW }, // 20
+  {UNUSED_PIN,               LOW }, // 21
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 22
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 23
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 24
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 25
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 26
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 27
+  {DIGITAL_INPUT_PIN,        LOW }, // 28
+  {DIGITAL_INPUT_PIN,        LOW }, // 29
+  {DIGITAL_INPUT_PIN,        LOW }, // 30
+  {DIGITAL_INPUT_PIN,        LOW }, // 31
+  {DIGITAL_INPUT_PIN,        LOW }, // 32
+  {DIGITAL_INPUT_PIN,        LOW }, // 33
+  {DIGITAL_INPUT_PIN,        LOW }, // 34
+  {DIGITAL_INPUT_PIN,        LOW }, // 35
+  {DIGITAL_INPUT_PIN,        LOW }, // 36
+  {DIGITAL_INPUT_PIN,        LOW }, // 37
+  {DIGITAL_INPUT_PIN,        LOW }, // 38
+  {DIGITAL_INPUT_PIN,        LOW }, // 39
+  {DIGITAL_INPUT_PIN,        LOW }, // 40
+  {DIGITAL_INPUT_PIN,        LOW }, // 41
+  {DIGITAL_INPUT_PIN,        LOW }, // 42
+  {DIGITAL_INPUT_PIN,        LOW }, // 43
+  {DIGITAL_INPUT_PIN,        LOW }, // 44
+  {DIGITAL_INPUT_PIN,        LOW }, // 45
+  {DIGITAL_INPUT_PIN,        LOW }, // 46
+  {DIGITAL_INPUT_PIN,        LOW }, // 47
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 48
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 49
+  {UNUSED_PIN,               LOW }, // 50
+  {UNUSED_PIN,               LOW }, // 51
+  {UNUSED_PIN,               LOW }, // 52
+  {UNUSED_PIN,               LOW }, // 53
   // analog
-  ANALOG_INPUT_PIN,         // 54
-  ANALOG_INPUT_PIN,         // 55
-  ANALOG_INPUT_PIN,         // 56
-  ANALOG_INPUT_PIN,         // 57
-  ANALOG_INPUT_PIN,         // 58
-  ANALOG_INPUT_PIN,         // 59
-  ANALOG_INPUT_PIN,         // 60
-  ANALOG_INPUT_PIN,         // 61
-  ANALOG_INPUT_PIN,         // 62
-  ANALOG_INPUT_PIN,         // 63
-  ANALOG_INPUT_PIN,         // 64
-  ANALOG_INPUT_PIN,         // 65
-  UNUSED_PIN,               // 66
-  UNUSED_PIN,               // 67
-  UNUSED_PIN,               // 68
-  UNUSED_PIN                // 69
+  {ANALOG_INPUT_PIN,         LOW }, // 54
+  {ANALOG_INPUT_PIN,         LOW }, // 55
+  {ANALOG_INPUT_PIN,         LOW }, // 56
+  {ANALOG_INPUT_PIN,         LOW }, // 57
+  {ANALOG_INPUT_PIN,         LOW }, // 58
+  {ANALOG_INPUT_PIN,         LOW }, // 59
+  {ANALOG_INPUT_PIN,         LOW }, // 60
+  {ANALOG_INPUT_PIN,         LOW }, // 61
+  {ANALOG_INPUT_PIN,         LOW }, // 62
+  {ANALOG_INPUT_PIN,         LOW }, // 63
+  {ANALOG_INPUT_PIN,         LOW }, // 64
+  {ANALOG_INPUT_PIN,         LOW }, // 65
+  {UNUSED_PIN,               LOW }, // 66
+  {UNUSED_PIN,               LOW }, // 67
+  {UNUSED_PIN,               LOW }, // 68
+  {UNUSED_PIN,               LOW }  // 69
 };
-
-// Default pin states
-// Defaults determine the value of output pins with the HN initializes
-const int pinDefaults[] = {
-  // digital
-  LOW,  //  0
-  LOW,  //  1
-  HIGH, //  2
-  HIGH, //  3
-  LOW,  //  4
-  HIGH, //  5
-  HIGH, //  6
-  HIGH, //  7
-  HIGH, //  8
-  HIGH, //  9
-  LOW,  // 10
-  LOW,  // 11
-  LOW,  // 12
-  LOW,  // 13
-  LOW,  // 14
-  LOW,  // 15
-  LOW,  // 16
-  LOW,  // 17
-  LOW,  // 18
-  LOW,  // 19
-  LOW,  // 20
-  LOW,  // 21
-  LOW,  // 22
-  LOW,  // 23
-  LOW,  // 24
-  LOW,  // 25
-  LOW,  // 26
-  LOW,  // 27
-  LOW,  // 28
-  LOW,  // 29
-  LOW,  // 30
-  LOW,  // 31
-  LOW,  // 32
-  LOW,  // 33
-  LOW,  // 34
-  LOW,  // 35
-  LOW,  // 36
-  LOW,  // 37
-  LOW,  // 38
-  LOW,  // 39
-  LOW,  // 40
-  LOW,  // 41
-  LOW,  // 42
-  LOW,  // 43
-  LOW,  // 44
-  LOW,  // 45
-  LOW,  // 46
-  LOW,  // 47
-  LOW,  // 48
-  LOW,  // 49
-  LOW,  // 50
-  LOW,  // 51
-  LOW,  // 52
-  LOW,  // 53
-  // analog
-  LOW,  // 54
-  LOW,  // 55
-  LOW,  // 56
-  LOW,  // 57
-  LOW,  // 58
-  LOW,  // 59
-  LOW,  // 60
-  LOW,  // 61
-  LOW,  // 62
-  LOW,  // 63
-  LOW,  // 64
-  LOW,  // 65
-  LOW,  // 66
-  LOW,  // 67
-  LOW,  // 68
-  LOW   // 69
-};
-
 #endif
 
 #ifdef HN_ESP8266
@@ -240,53 +165,28 @@ const int pinDefaults[] = {
 #define cLamp_PIN 12      // Lamp control pin
 #define sLamp_PIN A0      // Analog Lamp sensor pin
 
-// Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-const enum pin_control_enum pinControl[] = {
+const struct pin_config_struct pin_configurations[] = {
   // digital
-  DIGITAL_OUTPUT_PIN, //  0
-  DIGITAL_OUTPUT_PIN, //  1
-  DIGITAL_OUTPUT_PIN, //  2
-  DIGITAL_INPUT_PIN,  //  3
-  DIGITAL_OUTPUT_PIN, //  4
-  DIGITAL_OUTPUT_PIN, //  5
-  UNUSED_PIN,         //  6
-  UNUSED_PIN,         //  7
-  UNUSED_PIN,         //  8
-  UNUSED_PIN,         //  9
-  UNUSED_PIN,         // 10
-  UNUSED_PIN,         // 11
-  DIGITAL_OUTPUT_PIN, // 12
-  DIGITAL_OUTPUT_PIN, // 13
-  DIGITAL_OUTPUT_PIN, // 14
-  DIGITAL_OUTPUT_PIN, // 15
-  DIGITAL_OUTPUT_PIN, // 16
-  ANALOG_INPUT_PIN    // 17
-};
-
-// Default pin states
-// Defaults determine the value of output pins with the HN initializes
-const int pinDefaults[] = {
-  // digital
-  HIGH, //  0
-  HIGH, //  1
-  HIGH, //  2
-  HIGH, //  3
-  HIGH, //  4
-  HIGH, //  5
-  LOW,  //  6
-  LOW,  //  7
-  LOW,  //  8
-  LOW,  //  9
-  LOW,  // 10
-  LOW,  // 11
-  HIGH, // 12
-  HIGH, // 13
-  HIGH, // 14
-  HIGH, // 15
-  HIGH, // 16
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  0
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  1
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  2
+  {DIGITAL_INPUT_PIN,  HIGH}, //  3
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  4
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  5
+  {UNUSED_PIN,         LOW }, //  6
+  {UNUSED_PIN,         LOW }, //  7
+  {UNUSED_PIN,         LOW }, //  8
+  {UNUSED_PIN,         LOW }, //  9
+  {UNUSED_PIN,         LOW }, // 10
+  {UNUSED_PIN,         LOW }, // 11
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 12
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 13
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 14
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 15
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 16
   // analog
-  5     // A0 input
+  {ANALOG_INPUT_PIN,   5   }  // A0 input
 };
 #endif
 
@@ -321,164 +221,83 @@ const int pinDefaults[] = {
 #define cLamp_PIN 12      // Lamp control pin
 #define sLux_PIN  32      // Light sensor pin
 
-// Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-const enum pin_control_enum pinControl[] = {
+const struct pin_config_struct pin_configurations[] = {
   // digital
-  UNUSED_PIN,         //  0
-  UNUSED_PIN,         //  1
-  DIGITAL_OUTPUT_PIN, //  2
-  UNUSED_PIN,         //  3
-  DIGITAL_OUTPUT_PIN, //  4
-  DIGITAL_OUTPUT_PIN, //  5
-  UNUSED_PIN,         //  6
-  UNUSED_PIN,         //  7
-  UNUSED_PIN,         //  8
-  UNUSED_PIN,         //  9
-  UNUSED_PIN,         // 10
-  UNUSED_PIN,         // 11
-  DIGITAL_OUTPUT_PIN, // 12
-  DIGITAL_OUTPUT_PIN, // 13
-  DIGITAL_OUTPUT_PIN, // 14
-  DIGITAL_OUTPUT_PIN, // 15
-  UNUSED_PIN,         // 16
-  UNUSED_PIN,         // 17
-  DIGITAL_OUTPUT_PIN, // 18
-  DIGITAL_OUTPUT_PIN, // 19
-  UNUSED_PIN,         // 20
-  DIGITAL_OUTPUT_PIN, // 21
-  DIGITAL_OUTPUT_PIN, // 22
-  DIGITAL_OUTPUT_PIN, // 23
-  UNUSED_PIN,         // 24
-  DIGITAL_OUTPUT_PIN, // 25
-  DIGITAL_OUTPUT_PIN, // 26
-  DIGITAL_OUTPUT_PIN, // 27
-  UNUSED_PIN,         // 28
-  UNUSED_PIN,         // 29
-  UNUSED_PIN,         // 30
-  UNUSED_PIN,         // 31
-  DIGITAL_OUTPUT_PIN, // 32
-  DIGITAL_OUTPUT_PIN, // 33
-  DIGITAL_OUTPUT_PIN, // 34
-  DIGITAL_OUTPUT_PIN, // 35
-  UNUSED_PIN,         // 36
-  UNUSED_PIN,         // 37
-  UNUSED_PIN,         // 38
-  UNUSED_PIN,         // 39
-  UNUSED_PIN,         // 40
-  UNUSED_PIN,         // 41
-  UNUSED_PIN,         // 42
-  UNUSED_PIN,         // 43
-  UNUSED_PIN,         // 44
-  UNUSED_PIN,         // 45
-  UNUSED_PIN,         // 46
-  UNUSED_PIN,         // 47
-  UNUSED_PIN,         // 48
-  UNUSED_PIN,         // 49
-  UNUSED_PIN,         // 50
-  UNUSED_PIN,         // 51
-  UNUSED_PIN,         // 52
-  UNUSED_PIN,         // 53
+  {UNUSED_PIN,         LOW }, //  0
+  {UNUSED_PIN,         LOW }, //  1
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  2
+  {UNUSED_PIN,         HIGH}, //  3
+  {DIGITAL_OUTPUT_PIN, LOW }, //  4
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  5
+  {UNUSED_PIN,         HIGH}, //  6
+  {UNUSED_PIN,         HIGH}, //  7
+  {UNUSED_PIN,         HIGH}, //  8
+  {UNUSED_PIN,         HIGH}, //  9
+  {UNUSED_PIN,         LOW }, // 10
+  {UNUSED_PIN,         LOW }, // 11
+  {DIGITAL_OUTPUT_PIN, LOW }, // 12
+  {DIGITAL_OUTPUT_PIN, LOW }, // 13
+  {DIGITAL_OUTPUT_PIN, LOW }, // 14
+  {DIGITAL_OUTPUT_PIN, LOW }, // 15
+  {UNUSED_PIN,         LOW }, // 16
+  {UNUSED_PIN,         LOW }, // 17
+  {DIGITAL_OUTPUT_PIN, LOW }, // 18
+  {DIGITAL_OUTPUT_PIN, LOW }, // 19
+  {UNUSED_PIN,         LOW }, // 20
+  {DIGITAL_OUTPUT_PIN, LOW }, // 21
+  {DIGITAL_OUTPUT_PIN, LOW }, // 22
+  {DIGITAL_OUTPUT_PIN, LOW }, // 23
+  {UNUSED_PIN,         LOW }, // 24
+  {DIGITAL_OUTPUT_PIN, LOW }, // 25
+  {DIGITAL_OUTPUT_PIN, LOW }, // 26
+  {DIGITAL_OUTPUT_PIN, LOW }, // 27
+  {UNUSED_PIN,         LOW }, // 28
+  {UNUSED_PIN,         LOW }, // 29
+  {UNUSED_PIN,         LOW }, // 30
+  {UNUSED_PIN,         LOW }, // 31
+  {DIGITAL_OUTPUT_PIN, LOW }, // 32
+  {DIGITAL_OUTPUT_PIN, LOW }, // 33
+  {DIGITAL_OUTPUT_PIN, LOW }, // 34
+  {DIGITAL_OUTPUT_PIN, LOW }, // 35
+  {UNUSED_PIN,         LOW }, // 36
+  {UNUSED_PIN,         LOW }, // 37
+  {UNUSED_PIN,         LOW }, // 38
+  {UNUSED_PIN,         LOW }, // 39
+  {UNUSED_PIN,         LOW }, // 40
+  {UNUSED_PIN,         LOW }, // 41
+  {UNUSED_PIN,         LOW }, // 42
+  {UNUSED_PIN,         LOW }, // 43
+  {UNUSED_PIN,         LOW }, // 44
+  {UNUSED_PIN,         LOW }, // 45
+  {UNUSED_PIN,         LOW }, // 46
+  {UNUSED_PIN,         LOW }, // 47
+  {UNUSED_PIN,         LOW }, // 48
+  {UNUSED_PIN,         LOW }, // 49
+  {UNUSED_PIN,         LOW }, // 50
+  {UNUSED_PIN,         LOW }, // 51
+  {UNUSED_PIN,         LOW }, // 52
+  {UNUSED_PIN,         LOW }, // 53
   // analog
-  ANALOG_INPUT_PIN,   // 54
-  ANALOG_INPUT_PIN,   // 55
-  ANALOG_INPUT_PIN,   // 56
-  ANALOG_INPUT_PIN,   // 57
-  ANALOG_INPUT_PIN,   // 58
-  ANALOG_INPUT_PIN,   // 59
-  ANALOG_INPUT_PIN,   // 60
-  ANALOG_INPUT_PIN,   // 61
-  ANALOG_INPUT_PIN,   // 62
-  ANALOG_INPUT_PIN,   // 63
-  ANALOG_INPUT_PIN,   // 64
-  ANALOG_INPUT_PIN,   // 65
-  UNUSED_PIN,         // 66
-  UNUSED_PIN,         // 67
-  UNUSED_PIN,         // 68
-  UNUSED_PIN          // 69
-};
-
-// Default pin states
-// Defaults determine the value of output pins with the HN initializes
-const int pinDefaults[] = {
-  // digital
-  LOW,  //  0
-  LOW,  //  1
-  HIGH, //  2
-  HIGH, //  3
-  LOW,  //  4
-  HIGH, //  5
-  HIGH, //  6
-  HIGH, //  7
-  HIGH, //  8
-  HIGH, //  9
-  LOW,  // 10
-  LOW,  // 11
-  LOW,  // 12
-  LOW,  // 13
-  LOW,  // 14
-  LOW,  // 15
-  LOW,  // 16
-  LOW,  // 17
-  LOW,  // 18
-  LOW,  // 19
-  LOW,  // 20
-  LOW,  // 21
-  LOW,  // 22
-  LOW,  // 23
-  LOW,  // 24
-  LOW,  // 25
-  LOW,  // 26
-  LOW,  // 27
-  LOW,  // 28
-  LOW,  // 29
-  LOW,  // 30
-  LOW,  // 31
-  LOW,  // 32
-  LOW,  // 33
-  LOW,  // 34
-  LOW,  // 35
-  LOW,  // 36
-  LOW,  // 37
-  LOW,  // 38
-  LOW,  // 39
-  LOW,  // 40
-  LOW,  // 41
-  LOW,  // 42
-  LOW,  // 43
-  LOW,  // 44
-  LOW,  // 45
-  LOW,  // 46
-  LOW,  // 47
-  LOW,  // 48
-  LOW,  // 49
-  LOW,  // 50
-  LOW,  // 51
-  LOW,  // 52
-  LOW,  // 53
-  // analog
-  LOW,  // 54
-  LOW,  // 55
-  LOW,  // 56
-  LOW,  // 57
-  LOW,  // 58
-  LOW,  // 59
-  LOW,  // 60
-  LOW,  // 61
-  LOW,  // 62
-  LOW,  // 63
-  LOW,  // 64
-  LOW,  // 65
-  LOW,  // 66
-  LOW,  // 67
-  LOW,  // 68
-  LOW   // 69
+  {ANALOG_INPUT_PIN,   LOW }, // 54
+  {ANALOG_INPUT_PIN,   LOW }, // 55
+  {ANALOG_INPUT_PIN,   LOW }, // 56
+  {ANALOG_INPUT_PIN,   LOW }, // 57
+  {ANALOG_INPUT_PIN,   LOW }, // 58
+  {ANALOG_INPUT_PIN,   LOW }, // 59
+  {ANALOG_INPUT_PIN,   LOW }, // 60
+  {ANALOG_INPUT_PIN,   LOW }, // 61
+  {ANALOG_INPUT_PIN,   LOW }, // 62
+  {ANALOG_INPUT_PIN,   LOW }, // 63
+  {ANALOG_INPUT_PIN,   LOW }, // 64
+  {ANALOG_INPUT_PIN,   LOW }, // 65
+  {UNUSED_PIN,         LOW }, // 66
+  {UNUSED_PIN,         LOW }, // 67
+  {UNUSED_PIN,         LOW }, // 68
+  {UNUSED_PIN,         LOW }  // 69
 };
 #endif
 
-#define NUM_ANALOG (ARRAY_LENGTH(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
-#if ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
-#error ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
-#endif
+#define NUM_ANALOG (ARRAY_LENGTH(pin_configurations) - NUM_DIGITAL) // Number of analog I/O pins
 
 #endif //HAPIBOARD_H

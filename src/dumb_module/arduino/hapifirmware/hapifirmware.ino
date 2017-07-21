@@ -45,6 +45,20 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
+enum pin_mode_enum {
+  UNUSED_PIN, // or reserved
+  DIGITAL_INPUT_PIN,
+  DIGITAL_INPUT_PULLUP_PIN,
+  DIGITAL_OUTPUT_PIN,
+  ANALOG_OUTPUT_PIN,
+  ANALOG_INPUT_PIN
+};
+
+struct pin_config_struct {
+  pin_mode_enum mode;
+  int default_value;
+};
+
 #ifdef RTU_ENET
 #define NUM_DIGITAL 54    // Number of digital I/O pins
 #define PIN_MAP_SIZE NUM_DIGITAL*2   // Array size for default digital state data
@@ -56,167 +70,80 @@
 #define DHTTYPE DHT22    // Sets DHT type
 #define DHTPIN 12        // Reserved pin for DHT-22 sensor
 
-
-enum pin_control_enum {
-    UNUSED_PIN, // or reserved
-    DIGITAL_INPUT_PIN,
-    DIGITAL_INPUT_PULLUP_PIN,
-    DIGITAL_OUTPUT_PIN,
-    ANALOG_OUTPUT_PIN,
-    ANALOG_INPUT_PIN
-};
-// Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-const enum pin_control_enum pinControl[] = {
-  // DIGITAL
-  UNUSED_PIN,                //  0
-  UNUSED_PIN,                //  1
-  DIGITAL_OUTPUT_PIN,        //  2
-  DIGITAL_OUTPUT_PIN,        //  3
-  UNUSED_PIN,                //  4
-  DIGITAL_OUTPUT_PIN,        //  5
-  DIGITAL_OUTPUT_PIN,        //  6
-  DIGITAL_OUTPUT_PIN,        //  7
-  DIGITAL_OUTPUT_PIN,        //  8
-  DIGITAL_OUTPUT_PIN,        //  9
-  UNUSED_PIN,                // 10
-  DIGITAL_INPUT_PULLUP_PIN,  // 11
-  DIGITAL_INPUT_PIN,         // 12
-  DIGITAL_OUTPUT_PIN,        // 13
-  UNUSED_PIN,                // 14
-  UNUSED_PIN,                // 15
-  UNUSED_PIN,                // 16
-  UNUSED_PIN,                // 17
-  UNUSED_PIN,                // 18
-  UNUSED_PIN,                // 19
-  UNUSED_PIN,                // 20
-  UNUSED_PIN,                // 21
-  DIGITAL_OUTPUT_PIN,        // 22
-  DIGITAL_OUTPUT_PIN,        // 23
-  DIGITAL_OUTPUT_PIN,        // 24
-  DIGITAL_OUTPUT_PIN,        // 25
-  DIGITAL_OUTPUT_PIN,        // 26
-  DIGITAL_OUTPUT_PIN,        // 27
-  DIGITAL_INPUT_PIN,         // 28
-  DIGITAL_INPUT_PIN,         // 29
-  DIGITAL_INPUT_PIN,         // 30
-  DIGITAL_INPUT_PIN,         // 31
-  DIGITAL_INPUT_PIN,         // 32
-  DIGITAL_INPUT_PIN,         // 33
-  DIGITAL_INPUT_PIN,         // 34
-  DIGITAL_INPUT_PIN,         // 35
-  DIGITAL_INPUT_PIN,         // 36
-  DIGITAL_INPUT_PIN,         // 37
-  DIGITAL_INPUT_PIN,         // 38
-  DIGITAL_INPUT_PIN,         // 39
-  DIGITAL_INPUT_PIN,         // 40
-  DIGITAL_INPUT_PIN,         // 41
-  DIGITAL_INPUT_PIN,         // 42
-  DIGITAL_INPUT_PIN,         // 43
-  DIGITAL_INPUT_PIN,         // 44
-  DIGITAL_INPUT_PIN,         // 45
-  DIGITAL_INPUT_PIN,         // 46
-  DIGITAL_INPUT_PIN,         // 47
-  DIGITAL_INPUT_PULLUP_PIN,  // 48
-  DIGITAL_INPUT_PULLUP_PIN,  // 49
-  UNUSED_PIN,                // 50
-  UNUSED_PIN,                // 51
-  UNUSED_PIN,                // 52
-  UNUSED_PIN,                // 53
-  // ANALOG
-  ANALOG_INPUT_PIN,          // 54
-  ANALOG_INPUT_PIN,          // 55
-  ANALOG_INPUT_PIN,          // 56
-  ANALOG_INPUT_PIN,          // 57
-  ANALOG_INPUT_PIN,          // 58
-  ANALOG_INPUT_PIN,          // 59
-  ANALOG_INPUT_PIN,          // 60
-  ANALOG_INPUT_PIN,          // 61
-  ANALOG_INPUT_PIN,          // 62
-  ANALOG_INPUT_PIN,          // 63
-  ANALOG_INPUT_PIN,          // 64
-  ANALOG_INPUT_PIN,          // 65
-  UNUSED_PIN,                // 66
-  UNUSED_PIN,                // 67
-  UNUSED_PIN,                // 68
-  UNUSED_PIN                 // 69
-};
-
-// Default pin states
-// Defaults determine the value of output pins with the RTU initializes
-const int pinDefaults[] = {
+const struct pin_config_struct pin_configurations[] = {
   // digital
-  LOW,  //  0
-  LOW,  //  1
-  HIGH, //  2
-  HIGH, //  3
-  LOW,  //  4
-  HIGH, //  5
-  HIGH, //  6
-  HIGH, //  7
-  HIGH, //  8
-  HIGH, //  9
-  LOW,  // 10
-  LOW,  // 11
-  LOW,  // 12
-  LOW,  // 13
-  LOW,  // 14
-  LOW,  // 15
-  LOW,  // 16
-  LOW,  // 17
-  LOW,  // 18
-  LOW,  // 19
-  LOW,  // 20
-  LOW,  // 21
-  LOW,  // 22
-  LOW,  // 23
-  LOW,  // 24
-  LOW,  // 25
-  LOW,  // 26
-  LOW,  // 27
-  LOW,  // 28
-  LOW,  // 29
-  LOW,  // 30
-  LOW,  // 31
-  LOW,  // 32
-  LOW,  // 33
-  LOW,  // 34
-  LOW,  // 35
-  LOW,  // 36
-  LOW,  // 37
-  LOW,  // 38
-  LOW,  // 39
-  LOW,  // 40
-  LOW,  // 41
-  LOW,  // 42
-  LOW,  // 43
-  LOW,  // 44
-  LOW,  // 45
-  LOW,  // 46
-  LOW,  // 47
-  LOW,  // 48
-  LOW,  // 49
-  LOW,  // 50
-  LOW,  // 51
-  LOW,  // 52
-  LOW,  // 53
+  {UNUSED_PIN,               LOW }, //  0
+  {UNUSED_PIN,               LOW }, //  1
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  2
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  3
+  {UNUSED_PIN,               LOW }, //  4
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  5
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  6
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  7
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  8
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  9
+  {UNUSED_PIN,               LOW }, // 10
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 11
+  {DIGITAL_INPUT_PIN,        LOW }, // 12
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 13
+  {UNUSED_PIN,               LOW }, // 14
+  {UNUSED_PIN,               LOW }, // 15
+  {UNUSED_PIN,               LOW }, // 16
+  {UNUSED_PIN,               LOW }, // 17
+  {UNUSED_PIN,               LOW }, // 18
+  {UNUSED_PIN,               LOW }, // 19
+  {UNUSED_PIN,               LOW }, // 20
+  {UNUSED_PIN,               LOW }, // 21
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 22
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 23
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 24
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 25
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 26
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 27
+  {DIGITAL_INPUT_PIN,        LOW }, // 28
+  {DIGITAL_INPUT_PIN,        LOW }, // 29
+  {DIGITAL_INPUT_PIN,        LOW }, // 30
+  {DIGITAL_INPUT_PIN,        LOW }, // 31
+  {DIGITAL_INPUT_PIN,        LOW }, // 32
+  {DIGITAL_INPUT_PIN,        LOW }, // 33
+  {DIGITAL_INPUT_PIN,        LOW }, // 34
+  {DIGITAL_INPUT_PIN,        LOW }, // 35
+  {DIGITAL_INPUT_PIN,        LOW }, // 36
+  {DIGITAL_INPUT_PIN,        LOW }, // 37
+  {DIGITAL_INPUT_PIN,        LOW }, // 38
+  {DIGITAL_INPUT_PIN,        LOW }, // 39
+  {DIGITAL_INPUT_PIN,        LOW }, // 40
+  {DIGITAL_INPUT_PIN,        LOW }, // 41
+  {DIGITAL_INPUT_PIN,        LOW }, // 42
+  {DIGITAL_INPUT_PIN,        LOW }, // 43
+  {DIGITAL_INPUT_PIN,        LOW }, // 44
+  {DIGITAL_INPUT_PIN,        LOW }, // 45
+  {DIGITAL_INPUT_PIN,        LOW }, // 46
+  {DIGITAL_INPUT_PIN,        LOW }, // 47
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 48
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 49
+  {UNUSED_PIN,               LOW }, // 50
+  {UNUSED_PIN,               LOW }, // 51
+  {UNUSED_PIN,               LOW }, // 52
+  {UNUSED_PIN,               LOW }, // 53
   // analog
-  LOW,  // 54
-  LOW,  // 55
-  LOW,  // 56
-  LOW,  // 57
-  LOW,  // 58
-  LOW,  // 59
-  LOW,  // 60
-  LOW,  // 61
-  LOW,  // 62
-  LOW,  // 63
-  LOW,  // 64
-  LOW,  // 65
-  LOW,  // 66
-  LOW,  // 67
-  LOW,  // 68
-  LOW   // 69
+  {ANALOG_INPUT_PIN,         LOW }, // 54
+  {ANALOG_INPUT_PIN,         LOW }, // 55
+  {ANALOG_INPUT_PIN,         LOW }, // 56
+  {ANALOG_INPUT_PIN,         LOW }, // 57
+  {ANALOG_INPUT_PIN,         LOW }, // 58
+  {ANALOG_INPUT_PIN,         LOW }, // 59
+  {ANALOG_INPUT_PIN,         LOW }, // 60
+  {ANALOG_INPUT_PIN,         LOW }, // 61
+  {ANALOG_INPUT_PIN,         LOW }, // 62
+  {ANALOG_INPUT_PIN,         LOW }, // 63
+  {ANALOG_INPUT_PIN,         LOW }, // 64
+  {ANALOG_INPUT_PIN,         LOW }, // 65
+  {UNUSED_PIN,               LOW }, // 66
+  {UNUSED_PIN,               LOW }, // 67
+  {UNUSED_PIN,               LOW }, // 68
+  {UNUSED_PIN,               LOW }  // 69
 };
 #endif
 
@@ -232,162 +159,81 @@ const int pinDefaults[] = {
 #define DHTTYPE DHT22    // Sets DHT type
 #define DHTPIN 12        // Reserved pin for DHT-22 sensor
 
-
-// Default pin modes
-// 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-const enum pin_control_enum pinControl[] = {
+const struct pin_config_struct pin_configurations[] = {
   // digital
-  UNUSED_PIN,                //  0
-  UNUSED_PIN,                //  1
-  DIGITAL_OUTPUT_PIN,        //  2
-  DIGITAL_OUTPUT_PIN,        //  3
-  UNUSED_PIN,                //  4
-  DIGITAL_OUTPUT_PIN,        //  5
-  DIGITAL_OUTPUT_PIN,        //  6
-  DIGITAL_OUTPUT_PIN,        //  7
-  DIGITAL_OUTPUT_PIN,        //  8
-  DIGITAL_OUTPUT_PIN,        //  9
-  UNUSED_PIN,                // 10
-  DIGITAL_INPUT_PULLUP_PIN,  // 11
-  DIGITAL_INPUT_PIN,         // 12
-  DIGITAL_OUTPUT_PIN,        // 13
-  UNUSED_PIN,                // 14
-  UNUSED_PIN,                // 15
-  UNUSED_PIN,                // 16
-  UNUSED_PIN,                // 17
-  UNUSED_PIN,                // 18
-  UNUSED_PIN,                // 19
-  UNUSED_PIN,                // 20
-  UNUSED_PIN,                // 21
-  DIGITAL_OUTPUT_PIN,        // 22
-  DIGITAL_OUTPUT_PIN,        // 23
-  DIGITAL_OUTPUT_PIN,        // 24
-  DIGITAL_OUTPUT_PIN,        // 25
-  DIGITAL_OUTPUT_PIN,        // 26
-  DIGITAL_OUTPUT_PIN,        // 27
-  DIGITAL_INPUT_PIN,         // 28
-  DIGITAL_INPUT_PIN,         // 29
-  DIGITAL_INPUT_PIN,         // 30
-  DIGITAL_INPUT_PIN,         // 31
-  DIGITAL_INPUT_PIN,         // 32
-  DIGITAL_INPUT_PIN,         // 33
-  DIGITAL_INPUT_PIN,         // 34
-  DIGITAL_INPUT_PIN,         // 35
-  DIGITAL_INPUT_PIN,         // 36
-  DIGITAL_INPUT_PIN,         // 37
-  DIGITAL_INPUT_PIN,         // 38
-  DIGITAL_INPUT_PIN,         // 39
-  DIGITAL_INPUT_PIN,         // 40
-  DIGITAL_INPUT_PIN,         // 41
-  DIGITAL_INPUT_PIN,         // 42
-  DIGITAL_INPUT_PIN,         // 43
-  DIGITAL_INPUT_PIN,         // 44
-  DIGITAL_INPUT_PIN,         // 45
-  DIGITAL_INPUT_PIN,         // 46
-  DIGITAL_INPUT_PIN,         // 47
-  DIGITAL_INPUT_PULLUP_PIN,  // 48
-  DIGITAL_INPUT_PULLUP_PIN,  // 49
-  UNUSED_PIN,                // 50
-  UNUSED_PIN,                // 51
-  UNUSED_PIN,                // 52
-  UNUSED_PIN,                // 53
+  {UNUSED_PIN,               LOW }, //  0
+  {UNUSED_PIN,               LOW }, //  1
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  2
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  3
+  {UNUSED_PIN,               LOW }, //  4
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  5
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  6
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  7
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  8
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  9
+  {UNUSED_PIN,               LOW }, // 10
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 11
+  {DIGITAL_INPUT_PIN,        LOW }, // 12
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 13
+  {UNUSED_PIN,               LOW }, // 14
+  {UNUSED_PIN,               LOW }, // 15
+  {UNUSED_PIN,               LOW }, // 16
+  {UNUSED_PIN,               LOW }, // 17
+  {UNUSED_PIN,               LOW }, // 18
+  {UNUSED_PIN,               LOW }, // 19
+  {UNUSED_PIN,               LOW }, // 20
+  {UNUSED_PIN,               LOW }, // 21
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 22
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 23
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 24
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 25
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 26
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 27
+  {DIGITAL_INPUT_PIN,        LOW }, // 28
+  {DIGITAL_INPUT_PIN,        LOW }, // 29
+  {DIGITAL_INPUT_PIN,        LOW }, // 30
+  {DIGITAL_INPUT_PIN,        LOW }, // 31
+  {DIGITAL_INPUT_PIN,        LOW }, // 32
+  {DIGITAL_INPUT_PIN,        LOW }, // 33
+  {DIGITAL_INPUT_PIN,        LOW }, // 34
+  {DIGITAL_INPUT_PIN,        LOW }, // 35
+  {DIGITAL_INPUT_PIN,        LOW }, // 36
+  {DIGITAL_INPUT_PIN,        LOW }, // 37
+  {DIGITAL_INPUT_PIN,        LOW }, // 38
+  {DIGITAL_INPUT_PIN,        LOW }, // 39
+  {DIGITAL_INPUT_PIN,        LOW }, // 40
+  {DIGITAL_INPUT_PIN,        LOW }, // 41
+  {DIGITAL_INPUT_PIN,        LOW }, // 42
+  {DIGITAL_INPUT_PIN,        LOW }, // 43
+  {DIGITAL_INPUT_PIN,        LOW }, // 44
+  {DIGITAL_INPUT_PIN,        LOW }, // 45
+  {DIGITAL_INPUT_PIN,        LOW }, // 46
+  {DIGITAL_INPUT_PIN,        LOW }, // 47
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 48
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 49
+  {UNUSED_PIN,               LOW }, // 50
+  {UNUSED_PIN,               LOW }, // 51
+  {UNUSED_PIN,               LOW }, // 52
+  {UNUSED_PIN,               LOW }, // 53
   // analog
-  ANALOG_INPUT_PIN,          // 54
-  ANALOG_INPUT_PIN,          // 55
-  ANALOG_INPUT_PIN,          // 56
-  ANALOG_INPUT_PIN,          // 57
-  ANALOG_INPUT_PIN,          // 58
-  ANALOG_INPUT_PIN,          // 59
-  ANALOG_INPUT_PIN,          // 60
-  ANALOG_INPUT_PIN,          // 61
-  ANALOG_INPUT_PIN,          // 62
-  ANALOG_INPUT_PIN,          // 63
-  ANALOG_INPUT_PIN,          // 64
-  ANALOG_INPUT_PIN,          // 65
-  UNUSED_PIN,                // 66
-  UNUSED_PIN,                // 67
-  UNUSED_PIN,                // 68
-  UNUSED_PIN                 // 69
+  {ANALOG_INPUT_PIN,         LOW }, // 54
+  {ANALOG_INPUT_PIN,         LOW }, // 55
+  {ANALOG_INPUT_PIN,         LOW }, // 56
+  {ANALOG_INPUT_PIN,         LOW }, // 57
+  {ANALOG_INPUT_PIN,         LOW }, // 58
+  {ANALOG_INPUT_PIN,         LOW }, // 59
+  {ANALOG_INPUT_PIN,         LOW }, // 60
+  {ANALOG_INPUT_PIN,         LOW }, // 61
+  {ANALOG_INPUT_PIN,         LOW }, // 62
+  {ANALOG_INPUT_PIN,         LOW }, // 63
+  {ANALOG_INPUT_PIN,         LOW }, // 64
+  {ANALOG_INPUT_PIN,         LOW }, // 65
+  {UNUSED_PIN,               LOW }, // 66
+  {UNUSED_PIN,               LOW }, // 67
+  {UNUSED_PIN,               LOW }, // 68
+  {UNUSED_PIN,               LOW }  // 69
 };
-
-// Default pin states
-// Defaults determine the value of output pins with the RTU initializes
-const int pinDefaults[] = {
-  // digital
-  LOW,  //  0
-  LOW,  //  1
-  HIGH, //  2
-  HIGH, //  3
-  LOW,  //  4
-  HIGH, //  5
-  HIGH, //  6
-  HIGH, //  7
-  HIGH, //  8
-  HIGH, //  9
-  LOW,  // 10
-  LOW,  // 11
-  LOW,  // 12
-  LOW,  // 13
-  LOW,  // 14
-  LOW,  // 15
-  LOW,  // 16
-  LOW,  // 17
-  LOW,  // 18
-  LOW,  // 19
-  LOW,  // 20
-  LOW,  // 21
-  LOW,  // 22
-  LOW,  // 23
-  LOW,  // 24
-  LOW,  // 25
-  LOW,  // 26
-  LOW,  // 27
-  LOW,  // 28
-  LOW,  // 29
-  LOW,  // 30
-  LOW,  // 31
-  LOW,  // 32
-  LOW,  // 33
-  LOW,  // 34
-  LOW,  // 35
-  LOW,  // 36
-  LOW,  // 37
-  LOW,  // 38
-  LOW,  // 39
-  LOW,  // 40
-  LOW,  // 41
-  LOW,  // 42
-  LOW,  // 43
-  LOW,  // 44
-  LOW,  // 45
-  LOW,  // 46
-  LOW,  // 47
-  LOW,  // 48
-  LOW,  // 49
-  LOW,  // 50
-  LOW,  // 51
-  LOW,  // 52
-  LOW,  // 53
-  // analog
-  LOW,  // 54
-  LOW,  // 55
-  LOW,  // 56
-  LOW,  // 57
-  LOW,  // 58
-  LOW,  // 59
-  LOW,  // 60
-  LOW,  // 61
-  LOW,  // 62
-  LOW,  // 63
-  LOW,  // 64
-  LOW,  // 65
-  LOW,  // 66
-  LOW,  // 67
-  LOW,  // 68
-  LOW   // 69
-};
-
 #endif
 
 
@@ -403,59 +249,30 @@ const int pinDefaults[] = {
 #define DHTPIN 12        // Reserved pin for DHT-22 sensor
 #define THERMISTOR 2     // Analog Read Temperature
 
-// Default pin modes
-// 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-const enum pin_control_enum pinControl[] = {
+const struct pin_config_struct pin_configurations[] = {
   // digital
-  UNUSED_PIN,                //  0
-  UNUSED_PIN,                //  1
-  DIGITAL_OUTPUT_PIN,        //  2
-  DIGITAL_OUTPUT_PIN,        //  3
-  DIGITAL_OUTPUT_PIN,        //  4
-  DIGITAL_OUTPUT_PIN,        //  5
-  DIGITAL_OUTPUT_PIN,        //  6
-  UNUSED_PIN,                //  7
-  DIGITAL_INPUT_PULLUP_PIN,  //  8
-  DIGITAL_INPUT_PIN,         //  9
-  DIGITAL_INPUT_PIN,         // 10
-  DIGITAL_INPUT_PIN,         // 11
-  DIGITAL_INPUT_PULLUP_PIN,  // 12
-  DIGITAL_OUTPUT_PIN,        // 13
+  {UNUSED_PIN,               LOW }, //  0
+  {UNUSED_PIN,               LOW }, //  1
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  2
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  3
+  {DIGITAL_OUTPUT_PIN,       LOW }, //  4
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  5
+  {DIGITAL_OUTPUT_PIN,       HIGH}, //  6
+  {UNUSED_PIN,               HIGH}, //  7
+  {DIGITAL_INPUT_PULLUP_PIN, HIGH}, //  8
+  {DIGITAL_INPUT_PIN,        HIGH}, //  9
+  {DIGITAL_INPUT_PIN,        LOW }, // 10
+  {DIGITAL_INPUT_PIN,        LOW }, // 11
+  {DIGITAL_INPUT_PULLUP_PIN, LOW }, // 12
+  {DIGITAL_OUTPUT_PIN,       LOW }, // 13
   // analog
-  ANALOG_INPUT_PIN,          // 14
-  ANALOG_INPUT_PIN,          // 15
-  ANALOG_INPUT_PIN,          // 16
-  ANALOG_INPUT_PIN,          // 17
-  ANALOG_INPUT_PIN,          // 18
-  ANALOG_INPUT_PIN           // 19
-};
-
-// Default pin states
-// Defaults determine the value of output pins with the RTU initializes
-const int pinDefaults[] = {
-  // digital
-  LOW,  //  0
-  LOW,  //  1
-  HIGH, //  2
-  HIGH, //  3
-  LOW,  //  4
-  HIGH, //  5
-  HIGH, //  6
-  HIGH, //  7
-  HIGH, //  8
-  HIGH, //  9
-  LOW,  // 10
-  LOW,  // 11
-  LOW,  // 12
-  LOW,  // 13
-  // analog
-  LOW,  // 14
-  LOW,  // 15
-  LOW,  // 16
-  LOW,  // 17
-  LOW,  // 18
-  LOW   // 19
+  {ANALOG_INPUT_PIN,         LOW }, // 14
+  {ANALOG_INPUT_PIN,         LOW }, // 15
+  {ANALOG_INPUT_PIN,         LOW }, // 16
+  {ANALOG_INPUT_PIN,         LOW }, // 17
+  {ANALOG_INPUT_PIN,         LOW }, // 18
+  {ANALOG_INPUT_PIN,         LOW }  // 19
 };
 #endif
 
@@ -470,62 +287,32 @@ const int pinDefaults[] = {
 #define DHTTYPE DHT22     // Sets DHT type
 #define DHTPIN 12         // Reserved pin for DHT-22 sensor
 
-// Default pin modes
-// 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-const enum pin_control_enum pinControl[] = {
+const struct pin_config_struct pin_configurations[] = {
   // digital i/o
-  DIGITAL_OUTPUT_PIN,  //  0
-  DIGITAL_OUTPUT_PIN,  //  1
-  DIGITAL_OUTPUT_PIN,  //  2
-  DIGITAL_INPUT_PIN,   //  3
-  DIGITAL_OUTPUT_PIN,  //  4
-  DIGITAL_OUTPUT_PIN,  //  5
-  UNUSED_PIN,          //  6
-  UNUSED_PIN,          //  7
-  UNUSED_PIN,          //  8
-  UNUSED_PIN,          //  9
-  UNUSED_PIN,          // 10
-  UNUSED_PIN,          // 11
-  DIGITAL_OUTPUT_PIN,  // 12
-  DIGITAL_OUTPUT_PIN,  // 13
-  DIGITAL_OUTPUT_PIN,  // 14
-  DIGITAL_OUTPUT_PIN,  // 15
-  DIGITAL_OUTPUT_PIN,  // 16
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  0
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  1
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  2
+  {DIGITAL_INPUT_PIN,  HIGH}, //  3
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  4
+  {DIGITAL_OUTPUT_PIN, HIGH}, //  5
+  {UNUSED_PIN,         LOW }, //  6
+  {UNUSED_PIN,         LOW }, //  7
+  {UNUSED_PIN,         LOW }, //  8
+  {UNUSED_PIN,         LOW }, //  9
+  {UNUSED_PIN,         LOW }, // 10
+  {UNUSED_PIN,         LOW }, // 11
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 12
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 13
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 14
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 15
+  {DIGITAL_OUTPUT_PIN, HIGH}, // 16
   // analog
-  ANALOG_INPUT_PIN     // 17 // A0
+  {ANALOG_INPUT_PIN,   5   }  // 17 // A0 input0
 };
-
-// Default pin states
-// Defaults determine the value of output pins with the RTU initializes
-const int pinDefaults[] = {
-  HIGH, //  0
-  HIGH, //  1
-  HIGH, //  2
-  HIGH, //  3
-  HIGH, //  4
-  HIGH, //  5
-  LOW,  //  6
-  LOW,  //  7
-  LOW,  //  8
-  LOW,  //  9
-  LOW,  // 10
-  LOW,  // 11
-  HIGH, // 12
-  HIGH, // 13
-  HIGH, // 14
-  HIGH, // 15
-  HIGH, // 16
-  // analog
-  5     // A0 input
-};
-
 #endif
 
-#define NUM_ANALOG (ARRAY_LENGTH(pinControl) - NUM_DIGITAL) // Number of analog I/O pins
-#if ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
-#error ARRAY_LENGTH(pinControl) != ARRAY_LENGTH(pinDefaults)
-#endif
+#define NUM_ANALOG (ARRAY_LENGTH(pin_configurations) - NUM_DIGITAL) // Number of analog I/O pins
 
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature wp_sensors(&oneWire);
@@ -607,12 +394,12 @@ FuncDef functions[CUSTOM_FUNCTIONS] = {func1, func2, func3, func4, func5};
 String getPinArray() {
   // Returns all pin configuration information
   String response = "";
-  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
+  for (int i = 0; i < ARRAY_LENGTH(pin_configurations); i++) {
     if (i < NUM_DIGITAL) {
-      response += String(i) + String(pinControl[i]);
+      response += String(i) + String(pin_configurations[i].mode);
     }
     else {
-      response += "A" + String(i - NUM_DIGITAL) + String(pinControl[i]);
+      response += "A" + String(i - NUM_DIGITAL) + String(pin_configurations[i].mode);
     }
   }
   return response;
@@ -812,11 +599,11 @@ String buildResponse() {
 //  assembleResponse(response, "lastcmd", lastCommand);
   //Process digital pins
   for (int i = 0; i < NUM_DIGITAL; i++) {
-    switch (pinControl[i]) {
+    switch (pin_configurations[i].mode) {
     case DIGITAL_INPUT_PIN:
     case DIGITAL_INPUT_PULLUP_PIN:
     case DIGITAL_OUTPUT_PIN:
-    case ANALOG_OUTPUT_PIN:
+    case ANALOG_OUTPUT_PIN: // ^^^ does not jive with NUM_DIGITAL
       assembleResponse(response, (String)i, (String)digitalRead(i));
       break;
     default:
@@ -930,10 +717,9 @@ int freeRam() {
 
 void setup() {
 
-  // Initialize Digital Pins for Input or Output
-  // From the arrays pinControl and pinDefaults
-  for (int i = 0; i < ARRAY_LENGTH(pinControl); i++) {
-    switch (pinControl[i]) {
+  // Initialize pins
+  for (int i = 0; i < ARRAY_LENGTH(pin_configurations); i++) {
+    switch (pin_configurations[i].mode) {
     case DIGITAL_INPUT_PIN:
       pinMode(i, INPUT);
       break;
@@ -942,7 +728,7 @@ void setup() {
       break;
     case DIGITAL_OUTPUT_PIN:
       pinMode(i, OUTPUT);
-      digitalWrite(i, pinDefaults[i]);
+      digitalWrite(i, pin_configurations[i].default_value);
       break;
     case ANALOG_OUTPUT_PIN:
       pinMode(i, OUTPUT);
@@ -1016,9 +802,9 @@ void loop() {
         cmdFound = true;
         inputPort = inputString.substring(3, 6);
         inputControl = inputString.substring(6, 9);
-        if (pinControl[inputPort.toInt()] == ANALOG_INPUT_PIN) {
+        if (pin_configurations[inputPort.toInt()].mode == ANALOG_INPUT_PIN) {
           analogWrite(inputPort.toInt(), inputControl.toInt());
-        } // END OF if pinControl == ANALOG_INPUT_PIN
+        } // END OF if pin_configurations == ANALOG_INPUT_PIN
       }  // END Of aoc
 
       // doc (Digital Output Control) Sets a single digital output
@@ -1027,7 +813,7 @@ void loop() {
         inputPort = inputString.substring(4, 6);
         inputControl = inputString.substring(6, 7);
         inputTimer = inputString.substring(7, 10);
-        if (pinControl[inputPort.toInt()] == DIGITAL_OUTPUT_PIN) {
+        if (pin_configurations[inputPort.toInt()].mode == DIGITAL_OUTPUT_PIN) {
           if (inputTimer.toInt() > 0) {
             int currVal = digitalRead(inputPort.toInt());
             digitalWrite(inputPort.toInt(), inputControl.toInt());
@@ -1038,7 +824,7 @@ void loop() {
             digitalWrite(inputPort.toInt(), inputControl.toInt());
           }
 
-        } // END OF if pinControl == DIGITAL_OUTPUT_PIN
+        } // END OF if pin_configurations == DIGITAL_OUTPUT_PIN
       }  // END Of doc
 
       // Get pin modes
@@ -1062,11 +848,11 @@ void loop() {
       // res  - resets the Arduino
       if (inputCommand == "res" && !idle_mode) {
         cmdFound = true;
-        for (int x = 0; x < ARRAY_LENGTH(pinControl); x++) {
-          if (pinControl[x] == DIGITAL_OUTPUT_PIN) {
+        for (int x = 0; x < ARRAY_LENGTH(pin_configurations); x++) {
+          if (pin_configurations[x].mode == DIGITAL_OUTPUT_PIN) {
             digitalWrite(x, LOW);
           }
-          if (pinControl[inputPort.toInt()] == ANALOG_OUTPUT_PIN) {
+          if (pin_configurations[inputPort.toInt()].mode == ANALOG_OUTPUT_PIN) {
             analogWrite(x, 0);
           }
         }
