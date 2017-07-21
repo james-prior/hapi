@@ -67,7 +67,7 @@ enum pin_control_enum {
 };
 // Default pin modes
 // Analog input pins are assumed to be used as analog input pins
-enum pin_control_enum pinControl[] = {
+const enum pin_control_enum pinControl[] = {
   // DIGITAL
   UNUSED_PIN,                //  0
   UNUSED_PIN,                //  1
@@ -236,17 +236,79 @@ int pinDefaults[] = {
 // Default pin modes
 // 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[] = {
-                                  // DIGITAL
-  0, 0, 3, 3, 0, 3, 3, 3, 3, 3,   //  0 -  9
-  0, 2, 1, 3, 0, 0, 0, 0, 0, 0,   // 10 - 19
-  0, 0, 3, 3, 3, 3, 3, 3, 1, 1,   // 20 - 29
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,   // 30 - 39
-  1, 1, 1, 1, 1, 1, 1, 1, 2, 2,   // 40 - 49
-  0, 0, 0, 0,                     // 50 - 53
-                                  // ANALOG
-  5, 5, 5, 5, 5, 5, 5, 5, 5, 5,   // 54 - 63
-  5, 5, 0, 0, 0, 0                // 64 - 69
+const enum pin_control_enum pinControl[] = {
+  // digital
+  UNUSED_PIN,                //  0
+  UNUSED_PIN,                //  1
+  DIGITAL_OUTPUT_PIN,        //  2
+  DIGITAL_OUTPUT_PIN,        //  3
+  UNUSED_PIN,                //  4
+  DIGITAL_OUTPUT_PIN,        //  5
+  DIGITAL_OUTPUT_PIN,        //  6
+  DIGITAL_OUTPUT_PIN,        //  7
+  DIGITAL_OUTPUT_PIN,        //  8
+  DIGITAL_OUTPUT_PIN,        //  9
+  UNUSED_PIN,                // 10
+  DIGITAL_INPUT_PULLUP_PIN,  // 11
+  DIGITAL_INPUT_PIN,         // 12
+  DIGITAL_OUTPUT_PIN,        // 13
+  UNUSED_PIN,                // 14
+  UNUSED_PIN,                // 15
+  UNUSED_PIN,                // 16
+  UNUSED_PIN,                // 17
+  UNUSED_PIN,                // 18
+  UNUSED_PIN,                // 19
+  UNUSED_PIN,                // 20
+  UNUSED_PIN,                // 21
+  DIGITAL_OUTPUT_PIN,        // 22
+  DIGITAL_OUTPUT_PIN,        // 23
+  DIGITAL_OUTPUT_PIN,        // 24
+  DIGITAL_OUTPUT_PIN,        // 25
+  DIGITAL_OUTPUT_PIN,        // 26
+  DIGITAL_OUTPUT_PIN,        // 27
+  DIGITAL_INPUT_PIN,         // 28
+  DIGITAL_INPUT_PIN,         // 29
+  DIGITAL_INPUT_PIN,         // 30
+  DIGITAL_INPUT_PIN,         // 31
+  DIGITAL_INPUT_PIN,         // 32
+  DIGITAL_INPUT_PIN,         // 33
+  DIGITAL_INPUT_PIN,         // 34
+  DIGITAL_INPUT_PIN,         // 35
+  DIGITAL_INPUT_PIN,         // 36
+  DIGITAL_INPUT_PIN,         // 37
+  DIGITAL_INPUT_PIN,         // 38
+  DIGITAL_INPUT_PIN,         // 39
+  DIGITAL_INPUT_PIN,         // 40
+  DIGITAL_INPUT_PIN,         // 41
+  DIGITAL_INPUT_PIN,         // 42
+  DIGITAL_INPUT_PIN,         // 43
+  DIGITAL_INPUT_PIN,         // 44
+  DIGITAL_INPUT_PIN,         // 45
+  DIGITAL_INPUT_PIN,         // 46
+  DIGITAL_INPUT_PIN,         // 47
+  DIGITAL_INPUT_PULLUP_PIN,  // 48
+  DIGITAL_INPUT_PULLUP_PIN,  // 49
+  UNUSED_PIN,                // 50
+  UNUSED_PIN,                // 51
+  UNUSED_PIN,                // 52
+  UNUSED_PIN,                // 53
+  // analog
+  ANALOG_INPUT_PIN,          // 54
+  ANALOG_INPUT_PIN,          // 55
+  ANALOG_INPUT_PIN,          // 56
+  ANALOG_INPUT_PIN,          // 57
+  ANALOG_INPUT_PIN,          // 58
+  ANALOG_INPUT_PIN,          // 59
+  ANALOG_INPUT_PIN,          // 60
+  ANALOG_INPUT_PIN,          // 61
+  ANALOG_INPUT_PIN,          // 62
+  ANALOG_INPUT_PIN,          // 63
+  ANALOG_INPUT_PIN,          // 64
+  ANALOG_INPUT_PIN,          // 65
+  UNUSED_PIN,                // 66
+  UNUSED_PIN,                // 67
+  UNUSED_PIN,                // 68
+  UNUSED_PIN                 // 69
 };
 
 // Default pin states
@@ -344,13 +406,29 @@ int pinDefaults[] = {
 // Default pin modes
 // 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[] = {
-                                  // DIGITAL
-  0, 0, 3, 3, 3, 3, 3, 0, 2, 1,   //  0 -  9
-
-  1, 1, 2, 3,                     // 10 - 13
-                                  // ANALOG
-  5, 5, 5, 5, 5, 5                // 14 - 20
+const enum pin_control_enum pinControl[] = {
+  // digital
+  UNUSED_PIN,                //  0
+  UNUSED_PIN,                //  1
+  DIGITAL_OUTPUT_PIN,        //  2
+  DIGITAL_OUTPUT_PIN,        //  3
+  DIGITAL_OUTPUT_PIN,        //  4
+  DIGITAL_OUTPUT_PIN,        //  5
+  DIGITAL_OUTPUT_PIN,        //  6
+  UNUSED_PIN,                //  7
+  DIGITAL_INPUT_PULLUP_PIN,  //  8
+  DIGITAL_INPUT_PIN,         //  9
+  DIGITAL_INPUT_PIN,         // 10
+  DIGITAL_INPUT_PIN,         // 11
+  DIGITAL_INPUT_PULLUP_PIN,  // 12
+  DIGITAL_OUTPUT_PIN,        // 13
+  // analog
+  ANALOG_INPUT_PIN,          // 14
+  ANALOG_INPUT_PIN,          // 15
+  ANALOG_INPUT_PIN,          // 16
+  ANALOG_INPUT_PIN,          // 17
+  ANALOG_INPUT_PIN,          // 18
+  ANALOG_INPUT_PIN           // 19
 };
 
 // Default pin states
@@ -395,11 +473,27 @@ int pinDefaults[] = {
 // Default pin modes
 // 0 not used or reserved;  1 digital input; 2 digital input_pullup; 3 digital output; 4 analog output; 5 analog input;
 // Analog input pins are assumed to be used as analog input pins
-int pinControl[] = {
-  3, 3, 3, 1, 3, 3, 0, 0,   //  0 -  8  // Digital i/o
-  0, 0, 0, 0, 3, 3, 3, 3,   //  9 - 15
-  3,                        // 16
-  5                         // A0       //Analog Input
+const enum pin_control_enum pinControl[] = {
+  // digital i/o
+  DIGITAL_OUTPUT_PIN,  //  0
+  DIGITAL_OUTPUT_PIN,  //  1
+  DIGITAL_OUTPUT_PIN,  //  2
+  DIGITAL_INPUT_PIN,   //  3
+  DIGITAL_OUTPUT_PIN,  //  4
+  DIGITAL_OUTPUT_PIN,  //  5
+  UNUSED_PIN,          //  6
+  UNUSED_PIN,          //  7
+  UNUSED_PIN,          //  8
+  UNUSED_PIN,          //  9
+  UNUSED_PIN,          // 10
+  UNUSED_PIN,          // 11
+  DIGITAL_OUTPUT_PIN,  // 12
+  DIGITAL_OUTPUT_PIN,  // 13
+  DIGITAL_OUTPUT_PIN,  // 14
+  DIGITAL_OUTPUT_PIN,  // 15
+  DIGITAL_OUTPUT_PIN,  // 16
+  // analog
+  ANALOG_INPUT_PIN     // 17 // A0
 };
 
 // Default pin states
