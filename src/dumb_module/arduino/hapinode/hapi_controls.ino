@@ -24,7 +24,7 @@ void setupControls(void) {
   // Initialize
 }
 
-void checkControls(void) {
+void poll_timed_things(void) {
   currentTime = now();
 
   for (int i = 0; i < ARRAY_LENGTH(c_functions); i++)

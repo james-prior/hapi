@@ -488,7 +488,7 @@ void setup() {
   Serial.println(F("Setup Complete. Listening for topics .."));
 // Create the recurring calls, to trigger at or after time
   Alarm.timerRepeat(1, flashLED);         // Every    second
-  Alarm.timerRepeat(2, checkControls);    // Every  2 seconds
+  Alarm.timerRepeat(2, poll_timed_things);    // Every  2 seconds
   Alarm.timerRepeat(5, hapiSensors);      // Every  5 seconds
   Alarm.alarmRepeat(3, 30, 0, updateRTC);    // 3:30am every day
 }
