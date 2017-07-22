@@ -340,11 +340,11 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     for (i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
       f = s_functions[i];                    // Point to Asset read function structure
       if (strcmp(command_topic["Asset"], f.fName) == 0) {  // Asset match?
-        Number = i;                             // Match for Sensor name
+        break;
       }
     }
-    if (Number != INVALID_VALUE) {
-      sendMQTTAsset(AssetIdx, Number);         // Publish sensor or control function data
+    if (i < ARRAY_LENGTH(s_functions)) { // Match for Sensor name
+      sendMQTTAsset(AssetIdx, i);         // Publish sensor or control function data
       return;
     }
     else {                                      // Did not find a sensor, so try controls
