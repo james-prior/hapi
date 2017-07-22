@@ -223,7 +223,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   const char *Node = "*";     // NodeId for target HAPInode, preset for anyone
   const char *Command = " ";  // Command to execute
   char *hn_topic;             // Variable to hold all node topics
-  FuncDef f;                  // Read Data Functions
   int AssetIdx;               // Target Sensor Index
   int data;                   // Data for output
   boolean succeed;
@@ -334,8 +333,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     // Function IO
     AssetIdx = SENSORID_FN;                    // Asset Function IO
     for (i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
-      f = s_functions[i];                    // Point to Asset read function structure
-      if (strcmp(command_topic["Asset"], f.fName) == 0) {  // Asset match?
+      if (strcmp(command_topic["Asset"], s_functions[i].fName) == 0) { // Asset match?
         // Match for Sensor name
         sendMQTTAsset(AssetIdx, i); // Publish sensor or control function data
         return;
@@ -429,11 +427,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   // Handle sensors
   AssetIdx = SENSORID_FN;                    // Sensor Function IO
   for (i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
-    f = s_functions[i];                    // Point to sensor read function structure
     strcpy(hn_topic, mqtt_topic_array[ASSETSTART+1]);     // Set base topic for a specific asset query
     strcat(hn_topic, hostString);              // NodeId next
     strcat(hn_topic, "/");                     //  .. MQTT separator
-    strcat(hn_topic, f.fName);                //  .. and the sensor name
+    strcat(hn_topic, s_functions[i].fName); //  .. and the sensor name
     if (strcmp(topic, hn_topic) == 0) {         // Asset match?
       // Match for Sensor name
       sendMQTTAsset(AssetIdx, i); // Publish sensor or control function data
