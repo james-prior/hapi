@@ -482,30 +482,30 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     strcat(hn_topic, "/");                     //  .. MQTT separator
     strcat(hn_topic, c.fName);                //  .. and the sensor name
     if (strcmp(topic, hn_topic) == 0) {       // Asset match?
-      Number = i;                             // Match for Sensor name
+      break; // Match for Sensor name
     }
   }
-  if (Number != INVALID_VALUE) {
-    c = c_functions[Number];             // Point to control output function structure
+  if (i < ARRAY_LENGTH(c_functions)) {
+    c = c_functions[i];             // Point to control output function structure
     // Control
     if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
-      c_data[Number].hc_polarity = command_topic["pol"];
+      c_data[i].hc_polarity = command_topic["pol"];
     }
     if (command_topic.containsKey("stt")) {  // Start time (unix secs)
-      c_data[Number].hc_start = command_topic["stt"];
+      c_data[i].hc_start = command_topic["stt"];
     }
     if (command_topic.containsKey("end")) {  // End time (unix secs)
-      c_data[Number].hc_end = command_topic["end"];
+      c_data[i].hc_end = command_topic["end"];
     }
     if (command_topic.containsKey("rpt")) {  // Repeat time (s)
-      c_data[Number].hc_repeat = command_topic["rpt"];
+      c_data[i].hc_repeat = command_topic["rpt"];
     }
     // Associated sensor
     if (command_topic.containsKey("von")) {  // Value to turn on
-      c_data[Number].hcs_onValue = command_topic["von"];
+      c_data[i].hcs_onValue = command_topic["von"];
     }
     if (command_topic.containsKey("voff")) {  // Value to turn off
-      c_data[Number].hcs_offValue = command_topic["voff"];
+      c_data[i].hcs_offValue = command_topic["voff"];
     }
     return;
   }
