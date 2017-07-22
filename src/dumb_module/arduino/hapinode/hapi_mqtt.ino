@@ -69,7 +69,7 @@ boolean sendMQTTStatus(void) {
   }
 }
 
-boolean sendAllMQTTAssets(void) {
+void sendAllMQTTAssets(void) {
   //Process digital pins
   for (int i = 0; i < NUM_DIGITAL; i++) {
     switch (pin_configurations[i].mode) {
@@ -104,7 +104,6 @@ boolean sendAllMQTTAssets(void) {
   for (int i = 0; i < ARRAY_LENGTH(c_functions); i++)
     while (!sendMQTTAsset(CONTROLDATA2_FN, i))  // Until it is sent
       ;
-  return true;
 }
 
 boolean sendMQTTAsset(int AssetIdx, int i) {
