@@ -173,6 +173,7 @@ char mqtt_topic[256] = "";                              // Topic for this HN
 
 #define STATUSSTART 0
 #define ASSETSTART 1
+#define ASSET_END (3)
 #define CONFIGSTART 4
 #define INVALID_VALUE 9999
 const char *mqtt_topic_array[] = {
