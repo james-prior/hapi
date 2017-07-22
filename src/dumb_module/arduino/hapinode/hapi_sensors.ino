@@ -85,7 +85,7 @@ float readHumidity(int iDevice) {
   //humidity = dhts[iDevice].readHumidity();
   humidity = dht1.readHumidity();
   if (isnan(humidity)) {
-    humidity = -1;
+    humidity = (-1);
   }
   // Serial.print(F("DHT Humidity: "));
   // Serial.println(humidity);
@@ -100,7 +100,7 @@ float readTemperatured(int iDevice) {
   //temperature = dhts[iDevice].readTemperature();
   temperature = dht1.readTemperature();
   if (isnan(temperature)) {
-    temperature = -1;
+    temperature = (-1);
   }
   else if (!metric) {
     temperature = FAHRENHEIT(temperature);
@@ -118,7 +118,7 @@ float read1WireTemperature(int iDevice) {
   wp_sensors.requestTemperatures();
   temperature = wp_sensors.getTempCByIndex(0);
   if (isnan(temperature)) {
-    temperature = -1;
+    temperature = (-1);
   }
   else if (!metric) {
     temperature = FAHRENHEIT(temperature);

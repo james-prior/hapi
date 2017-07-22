@@ -469,7 +469,7 @@ float readHumidity(int iDevice) {
   h = dht1.readHumidity();
 
   if (isnan(h)) {
-    returnValue = -1;
+    returnValue = (-1);
   }
   else {
     returnValue = h;
@@ -485,7 +485,7 @@ float readTemperature(int iDevice) {
   h = dht1.readTemperature();
 
   if (isnan(h)) {
-    returnValue = -1;
+    returnValue = (-1);
   }
   else {
     returnValue = h;
@@ -502,7 +502,7 @@ float readWaterTemperature(int iDevice) {
   wp_sensors.requestTemperatures();
   returnValue = wp_sensors.getTempCByIndex(0);
   if (isnan(returnValue)) {
-    returnValue = -1;
+    returnValue = (-1);
   }
   else {
     if (!metric) {
@@ -618,7 +618,7 @@ String buildResponse() {
 
   //Process custom functions
   FuncDef f;
-  float funcVal = -1.0;
+  float funcVal = (-1.0);
   String funcStr = "";
   String tempVal;
   char cFuncVal[10];

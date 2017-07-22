@@ -139,10 +139,10 @@ byte packetBuffer[NTP_PACKET_SIZE];  //buffer to hold incoming and outgoing pack
 const unsigned int localPort = UDP_port;    // local port to listen for UDP packets
 
 int timeZone = +10; // Eastern Standard Time (Au)
-//int timeZone = -5;  // Eastern Standard Time (USA)
-//int timeZone = -4;  // Eastern Daylight Time (USA)
-//int timeZone = -8;  // Pacific Standard Time (USA)
-//int timeZone = -7;  // Pacific Daylight Time (USA)
+//int timeZone = (-5);  // Eastern Standard Time (USA)
+//int timeZone = (-4);  // Eastern Daylight Time (USA)
+//int timeZone = (-8);  // Pacific Standard Time (USA)
+//int timeZone = (-7);  // Pacific Daylight Time (USA)
 
 
 #ifdef HN_WiFi

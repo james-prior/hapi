@@ -132,7 +132,7 @@ boolean createAssetJSON(int AssetIdx, int Number) {
   CFuncDef c = c_functions[Number];
   ControlData d = c_data[Number];
   int pinValue;
-  float funcVal = -9.99;
+  float funcVal = (-9.99);
   StaticJsonBuffer<256> hn_asset;                   // Asset data for this HN
   JsonObject& asset_message = hn_asset.createObject();
 
