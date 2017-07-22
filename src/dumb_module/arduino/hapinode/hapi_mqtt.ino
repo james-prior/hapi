@@ -107,12 +107,11 @@ void sendAllMQTTAssets(void) {
 }
 
 boolean sendMQTTAsset(int AssetIdx, int i) {
-  FuncDef f = s_functions[i];               // Pointer to current sensor
   createAssetJSON(AssetIdx, i);                // (Store result in MQTTOutput)
   strcpy(mqtt_topic, mqtt_topic_asset);             // Generic asset response topic
   strcat(mqtt_topic, hostString);                   // Add the NodeId
   strcat(mqtt_topic, "/");                           // /
-  strcat(mqtt_topic, f.fName);                       // sensor name
+  strcat(mqtt_topic, s_functions[i].fName); // sensor name
   publishJSON(mqtt_topic);                          // Publish it
 
   Serial.print(mqtt_topic);
