@@ -435,7 +435,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   // Handle sensors
   AssetIdx = SENSORID_FN;                    // Sensor Function IO
   Number = INVALID_VALUE;
-  for (int i = 0;i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
+  for (i = 0;i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
     f = s_functions[i];                    // Point to sensor read function structure
     strcpy(hn_topic, mqtt_topic_array[ASSETSTART+1]);     // Set base topic for a specific asset query
     strcat(hn_topic, hostString);              // NodeId next
