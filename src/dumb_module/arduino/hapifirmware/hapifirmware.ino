@@ -359,7 +359,7 @@ WiFiClient client;
 
 
 //Define the Reset function
-void(* resetFunc) (void) = 0; //declare reset function @ address 0
+void (*resetFunc)(void) = 0; //declare reset function @ address 0
 
 //**** Begin DHT Device Section ****
 //Define DHT devices and allocate resources

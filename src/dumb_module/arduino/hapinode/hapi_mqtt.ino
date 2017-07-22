@@ -19,7 +19,7 @@
 #*********************************************************************
 */
 
-void(* resetFunc) (void) = 0; //declare reset function @ address
+void (*resetFunc)(void) = 0; //declare reset function @ address
 
 boolean sendMQTTStatus(void) {
   StaticJsonBuffer<128> hn_topic_status;                   // Status data for this HN
