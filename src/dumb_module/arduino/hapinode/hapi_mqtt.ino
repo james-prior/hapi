@@ -161,31 +161,31 @@ boolean createAssetJSON(int AssetIdx, int i) {
     break;
   case SENSORID_FN:
     f = s_functions[i];
-    asset_message["Asset"] =  (String)f.fName;
-    asset_message["ctxt"] =  (String)f.fType;
-    asset_message["unit"] =  (String)f.fUnit;
+    asset_message["Asset"] = (String)f.fName;
+    asset_message["ctxt"] = (String)f.fType;
+    asset_message["unit"] = (String)f.fUnit;
     funcVal = f.fPtr(i);
-    asset_message["data"] =  funcVal;     // Two decimal points
+    asset_message["data"] = funcVal;     // Two decimal points
     break;
   case CONTROLID_FN:
     c = c_functions[i];
-    asset_message["Asset"] =  (String)c.fName;
-    asset_message["ctxt"] =  (String)c.fType;
-    asset_message["unit"] =  (String)c.fUnit;
+    asset_message["Asset"] = (String)c.fName;
+    asset_message["ctxt"] = (String)c.fType;
+    asset_message["unit"] = (String)c.fUnit;
     funcVal = c.iPtr(i);
-    asset_message["data"] =  funcVal;     // Two decimal points
+    asset_message["data"] = funcVal;     // Two decimal points
     break;
   case CONTROLDATA1_FN:
-    asset_message["Asset"] =  (String)d.hc_name;
-    asset_message["pol"] =  (boolean)d.hc_polarity;
-    asset_message["stt"] =  (unsigned long )d.hc_start;
-    asset_message["end"] =  (unsigned long)d.hc_end;
-    asset_message["rpt"] =  (unsigned long)d.hc_repeat;
+    asset_message["Asset"] = (String)d.hc_name;
+    asset_message["pol"] = (boolean)d.hc_polarity;
+    asset_message["stt"] = (unsigned long )d.hc_start;
+    asset_message["end"] = (unsigned long)d.hc_end;
+    asset_message["rpt"] = (unsigned long)d.hc_repeat;
     break;
   case CONTROLDATA2_FN:
-    asset_message["Asset"] =  (String)d.hc_name;
-    asset_message["von"] =  (float)d.hcs_onValue;
-    asset_message["voff"] =  (float)d.hcs_offValue;
+    asset_message["Asset"] = (String)d.hc_name;
+    asset_message["von"] = (float)d.hcs_onValue;
+    asset_message["voff"] = (float)d.hcs_offValue;
     break;
 
   default:
