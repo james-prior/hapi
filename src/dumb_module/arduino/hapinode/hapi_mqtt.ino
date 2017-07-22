@@ -351,39 +351,39 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     for (i = 0; i < ARRAY_LENGTH(c_functions); i++) { // Scan for a match on the control name
       c = c_functions[i];                  // Point to control function structure
       if (strcmp(command_topic["Asset"], c.fName) == 0) {  // Asset match?
-        Number = i;                           // Match for control name
+        break; // Match for control name
       }
     }
-    if (Number != INVALID_VALUE) {             // If we have a match on the name
+    if (i < ARRAY_LENGTH(c_functions)) {
       if (strcmp(Command, "fnin") == 0) {
-        sendMQTTAsset(AssetIdx, Number);       // Publish sensor or control function data
+        sendMQTTAsset(AssetIdx, i);       // Publish sensor or control function data
         return;
       }
       if (strcmp(Command, "fnout") != 0) // Found a valid control name but no valid command or data
         return;
 
       // Function out only works for controls
-      c = c_functions[Number];             // Point to control output function structure
+      c = c_functions[i];             // Point to control output function structure
       // Control
       if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
-        c_data[Number].hc_polarity = command_topic["pol"];
+        c_data[i].hc_polarity = command_topic["pol"];
       }
       if (command_topic.containsKey("stt")) {  // Start time (unix secs)
         Serial.println(F("writing stt"));
-        c_data[Number].hc_start = command_topic["stt"];
+        c_data[i].hc_start = command_topic["stt"];
       }
       if (command_topic.containsKey("end")) {  // End time (unix secs)
-        c_data[Number].hc_end = command_topic["end"];
+        c_data[i].hc_end = command_topic["end"];
       }
       if (command_topic.containsKey("rpt")) {  // Repeat time (s)
-        c_data[Number].hc_repeat = command_topic["rpt"];
+        c_data[i].hc_repeat = command_topic["rpt"];
       }
       // Associated sensor
       if (command_topic.containsKey("von")) {  // Value to turn on
-        c_data[Number].hcs_onValue = command_topic["von"];
+        c_data[i].hcs_onValue = command_topic["von"];
       }
       if (command_topic.containsKey("voff")) {  // Value to turn off
-        c_data[Number].hcs_offValue = command_topic["voff"];
+        c_data[i].hcs_offValue = command_topic["voff"];
       }
       return;
     }
