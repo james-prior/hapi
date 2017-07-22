@@ -227,7 +227,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   CFuncDef c;                 // Control functions
   ControlData cd;             // Data for control functions
   int AssetIdx;               // Target Sensor Index
-  int Number;                 // Target pin# or function#
   int data;                   // Data for output
   boolean succeed;
 
@@ -295,18 +294,18 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     if (strcmp(command_topic["Asset"], "DIO") == 0) { // Digital IO
       if (!command_topic.containsKey("pin")) // pin - required
         return;
-      Number = command_topic["pin"];
+      i = command_topic["pin"];
 
       if (strcmp(Command, "din") == 0) {
         AssetIdx = SENSORID_DIO;
-        sendMQTTAsset(AssetIdx, Number);         // Publish digital data
+        sendMQTTAsset(AssetIdx, i);         // Publish digital data
         return;
       }
       if (strcmp(Command, "dout") == 0) {
         if (!command_topic.containsKey("data")) // Data - required
           return;
         data = command_topic["data"];
-        digitalWrite(Number, data);               // Set the digital pin
+        digitalWrite(i, data);               // Set the digital pin
         return;
       }
     }
@@ -316,10 +315,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     if (strcmp(command_topic["Asset"], "AIO") == 0) { // Analog IO
       if (!command_topic.containsKey("pin")) // pin - required
         return;
-      Number = command_topic["pin"];
+      i = command_topic["pin"];
       if (strcmp(Command, "ain") == 0) {
         AssetIdx = SENSORID_AIO;
-        sendMQTTAsset(AssetIdx, Number);         // Publish analog data
+        sendMQTTAsset(AssetIdx, i);         // Publish analog data
         return;
       }
       if (strcmp(Command, "aout") == 0) {
@@ -327,7 +326,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
           return;
         data = command_topic["data"];
 #ifndef HN_ESP32
-        analogWrite(Number, data);               // Set the analog pin
+        analogWrite(i, data);               // Set the analog pin
 #endif
         return;
       }
