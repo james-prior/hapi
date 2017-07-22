@@ -325,7 +325,7 @@ char ascii_hex_from_nybble(byte i)
 
 /* Convert n bytes starting at bptr to
 *  null-terminated ascii hex starting at s */
-char *b2c(
+char *binary_to_hex(
   byte *bptr, // input
   char *s, // output
   int n // number of bytes to convert to ascii hex
@@ -374,7 +374,7 @@ void setup() {
   WiFi.macAddress(mac);
 #endif // HN_WiFi
 
-  b2c(&mac[3], &mac_str[0], 3);         //convert mac to ASCII value for unique station ID
+  binary_to_hex(&mac[3], &mac_str[0], 3);         //convert mac to ASCII value for unique station ID
   HN_Id = HN_base + String(mac_str);
   HN_Id.toCharArray(hostString, (HN_Id.length()+1));
 
