@@ -420,7 +420,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   // ============
   // Handle wildcards
   Serial.println(mqtt_topic_array[ASSETSTART]);   // Assets start
-  for (int i = ASSETSTART;i <= ASSET_END; i++) { // Wildcard topics
+  for (int i = ASSETSTART; i <= ASSET_END; i++) { // Wildcard topics
     strcpy(hn_topic, mqtt_topic_array[i]);         // Asset query, any NodeId
     if (strcmp(topic, hn_topic) == 0) {
         sendAllMQTTAssets();
@@ -432,7 +432,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
   // Handle sensors
   AssetIdx = SENSORID_FN;                    // Sensor Function IO
-  for (i = 0;i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
+  for (i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
     f = s_functions[i];                    // Point to sensor read function structure
     strcpy(hn_topic, mqtt_topic_array[ASSETSTART+1]);     // Set base topic for a specific asset query
     strcat(hn_topic, hostString);              // NodeId next
@@ -448,7 +448,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   Serial.println(hn_topic);
   // Handle Controls
   AssetIdx = CONTROLID_FN;                   // Control Function IO
-  for (i = 0;i < ARRAY_LENGTH(c_functions); i++) {   // Scan for a match on the control name
+  for (i = 0; i < ARRAY_LENGTH(c_functions); i++) {   // Scan for a match on the control name
     c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[1]);     // Set base topic for an asset query
     strcat(hn_topic, hostString);              // NodeId next
@@ -467,7 +467,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   // ============
   // Wildcards are not allowed in CONFIG
   // It must have a valid NodeId, Asset and data to work
-  for (i = 0;i < ARRAY_LENGTH(c_functions); i++) {     // Scan for a match on the control name
+  for (i = 0; i < ARRAY_LENGTH(c_functions); i++) {     // Scan for a match on the control name
     c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[CONFIGSTART]);       // Set base topic for a specific asset query
     strcat(hn_topic, hostString);              // NodeId next
