@@ -335,7 +335,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     Serial.println(F(" .. not AIO"));
 
     // Function IO
-    Number = INVALID_VALUE;
     AssetIdx = SENSORID_FN;                    // Asset Function IO
     for (i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
       f = s_functions[i];                    // Point to Asset read function structure
@@ -434,7 +433,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
   // Handle sensors
   AssetIdx = SENSORID_FN;                    // Sensor Function IO
-  Number = INVALID_VALUE;
   for (i = 0;i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
     f = s_functions[i];                    // Point to sensor read function structure
     strcpy(hn_topic, mqtt_topic_array[ASSETSTART+1]);     // Set base topic for a specific asset query
