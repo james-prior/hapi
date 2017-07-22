@@ -107,9 +107,9 @@ boolean sendAllMQTTAssets(void) {
   return true;
 }
 
-boolean sendMQTTAsset(int AssetIdx, int Number) {
-  FuncDef f = s_functions[Number];               // Pointer to current sensor
-  createAssetJSON(AssetIdx, Number);                // (Store result in MQTTOutput)
+boolean sendMQTTAsset(int AssetIdx, int i) {
+  FuncDef f = s_functions[i];               // Pointer to current sensor
+  createAssetJSON(AssetIdx, i);                // (Store result in MQTTOutput)
   strcpy(mqtt_topic, mqtt_topic_asset);             // Generic asset response topic
   strcat(mqtt_topic, hostString);                   // Add the NodeId
   strcat(mqtt_topic, "/");                           // /
@@ -121,16 +121,16 @@ boolean sendMQTTAsset(int AssetIdx, int Number) {
   Serial.println(MQTTOutput);
 }
 
-boolean sendMQTTException(int AssetIdx, int Number) {
-  createAssetJSON(AssetIdx, Number);
+boolean sendMQTTException(int AssetIdx, int i) {
+  createAssetJSON(AssetIdx, i);
   publishJSON(mqtt_topic_exception);
 }
 
-boolean createAssetJSON(int AssetIdx, int Number) {
+boolean createAssetJSON(int AssetIdx, int i) {
   //For custom functions
-  FuncDef f = s_functions[Number];
-  CFuncDef c = c_functions[Number];
-  ControlData d = c_data[Number];
+  FuncDef f = s_functions[i];
+  CFuncDef c = c_functions[i];
+  ControlData d = c_data[i];
   int pinValue;
   float funcVal = (-9.99);
   StaticJsonBuffer<256> hn_asset;                   // Asset data for this HN
@@ -149,30 +149,30 @@ boolean createAssetJSON(int AssetIdx, int Number) {
     asset_message["Asset"] = F("DIO");            // Asset ID
     asset_message["ctxt"] = F("PIN");             // Context
     asset_message["unit"] = F("");                // Units of measurement
-    pinValue = digitalRead(Number);
+    pinValue = digitalRead(i);
     asset_message["data"] = pinValue;           // Data
     break;
   case SENSORID_AIO:
     asset_message["Asset"] = F("AIO");
     asset_message["ctxt"] = F("PIN");
     asset_message["unit"] = F("");
-    pinValue = analogRead(Number);
+    pinValue = analogRead(i);
     asset_message["data"] = pinValue;
     break;
   case SENSORID_FN:
-    f = s_functions[Number];
+    f = s_functions[i];
     asset_message["Asset"] =  (String)f.fName;
     asset_message["ctxt"] =  (String)f.fType;
     asset_message["unit"] =  (String)f.fUnit;
-    funcVal = f.fPtr(Number);
+    funcVal = f.fPtr(i);
     asset_message["data"] =  funcVal;     // Two decimal points
     break;
   case CONTROLID_FN:
-    c = c_functions[Number];
+    c = c_functions[i];
     asset_message["Asset"] =  (String)c.fName;
     asset_message["ctxt"] =  (String)c.fType;
     asset_message["unit"] =  (String)c.fUnit;
-    funcVal = c.iPtr(Number);
+    funcVal = c.iPtr(i);
     asset_message["data"] =  funcVal;     // Two decimal points
     break;
   case CONTROLDATA1_FN:
