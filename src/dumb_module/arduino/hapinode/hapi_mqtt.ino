@@ -460,13 +460,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     strcat(hn_topic, "/");                     //  .. MQTT separator
     strcat(hn_topic, c.fName);                //  .. and the control name
     if (strcmp(topic, hn_topic) == 0) {         // Asset match?
-      break; // Match for Sensor name
+      // Match for Sensor name
+      sendMQTTAsset(AssetIdx, i);         // Publish sensor or control function data
+      return;                                   //  and exit
     }
-  }
-  if (i < ARRAY_LENGTH(c_functions)) {
-    // Match for Sensor name
-    sendMQTTAsset(AssetIdx, i);         // Publish sensor or control function data
-    return;                                   //  and exit
   }
   Serial.print(F(" .. not "));
   Serial.println(hn_topic);
