@@ -43,21 +43,21 @@ void setupSensors(void) {
     }
   }
 
-// Start the DHT-22
+  // Start the DHT-22
   dht1.begin();
   /*for (int i = 0; i < ARRAY_LENGTH(dhts); i++) {
     dhts[i].begin();
   }*/
 
-// Start the DS18B20
+  // Start the DS18B20
   wp_sensors.begin();
 
-// Start the flow sensor
+  // Start the flow sensor
   pinMode(sWtrFlow_PIN, INPUT);
   flowrate.attach(sWtrFlow_PIN);
   flowrate.interval(5);
 
-// Start the I2C
+  // Start the I2C
   Wire.begin(SDA_PIN, SCL_PIN);      // Default
   Wire.setClock(400000);  // choose 400 kHz I2C rate
   Alarm.delay(100);
@@ -241,7 +241,7 @@ float readLightSensor(int device) {
   d = c_data[device];
 
   int RawADC = analogRead(d.hcs_sensepin);
-//TODO
+  //TODO
   Lux = (float)RawADC; // Need to do some processing to get lux from CDS reading
   return Lux;
 }
@@ -251,13 +251,13 @@ float readFlow(int device) {
   //                      The averaging is done in software and stores a 30second rolling count
   ControlData d;
   d = c_data[device];
-//TODO
+  //TODO
   return (float)WaterFlowRate;
 }
 
 float readSensorPin(int device) {
   float pinData;
-//TODO
+  //TODO
   return pinData;
 }
 

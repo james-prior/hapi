@@ -25,7 +25,7 @@ boolean sendMQTTStatus(void) {
   StaticJsonBuffer<128> hn_topic_status;                   // Status data for this HN
   JsonObject& status_message = hn_topic_status.createObject();
 
-// Publish current status
+  // Publish current status
   // Set the time
   currentTime = now();
   // Identify HAPInode
@@ -136,7 +136,7 @@ boolean createAssetJSON(int AssetIdx, int Number) {
   StaticJsonBuffer<256> hn_asset;                   // Asset data for this HN
   JsonObject& asset_message = hn_asset.createObject();
 
-// Set the NodeId
+  // Set the NodeId
   asset_message["Node"] = HN_Id;
 
   // Assembles a message with values from pins and custom functions
@@ -196,11 +196,11 @@ boolean createAssetJSON(int AssetIdx, int Number) {
 }
 
 boolean publishJSON(const char *topic) {
-// PUBLISH to the MQTT Broker
+  // PUBLISH to the MQTT Broker
   if (MQTTClient.publish(topic, MQTTOutput))
     return true;
 
-// If the message failed to send, try again, as the connection may have broken.
+  // If the message failed to send, try again, as the connection may have broken.
   Serial.println(F("Send Message failed. Reconnecting to MQTT Broker and trying again .. "));
   if (!MQTTClient.connect(clientID, MQTT_broker_username, MQTT_broker_password)) {
     Serial.println(F("Connection to MQTT Broker failed..."));
@@ -235,7 +235,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   StaticJsonBuffer<200> hn_topic_command;            // Parsing buffer
 
   Serial.println(topic);
-// Copy topic to char *buffer
+  // Copy topic to char *buffer
   for (i = 0; i < length; i++) {
     MQTTInput[i] = (char)payload[i];
     Serial.print(MQTTInput[i]);
@@ -243,7 +243,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   MQTTInput[i] = 0x00;                  // Null terminate buffer to use string functions
   Serial.println();
 
-//Parse the topic data
+  //Parse the topic data
   JsonObject& command_topic = hn_topic_command.parseObject(MQTTInput);
   if (!command_topic.success())
     return;
@@ -257,15 +257,15 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
   Serial.print(F("Node - "));
   Serial.println(Node);
-// Check correct Node ID
+  // Check correct Node ID
   if (command_topic.containsKey("Node")) { // NodeId is required for all messages, even if it is "*"
     Node = command_topic["Node"];
   }
-//    else
-//      return;
+  //    else
+  //      return;
 
-// Check for COMMAND/ topic based commands
-// =======================================
+  // Check for COMMAND/ topic based commands
+  // =======================================
   if (strcmp(Node, hostString) != 0 && strcmp(Node, "*") != 0)
     return;
 
@@ -274,8 +274,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     if (!command_topic.containsKey("Cmnd")) // Cmnd is required
       return;
     Command = command_topic["Cmnd"];
-// Commands that do not require an Asset ID
-// ----------------------------------------
+    // Commands that do not require an Asset ID
+    // ----------------------------------------
     if (strcmp(Command, "assets") == 0) {
       succeed = sendAllMQTTAssets();
       return;
@@ -285,13 +285,13 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
       return;
     }
 
-// Commands that do require an Asset ID
-// ------------------------------------
+    // Commands that do require an Asset ID
+    // ------------------------------------
     if (!command_topic.containsKey(F("Asset"))) // AssetID is required
       return;
 
     Serial.println(F("Processing Asset"));
-// Digital IO
+    // Digital IO
     if (strcmp(command_topic["Asset"], "DIO") == 0) { // Digital IO
       if (!command_topic.containsKey("pin")) // pin - required
         return;
@@ -312,7 +312,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     }
     Serial.println(F(" .. not DIO"));
 
-// Analog IO
+    // Analog IO
     if (strcmp(command_topic["Asset"], "AIO") == 0) { // Analog IO
       if (!command_topic.containsKey("pin")) // pin - required
         return;
@@ -334,7 +334,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     }
     Serial.println(F(" .. not AIO"));
 
-// Function IO
+    // Function IO
     Number = INVALID_VALUE;
     AssetIdx = SENSORID_FN;                    // Asset Function IO
     for (int i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
@@ -367,7 +367,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
       // Function out only works for controls
       c = c_functions[Number];             // Point to control output function structure
-// Control
+      // Control
       if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
         c_data[Number].hc_polarity = command_topic["pol"];
       }
@@ -381,7 +381,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
       if (command_topic.containsKey("rpt")) {  // Repeat time (s)
         c_data[Number].hc_repeat = command_topic["rpt"];
       }
-// Associated sensor
+      // Associated sensor
       if (command_topic.containsKey("von")) {  // Value to turn on
         c_data[Number].hcs_onValue = command_topic["von"];
       }
@@ -395,21 +395,21 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
 
   Serial.println(F(" .. not COMMAND/"));
 
-// Check for CONFIG/ only topic values
-// ===================================
+  // Check for CONFIG/ only topic values
+  // ===================================
   if (strcmp(topic, mqtt_topic_config) == 0) {
     if (command_topic.containsKey("timeZone")) {  // Time Zone ?
       timeZone = command_topic["timeZone"];
     }
-// Add extra CONFIG values here
-// ----------------------------
+    // Add extra CONFIG values here
+    // ----------------------------
     else
       return;
   }
   Serial.println(F(" .. not CONFIG/"));
 
-// STATUS topics
-// =============
+  // STATUS topics
+  // =============
   Serial.print(F("Checking .. "));
   Serial.println(topic);
 
@@ -421,9 +421,9 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   Serial.print(F(" .. not "));
   Serial.println(hn_topic);
 
-// ASSET topics
-// ============
-// Handle wildcards
+  // ASSET topics
+  // ============
+  // Handle wildcards
   Serial.println(mqtt_topic_array[ASSETSTART]);   // Assets start
   for (int i = ASSETSTART;i <= ASSET_END; i++) { // Wildcard topics
     strcpy(hn_topic, mqtt_topic_array[i]);         // Asset query, any NodeId
@@ -435,7 +435,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     Serial.println(hn_topic);
   }
 
-// Handle sensors
+  // Handle sensors
   AssetIdx = SENSORID_FN;                    // Sensor Function IO
   Number = INVALID_VALUE;
   for (int i = 0;i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
@@ -454,7 +454,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   }
   Serial.print(F(" .. not "));
   Serial.println(hn_topic);
-// Handle Controls
+  // Handle Controls
   AssetIdx = CONTROLID_FN;                   // Control Function IO
   for (int i = 0;i < ARRAY_LENGTH(c_functions); i++) {   // Scan for a match on the control name
     c = c_functions[i];                    // Point to control function structure
@@ -473,10 +473,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   Serial.print(F(" .. not "));
   Serial.println(hn_topic);
 
-// CONFIG topic
-// ============
-// Wildcards are not allowed in CONFIG
-// It must have a valid NodeId, Asset and data to work
+  // CONFIG topic
+  // ============
+  // Wildcards are not allowed in CONFIG
+  // It must have a valid NodeId, Asset and data to work
   Number = INVALID_VALUE;
   for (int i = 0;i < ARRAY_LENGTH(c_functions); i++) {     // Scan for a match on the control name
     c = c_functions[i];                    // Point to control function structure
@@ -490,7 +490,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   }
   if (Number != INVALID_VALUE) {
     c = c_functions[Number];             // Point to control output function structure
-// Control
+    // Control
     if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
       c_data[Number].hc_polarity = command_topic["pol"];
     }
@@ -503,7 +503,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     if (command_topic.containsKey("rpt")) {  // Repeat time (s)
       c_data[Number].hc_repeat = command_topic["rpt"];
     }
-// Associated sensor
+    // Associated sensor
     if (command_topic.containsKey("von")) {  // Value to turn on
       c_data[Number].hcs_onValue = command_topic["von"];
     }
@@ -515,6 +515,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   Serial.print(F(" .. not "));
   Serial.println(hn_topic);
 
-// Other topics go here
-// ====================
+  // Other topics go here
+  // ====================
 }

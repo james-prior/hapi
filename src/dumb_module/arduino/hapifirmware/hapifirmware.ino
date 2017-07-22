@@ -567,7 +567,7 @@ String getCommand(EthernetClient client) {
 String getCommand(WiFiClient client) {
 #endif
 
-// Retrieves a command from the cuurent serial or network connection
+  // Retrieves a command from the cuurent serial or network connection
   stringComplete = false;
   char inChar;
   inputString = "";
@@ -596,7 +596,7 @@ String buildResponse() {
   String response = "buildResponse\r\n";
   assembleResponse(response, "name", RTUID);
   assembleResponse(response, "version", HAPI_CLI_VERSION);
-//  assembleResponse(response, "lastcmd", lastCommand);
+  //  assembleResponse(response, "lastcmd", lastCommand);
   //Process digital pins
   for (int i = 0; i < NUM_DIGITAL; i++) {
     switch (pin_configurations[i].mode) {
@@ -705,10 +705,10 @@ String getStatus() {
 
 int freeRam() {
 #ifdef RTU_ESP
-// Gets free ram on the ESP8266
+  // Gets free ram on the ESP8266
   return ESP.getFreeHeap();
 #else
-// Gets free ram on the Arduino
+  // Gets free ram on the Arduino
   extern int __heap_start, *__brkval;
   int v;
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);

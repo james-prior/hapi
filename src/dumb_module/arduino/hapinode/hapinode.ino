@@ -342,10 +342,10 @@ char *binary_to_hex(
 
 int freeRam() {
 #if defined(HN_ESP8266) || defined(HN_ESP32)
-// Gets free ram on the ESP8266, ESP32
+  // Gets free ram on the ESP8266, ESP32
   return ESP.getFreeHeap();
 #else
-// Gets free ram on the Arduino
+  // Gets free ram on the Arduino
   extern int __heap_start, *__brkval;
   int v;
   return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
@@ -353,15 +353,15 @@ int freeRam() {
 }
 
 void setup() {
-// Switch the on-board LED off to start with
-//  pinMode(LED_PIN, OUTPUT);
-//  digitalWrite(LED_PIN, HIGH);
+  // Switch the on-board LED off to start with
+  //  pinMode(LED_PIN, OUTPUT);
+  //  digitalWrite(LED_PIN, HIGH);
   Serial.begin(115200);       // Debug port
   while (!Serial) //  wait for Arduino Serial Monitor
     ;
 
-// Start Debug port and sensors
-// ============================
+  // Start Debug port and sensors
+  // ============================
   setupSensors();             // Initialize I/O and start devices
   inputString.reserve(200);   // reserve 200 bytes for the inputString
 
@@ -399,8 +399,8 @@ void setup() {
   Serial.println(WiFi.localIP());
 #endif
 
-// Start mDNS support
-// ==================
+  // Start mDNS support
+  // ==================
   Serial.print(F("HN_Id:      "));
   Serial.println(HN_Id);
   Serial.print(F("hostString: "));
@@ -435,7 +435,7 @@ void setup() {
       Serial.println(F(")"));
       if (MDNS.port(i) == MQTT_port) {
         MDNS.hostname(i).toCharArray(MQTT_broker_hostname, (MDNS.hostname(i).length()+1));
-// TODO check for separate ntp server
+        // TODO check for separate ntp server
         MDNS.hostname(i).toCharArray(ntpServer_hostname, (MDNS.hostname(i).length()+1));
       }
     }
@@ -450,8 +450,8 @@ void setup() {
 #endif
 
 
-// Start NTP support
-// =================
+  // Start NTP support
+  // =================
   Serial.println(F("Starting UDP"));                 // Start UDP
   udp.begin(localPort);
   Serial.print(F("Local port: "));
@@ -471,8 +471,8 @@ void setup() {
   setupTime();          // initialize RTC using ntp, if available
   mscount = millis();   // initialize the millisecond counter
 
-// Start MQTT support
-// ==================
+  // Start MQTT support
+  // ==================
   MQTTClient.setServer(MQTT_broker_hostname, MQTT_port);
   MQTTClient.setCallback(MQTTcallback);
 
@@ -485,7 +485,7 @@ void setup() {
   while (!sendMQTTStatus())
     ;
 
-// Subscribe to the TOPICs
+  // Subscribe to the TOPICs
 
   Serial.println(F("Subscribing to MQTT topics ..."));
   for (int i = 0; i < ARRAY_LENGTH(mqtt_listen_array); i++) {
@@ -501,7 +501,7 @@ void setup() {
   }
   currentTime = now();
   Serial.println(F("Setup Complete. Listening for topics .."));
-// Create the recurring calls, to trigger at or after time
+  // Create the recurring calls, to trigger at or after time
   Alarm.timerRepeat(1, flashLED);         // Every    second
   Alarm.timerRepeat(2, poll_timed_things);    // Every  2 seconds
   Alarm.timerRepeat(5, hapiSensors);      // Every  5 seconds
