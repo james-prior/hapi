@@ -474,7 +474,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   // ============
   // Wildcards are not allowed in CONFIG
   // It must have a valid NodeId, Asset and data to work
-  Number = INVALID_VALUE;
   for (i = 0;i < ARRAY_LENGTH(c_functions); i++) {     // Scan for a match on the control name
     c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[CONFIGSTART]);       // Set base topic for a specific asset query
@@ -486,6 +485,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     }
   }
   if (i < ARRAY_LENGTH(c_functions)) {
+    // Match for Sensor name
     c = c_functions[i];             // Point to control output function structure
     // Control
     if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
