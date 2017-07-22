@@ -33,7 +33,7 @@ void digitalClockDisplay() {
   Serial.print(month());
   Serial.print(F(" "));
   Serial.print(year());
-  Serial.println(); 
+  Serial.println();
 }
 
 void printDigits(int digits) {

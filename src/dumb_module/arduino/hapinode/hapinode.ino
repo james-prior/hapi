@@ -128,7 +128,7 @@ boolean stringComplete = false;    // A boolean indicating when received string 
 // the media access control (ethernet hardware) address for the shield
 // Need to manually change this for USB, Ethernet
 byte mac[] = {0x55, 0x55, 0x55, 0x55, 0x55, 0x55};
-char mac_str[16] = "555555555555";  // Default mac id      
+char mac_str[16] = "555555555555";  // Default mac id
 char hostString[64] = {0};          // mDNS Hostname for this HAPInode
 
 // ntp config
