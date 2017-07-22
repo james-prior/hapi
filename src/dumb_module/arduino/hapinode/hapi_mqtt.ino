@@ -224,7 +224,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   const char *Command = " ";  // Command to execute
   char *hn_topic;             // Variable to hold all node topics
   FuncDef f;                  // Read Data Functions
-  CFuncDef c;                 // Control functions
   int AssetIdx;               // Target Sensor Index
   int data;                   // Data for output
   boolean succeed;
@@ -346,8 +345,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     Serial.println(F(" .. not Sensor Read"));
     AssetIdx = CONTROLID_FN;                 // Control Function IO
     for (i = 0; i < ARRAY_LENGTH(c_functions); i++) { // Scan for a match on the control name
-      c = c_functions[i];                  // Point to control function structure
-      if (strcmp(command_topic["Asset"], c.fName) == 0) {  // Asset match?
+      if (strcmp(command_topic["Asset"], c_functions[i].fName) == 0) {  // Asset match?
         break; // Match for control name
       }
     }
@@ -360,7 +358,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         return;
 
       // Function out only works for controls
-      c = c_functions[i];             // Point to control output function structure
       // Control
       if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
         c_data[i].hc_polarity = command_topic["pol"];
@@ -448,11 +445,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   // Handle Controls
   AssetIdx = CONTROLID_FN;                   // Control Function IO
   for (i = 0; i < ARRAY_LENGTH(c_functions); i++) {   // Scan for a match on the control name
-    c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[1]);     // Set base topic for an asset query
     strcat(hn_topic, hostString);              // NodeId next
     strcat(hn_topic, "/");                     //  .. MQTT separator
-    strcat(hn_topic, c.fName);                //  .. and the control name
+    strcat(hn_topic, c_functions[i].fName); //  .. and the control name
     if (strcmp(topic, hn_topic) == 0) {         // Asset match?
       // Match for Sensor name
       sendMQTTAsset(AssetIdx, i);         // Publish sensor or control function data
@@ -467,11 +463,10 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   // Wildcards are not allowed in CONFIG
   // It must have a valid NodeId, Asset and data to work
   for (i = 0; i < ARRAY_LENGTH(c_functions); i++) {     // Scan for a match on the control name
-    c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[CONFIGSTART]);       // Set base topic for a specific asset query
     strcat(hn_topic, hostString);              // NodeId next
     strcat(hn_topic, "/");                     //  .. MQTT separator
-    strcat(hn_topic, c.fName);                //  .. and the sensor name
+    strcat(hn_topic, c_functions[i].fName); //  .. and the sensor name
     if (strcmp(topic, hn_topic) == 0) {       // Asset match?
       break; // Match for Sensor name
     }
