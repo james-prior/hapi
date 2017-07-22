@@ -337,7 +337,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     // Function IO
     Number = INVALID_VALUE;
     AssetIdx = SENSORID_FN;                    // Asset Function IO
-    for (int i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
+    for (i = 0; i < ARRAY_LENGTH(s_functions); i++) {    // Scan for a match on the sensor name
       f = s_functions[i];                    // Point to Asset read function structure
       if (strcmp(command_topic["Asset"], f.fName) == 0) {  // Asset match?
         Number = i;                             // Match for Sensor name
