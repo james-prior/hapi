@@ -453,7 +453,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   Serial.println(hn_topic);
   // Handle Controls
   AssetIdx = CONTROLID_FN;                   // Control Function IO
-  for (int i = 0;i < ARRAY_LENGTH(c_functions); i++) {   // Scan for a match on the control name
+  for (i = 0;i < ARRAY_LENGTH(c_functions); i++) {   // Scan for a match on the control name
     c = c_functions[i];                    // Point to control function structure
     strcpy(hn_topic, mqtt_topic_array[1]);     // Set base topic for an asset query
     strcat(hn_topic, hostString);              // NodeId next
