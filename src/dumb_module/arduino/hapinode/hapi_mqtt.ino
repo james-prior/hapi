@@ -225,7 +225,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   char *hn_topic;             // Variable to hold all node topics
   int AssetIdx;               // Target Sensor Index
   int data;                   // Data for output
-  boolean succeed;
 
   hn_topic = &MQTTOutput[0];
   StaticJsonBuffer<200> hn_topic_command;            // Parsing buffer
@@ -273,7 +272,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     // Commands that do not require an Asset ID
     // ----------------------------------------
     if (strcmp(Command, "assets") == 0) {
-      succeed = sendAllMQTTAssets();
+      sendAllMQTTAssets();
       return;
     }
     if (strcmp(Command, "status") == 0) {
