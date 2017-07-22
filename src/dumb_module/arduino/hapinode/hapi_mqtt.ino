@@ -225,7 +225,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   char *hn_topic;             // Variable to hold all node topics
   FuncDef f;                  // Read Data Functions
   CFuncDef c;                 // Control functions
-  ControlData cd;             // Data for control functions
   int AssetIdx;               // Target Sensor Index
   int data;                   // Data for output
   boolean succeed;
