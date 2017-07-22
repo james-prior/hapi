@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "misc.h"
+
 /*
 #*********************************************************************
 #Copyright 2016 Maya Culpa, LLC
@@ -308,25 +310,33 @@ ControlData c_data[] = {ccontrol1, ccontrol2, ccontrol3, ccontrol4, ccontrol5, c
 
 //**** End Sensors Section ****
 
-void b2c(byte *bptr, char *cptr, int len) {
-  int i;
+char ascii_hex_from_nybble(byte i)
+{
   char c;
-  for (i = 0; i < len; i++) {
-    c = (bptr[i] >> 4) & 0x0f;
-    c += '0';
-    if (c > '9')
-      c += ('A' - '9' - 1);
-    *cptr++ = c;
-//    Serial.print(c, HEX);
-    c = bptr[i] & 0x0f;
-    c += '0';
-    if (c > '9')
-      c += ('A' - '9' - 1);
-    *cptr++ = c;
-//    Serial.print(c, HEX);
+
+  i &= MASK(4, 0);
+  if (i >= 0xA) {
+    c = (i - 0xA) + 'A';
+  } else {
+    c = (i - 0x0) + '0';
   }
-  *cptr++ = '\0';
-//  Serial.println(F(""));
+  return c;
+}
+
+/* Convert n bytes starting at bptr to
+*  null-terminated ascii hex starting at s */
+char *b2c(
+  byte *bptr, // input
+  char *s, // output
+  int n // number of bytes to convert to ascii hex
+) {
+  for (int i = 0; i < n; i++) {
+    *s++ = ascii_hex_from_nybble(bptr >> 4);
+    *s++ = ascii_hex_from_nybble(bptr >> 0);
+    bptr++;
+  }
+  *s = '\0';
+  return s
 }
 
 int freeRam() {
