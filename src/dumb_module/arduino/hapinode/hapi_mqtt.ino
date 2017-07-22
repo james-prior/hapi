@@ -486,7 +486,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   }
   if (i < ARRAY_LENGTH(c_functions)) {
     // Match for Sensor name
-    c = c_functions[i];             // Point to control output function structure
     // Control
     if (command_topic.containsKey("pol")) {  // Polarity ( boolean)
       c_data[i].hc_polarity = command_topic["pol"];
