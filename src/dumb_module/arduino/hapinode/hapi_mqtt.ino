@@ -220,8 +220,8 @@ boolean publishJSON(const char *topic) {
 
 void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   int i;
-  const char *Node = "*";     // NodeId for target HAPInode, preset for anyone
-  const char *Command = " ";  // Command to execute
+  const char *node = "*";     // NodeId for target HAPInode, preset for anyone
+  const char *command = " ";  // Command to execute
   char *hn_topic;             // Variable to hold all node topics
   int AssetIdx;               // Target Sensor Index
   int data;                   // Data for output
@@ -251,31 +251,31 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   }
 
   Serial.print(F("Node - "));
-  Serial.println(Node);
-  // Check correct Node ID
+  Serial.println(node);
+  // Check correct node ID
   if (command_topic.containsKey("Node")) { // NodeId is required for all messages, even if it is "*"
-    Node = command_topic["Node"];
+    node = command_topic["Node"];
   }
   //    else
   //      return;
 
   // Check for COMMAND/ topic based commands
   // =======================================
-  if (strcmp(Node, hostString) != 0 && strcmp(Node, "*") != 0)
+  if (strcmp(node, hostString) != 0 && strcmp(node, "*") != 0)
     return;
 
   // Handle wildcard
   if (strcmp(topic, mqtt_topic_command) == 0) {
     if (!command_topic.containsKey("Cmnd")) // Cmnd is required
       return;
-    Command = command_topic["Cmnd"];
+    command = command_topic["Cmnd"];
     // Commands that do not require an Asset ID
     // ----------------------------------------
-    if (strcmp(Command, "assets") == 0) {
+    if (strcmp(command, "assets") == 0) {
       sendAllMQTTAssets();
       return;
     }
-    if (strcmp(Command, "status") == 0) {
+    if (strcmp(command, "status") == 0) {
       sendMQTTStatus();
       return;
     }
@@ -292,12 +292,12 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         return;
       i = command_topic["pin"];
 
-      if (strcmp(Command, "din") == 0) {
+      if (strcmp(command, "din") == 0) {
         AssetIdx = SENSORID_DIO;
         sendMQTTAsset(AssetIdx, i);         // Publish digital data
         return;
       }
-      if (strcmp(Command, "dout") == 0) {
+      if (strcmp(command, "dout") == 0) {
         if (!command_topic.containsKey("data")) // Data - required
           return;
         data = command_topic["data"];
@@ -312,12 +312,12 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
       if (!command_topic.containsKey("pin")) // pin - required
         return;
       i = command_topic["pin"];
-      if (strcmp(Command, "ain") == 0) {
+      if (strcmp(command, "ain") == 0) {
         AssetIdx = SENSORID_AIO;
         sendMQTTAsset(AssetIdx, i);         // Publish analog data
         return;
       }
-      if (strcmp(Command, "aout") == 0) {
+      if (strcmp(command, "aout") == 0) {
         if (!command_topic.containsKey("data")) // Data - required
           return;
         data = command_topic["data"];
@@ -347,11 +347,11 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
       }
     }
     if (i < ARRAY_LENGTH(c_functions)) {
-      if (strcmp(Command, "fnin") == 0) {
+      if (strcmp(command, "fnin") == 0) {
         sendMQTTAsset(AssetIdx, i);       // Publish sensor or control function data
         return;
       }
-      if (strcmp(Command, "fnout") != 0) // Found a valid control name but no valid command or data
+      if (strcmp(command, "fnout") != 0) // Found a valid control name but no valid command or data
         return;
 
       // Function out only works for controls
