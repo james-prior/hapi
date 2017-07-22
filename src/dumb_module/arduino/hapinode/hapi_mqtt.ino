@@ -416,8 +416,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   for (int i = ASSETSTART; i <= ASSET_END; i++) { // Wildcard topics
     strcpy(hn_topic, mqtt_topic_array[i]);         // Asset query, any NodeId
     if (strcmp(topic, hn_topic) == 0) {
-        sendAllMQTTAssets();
-        return;
+      sendAllMQTTAssets();
+      return;
     }
     Serial.print(F(" .. not "));
     Serial.println(hn_topic);
