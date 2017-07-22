@@ -347,14 +347,13 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
       sendMQTTAsset(AssetIdx, i);         // Publish sensor or control function data
       return;
     }
-    else {                                      // Did not find a sensor, so try controls
-      Serial.println(F(" .. not Sensor Read"));
-      AssetIdx = CONTROLID_FN;                 // Control Function IO
-      for (int i = 0; i < ARRAY_LENGTH(c_functions); i++) { // Scan for a match on the control name
-        c = c_functions[i];                  // Point to control function structure
-        if (strcmp(command_topic["Asset"], c.fName) == 0) {  // Asset match?
-          Number = i;                           // Match for control name
-        }
+    // Did not find a sensor, so try controls
+    Serial.println(F(" .. not Sensor Read"));
+    AssetIdx = CONTROLID_FN;                 // Control Function IO
+    for (int i = 0; i < ARRAY_LENGTH(c_functions); i++) { // Scan for a match on the control name
+      c = c_functions[i];                  // Point to control function structure
+      if (strcmp(command_topic["Asset"], c.fName) == 0) {  // Asset match?
+        Number = i;                           // Match for control name
       }
     }
     if (Number != INVALID_VALUE) {             // If we have a match on the name
