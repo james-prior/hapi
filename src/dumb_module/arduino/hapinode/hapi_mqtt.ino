@@ -126,9 +126,9 @@ boolean sendMQTTException(int AssetIdx, int i) {
 
 boolean createAssetJSON(int AssetIdx, int i) {
   //For custom functions
-  FuncDef f = s_functions[i];
-  CFuncDef c = c_functions[i];
-  ControlData d = c_data[i];
+  FuncDef f;
+  CFuncDef c;
+  ControlData d;
   int pinValue;
   float funcVal = (-9.99);
   StaticJsonBuffer<256> hn_asset;                   // Asset data for this HN
@@ -174,6 +174,7 @@ boolean createAssetJSON(int AssetIdx, int i) {
     asset_message["data"] = funcVal;     // Two decimal points
     break;
   case CONTROLDATA1_FN:
+    d = c_data[i];
     asset_message["Asset"] = (String)d.hc_name;
     asset_message["pol"] = (boolean)d.hc_polarity;
     asset_message["stt"] = (unsigned long )d.hc_start;
@@ -181,6 +182,7 @@ boolean createAssetJSON(int AssetIdx, int i) {
     asset_message["rpt"] = (unsigned long)d.hc_repeat;
     break;
   case CONTROLDATA2_FN:
+    d = c_data[i];
     asset_message["Asset"] = (String)d.hc_name;
     asset_message["von"] = (float)d.hcs_onValue;
     asset_message["voff"] = (float)d.hcs_offValue;
