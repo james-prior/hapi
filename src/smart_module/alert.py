@@ -69,8 +69,8 @@ class Alert(object):
                 setattr(self, key, value)
             self.lower_threshold = float(self.lower_threshold)
             self.upper_threshold = float(self.upper_threshold)
-        except Exception as excpt:
-            Log.exception("Error fetching alert parameters from database: %s.", excpt)
+        except Exception as e:
+            Log.exception("Error fetching alert parameters from database: %s.", e)
         finally:
             database.close()
             Log.info("Closing Alert database connection.")

@@ -52,8 +52,8 @@ class Communicator(object):
             Log.info("Connecting to %s at %s.", self.broker_name, self.broker_ip)
             self.client.connect(host=self.broker_ip, port=1883, keepalive=60)
             self.client.loop_start()
-        except Exception as excpt:
-            Log.exception("[Exiting] Error connecting to broker: %s", excpt)
+        except Exception as e:
+            Log.exception("[Exiting] Error connecting to broker: %s", e)
             self.client.loop_stop()
             sys.exit(-1)
 
@@ -61,8 +61,8 @@ class Communicator(object):
         try:
             if self.client:
                 self.client.publish(topic, message)
-        except Exception as excpt:
-            Log.info("Error publishing message: %s.", excpt)
+        except Exception as e:
+            Log.info("Error publishing message: %s.", e)
 
     def subscribe(self, topic):
         """Subscribe to a topic (QoS = 0)."""
@@ -174,5 +174,5 @@ class Communicator(object):
                         notify.message.format(
                             time=time_now, site=site_name, asset=asset_id, value=value)
                     )
-            except Exception as excpt:
-                Log.exception("Trying to send notification: %s.", excpt)
+            except Exception as e:
+                Log.exception("Trying to send notification: %s.", e)

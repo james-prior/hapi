@@ -17,28 +17,29 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #*********************************************************************
-
-HAPI Remote Terminal Unit Firmware Code V3.1.1
-Authors: Tyler Reed, Mark Miller
-ESP Modification: John Archbold
-
-Sketch Date: June 29th, 2017
-Sketch Version: V3.1.1
-Implement of MQTT-based HAPInode (HN) for use in Monitoring and Control
-Implements mDNS discovery of MQTT broker
-Implements definitions for
-  ESP-NodeMCU
-  ESP8266
-  WROOM32
-Communications Protocol
-  WiFi
-Communications Method
-  MQTT        Listens for messages on Port 1883
 */
 
-time_t getNtpTime()
+#define SECONDS_PER_MINUTE (60)
+#define MINUTES_PER_HOUR (60)
+#define HOURS_PER_DAY (24)
+#define DAYS_PER_NON_LEAP_YEAR (365)
+#define SECONDS_PER_HOUR (MINUTES_PER_HOUR * SECONDS_PER_MINUTE)
+#define SECONDS_PER_DAY ((unsigned long)HOURS_PER_DAY * SECONDS_PER_HOUR)
+#define N_LEAP_DAYS(year) ((year)/4 - (year)/100 + (year)/400)
+// number of leap days from beginning of first_year to beginning of last_year
+#define N_LEAP_DAYS_DELTA(first_year, last_year) (\
+    N_LEAP_DAYS(last_year) - N_LEAP_DAYS(first_year))
+#define NTP_BASE_YEAR (1900)
+#define UNIX_EPOCH_BASE_YEAR (1970)
+#define NTP_TO_UNIX_DAYS ( \
+    (UNIX_EPOCH_BASE_YEAR - NTP_BASE_YEAR) * DAYS_PER_NON_LEAP_YEAR\
+    + N_LEAP_DAYS_DELTA(NTP_BASE_YEAR, UNIX_EPOCH_BASE_YEAR))
+#define NTP_TO_UNIX_SECONDS (NTP_TO_UNIX_DAYS * SECONDS_PER_DAY)
+
+time_t getNtpTime(void)
 {
-  while (udp.parsePacket() > 0) ; // discard any previously received packets
+  while (udp.parsePacket() > 0) // discard any previously received packets
+    ;
   Serial.println(F("Transmit NTP Request"));
   sendNTPpacket(ntpServerIP);
   uint32_t beginWait = millis();
@@ -55,7 +56,7 @@ time_t getNtpTime()
       secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
       secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
       secsSince1900 |= (unsigned long)packetBuffer[43];
-      return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
+      return secsSince1900 - NTP_TO_UNIX_SECONDS + timeZone * (unsigned long)SECS_PER_HOUR;
     }
   }
   Serial.println(F("No NTP Response :-("));
