@@ -36,7 +36,7 @@
     + N_LEAP_DAYS_DELTA(NTP_BASE_YEAR, UNIX_EPOCH_BASE_YEAR))
 #define NTP_TO_UNIX_SECONDS (NTP_TO_UNIX_DAYS * SECONDS_PER_DAY)
 
-time_t getNtpTime()
+time_t getNtpTime(void)
 {
   while (udp.parsePacket() > 0) // discard any previously received packets
     ;
@@ -56,7 +56,7 @@ time_t getNtpTime()
       secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
       secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
       secsSince1900 |= (unsigned long)packetBuffer[43];
-      return secsSince1900 - NTP_TO_UNIX_SECONDS + timeZone * SECS_PER_HOUR;
+      return secsSince1900 - NTP_TO_UNIX_SECONDS + timeZone * (unsigned long)SECS_PER_HOUR;
     }
   }
   Serial.println(F("No NTP Response :-("));
