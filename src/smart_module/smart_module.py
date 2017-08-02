@@ -590,8 +590,9 @@ class Scheduler(object):
                     database = sqlite3.connect(utilities.DB_CORE)
                     seq_jobs = database.cursor().execute(*command)
                     #print('len(seq_jobs) =', len(seq_jobs))
-                    p = Process(target=self.process_sequence, args=(seq_jobs, job, job_rtu,
-                                                                    seq_result,))
+                    p = Process(
+                        target=self.process_sequence,
+                        args=(seq_jobs, job, job_rtu, seq_result,))
                     p.start()
                     database.close()
                 else:
@@ -600,17 +601,13 @@ class Scheduler(object):
                     if job.name == "Log Data":
                         self.smart_module.comm.send("QUERY/#", "query")
                         # self.site.log_sensor_data(response, False, self.logger)
-
                     elif job.name == "Log Status":
                         self.smart_module.comm.send("REPORT/#", "report")
-
                     else:
                         eval(job.command)
                         # if job_rtu is not None:  #??? job_rtu is always None. Bug?
                         #     self.site.comm.send("COMMAND/" + job.rtuid, job.command)
-
                     #self.log_command(job, "")
-
             except Exception as e:
                 Log.exception("Error running job: %s.", e)
 
