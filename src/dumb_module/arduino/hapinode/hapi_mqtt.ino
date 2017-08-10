@@ -448,7 +448,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     if (strcmp(topic, hn_topic) == 0) {         // Asset match?
       // Match for Sensor name
       sendMQTTAsset(AssetIdx, i);         // Publish sensor or control function data
-      return;                                   //  and exit
+      return;
     }
   }
   Serial.print(F(" .. not "));
