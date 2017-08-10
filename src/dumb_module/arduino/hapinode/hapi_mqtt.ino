@@ -244,7 +244,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     return;
 
   Serial.println(F("Parsing .. "));
-  for (JsonObject::iterator it = command_topic.begin(); it != command_topic.end(); ++it) {
+  for (JsonObject::iterator it = command_topic.begin(); it != command_topic.end(); ++it) { //^^^ why ++it instead if it++?
     Serial.print(it->key);
     Serial.print(F(":"));
     Serial.println(it->value.as<char*>());
