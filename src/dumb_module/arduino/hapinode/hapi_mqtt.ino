@@ -256,8 +256,6 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
   if (command_topic.containsKey("Node")) { // NodeId is required for all messages, even if it is "*"
     node = command_topic["Node"];
   }
-  //    else
-  //      return;
 
   // Check for COMMAND/ topic based commands
   // =======================================
