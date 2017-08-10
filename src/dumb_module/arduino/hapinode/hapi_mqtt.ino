@@ -338,8 +338,8 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
         return;
       }
     }
-    // Did not find a sensor, so try controls
     Serial.println(F(" .. not Sensor Read"));
+    // Did not find a sensor, so try controls
     AssetIdx = CONTROLID_FN;                 // Control Function IO
     for (i = 0; i < ARRAY_LENGTH(c_functions); i++) { // Scan for a match on the control name
       if (strcmp(command_topic["Asset"], c_functions[i].fName) == 0) {  // Asset match?
