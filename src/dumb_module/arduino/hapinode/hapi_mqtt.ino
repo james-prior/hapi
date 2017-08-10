@@ -235,7 +235,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     MQTTInput[i] = (char)payload[i];
     Serial.print(MQTTInput[i]);
   }
-  MQTTInput[i] = 0x00;                  // Null terminate buffer to use string functions
+  MQTTInput[i] = '\0';
   Serial.println();
 
   //Parse the topic data
