@@ -265,7 +265,7 @@ void MQTTcallback(char *topic, byte *payload, unsigned int length) {
     return;
 
   // Handle wildcard
-  if (strcmp(topic, mqtt_topic_command) == 0) {
+  if (strcmp(topic, mqtt_topic_command) == 0) { //^^^ Yikes! mqtt_topic_command is global
     if (!command_topic.containsKey("Cmnd")) // Cmnd is required
       return;
     command = command_topic["Cmnd"];
