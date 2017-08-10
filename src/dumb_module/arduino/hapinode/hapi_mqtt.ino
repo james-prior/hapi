@@ -139,7 +139,7 @@ boolean createAssetJSON(int AssetIdx, int i) {
 
   // Assembles a message with values from pins and custom functions
   // Returns a JSON string
-  currentTime = now();                            // Get the current time
+  currentTime = now();
   asset_message["t"] = currentTime;               //  into the JSON message
 
   switch (AssetIdx) {
