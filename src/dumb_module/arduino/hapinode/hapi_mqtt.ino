@@ -142,7 +142,7 @@ boolean createAssetJSON(int AssetIdx, int i) {
   currentTime = now();                            // Get the current time
   asset_message["t"] = currentTime;               //  into the JSON message
 
-  switch(AssetIdx) {
+  switch (AssetIdx) {
   case SENSORID_DIO:
     asset_message["Asset"] = F("DIO");            // Asset ID
     asset_message["ctxt"] = F("PIN");             // Context
@@ -177,7 +177,7 @@ boolean createAssetJSON(int AssetIdx, int i) {
     d = c_data[i];
     asset_message["Asset"] = (String)d.hc_name;
     asset_message["pol"] = (boolean)d.hc_polarity;
-    asset_message["stt"] = (unsigned long )d.hc_start;
+    asset_message["stt"] = (unsigned long)d.hc_start;
     asset_message["end"] = (unsigned long)d.hc_end;
     asset_message["rpt"] = (unsigned long)d.hc_repeat;
     break;
