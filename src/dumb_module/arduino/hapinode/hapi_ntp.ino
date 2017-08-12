@@ -42,8 +42,22 @@ struct ntp_packet_struct {
   byte ignore2[4];
 };
 
+uint32_t ntohl(uint32_t x/*in network order*/)
+{
+  // network order is most significant byte first
+  // https://en.wikipedia.org/wiki/Network_order#Networking
+  unsigned long y = 0UL;
+
+  for (int i = 0; i < sizeof(x); i++)
+    y <<= 8;
+    y |= ((byte *)&x)[i];
+  return y;
+}
+
 time_t getNtpTime(void)
 {
+  struct ntp_packet_struct packet;
+
   while (udp.parsePacket() > 0) // discard any previously received packets
     ;
   Serial.println(F("Transmit NTP Request"));
@@ -53,15 +67,13 @@ time_t getNtpTime(void)
     int size = udp.parsePacket();
     if (size >= NTP_PACKET_SIZE) {
       Serial.println(F("Receive NTP Response"));
-      udp.read(packetBuffer, NTP_PACKET_SIZE);  // read packet into the buffer
+      udp.read(&buffer, NTP_PACKET_SIZE);  // read packet into the buffer
       unsigned long secsSince1900;
 
       // The timestamp starts at byte 40 of the received packet and is four bytes,
       // or two words, long. First, extract the two words:
-      secsSince1900 =  (unsigned long)packetBuffer[40] << 24;
-      secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
-      secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
-      secsSince1900 |= (unsigned long)packetBuffer[43];
+
+      secsSince1900 = ntohl(packet.now);
       return secsSince1900 - NTP_TO_UNIX_SECONDS + timeZone * (unsigned long)SECS_PER_HOUR;
     }
   }
