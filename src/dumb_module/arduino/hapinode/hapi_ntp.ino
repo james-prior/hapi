@@ -64,7 +64,7 @@ time_t getNtpTime(void)
 }
 
 // send an NTP request to the time server at the given address
-unsigned long sendNTPpacket(IPAddress& address)
+void sendNTPpacket(IPAddress& address)
 {
   Serial.println(F("sending NTP packet..."));
   // set all bytes in the buffer to 0
