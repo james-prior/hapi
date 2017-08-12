@@ -78,7 +78,7 @@ void sendNTPpacket(IPAddress &address)
   // set all bytes in the buffer to 0
   memset(&packet, 0, sizeof(packet));
   // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)
+  // (see URL above for details on the packets) ^^^ what is that URL?
   #define packet_as_bytes ((byte *)&packet)
   packet_as_bytes[0] = 0b11100011;   // LI, Version, Mode
   packet_as_bytes[1] = 0;     // Stratum, or type of clock
