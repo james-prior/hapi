@@ -288,8 +288,8 @@ class SmartModule(object):
             "time": timestamp,
             "fields": {
                 "unit": "percentage",
-                "load": information["cpu"]["percentage"]
-            }
+                "load": information["cpu"]["percentage"],
+            },
         }]
         meminfo = [{
             "measurement": "memory",
@@ -299,8 +299,8 @@ class SmartModule(object):
                 "unit": "KBytes",
                 "free": information["memory"]["free"],
                 "used": information["memory"]["used"],
-                "cached": information["memory"]["cached"]
-            }
+                "cached": information["memory"]["cached"],
+            },
         }]
         netinfo = [{
             "measurement": "network",
@@ -309,8 +309,8 @@ class SmartModule(object):
             "fields": {
                 "unit": "packets",
                 "packet_recv": information["network"]["packet_recv"],
-                "packet_sent": information["network"]["packet_sent"]
-            }
+                "packet_sent": information["network"]["packet_sent"],
+            },
         }]
         botinfo = [{
             "measurement": "boot",
@@ -318,8 +318,8 @@ class SmartModule(object):
             "time": timestamp,
             "fields": {
                 "unit": "timestamp",
-                "date": information["boot"]
-            }
+                "date": information["boot"],
+            },
         }]
         diskinf = [{
             "measurement": "disk",
@@ -329,8 +329,8 @@ class SmartModule(object):
                 "unit": "KBytes",
                 "total": information["disk"]["total"],
                 "free": information["disk"]["free"],
-                "used": information["disk"]["used"]
-            }
+                "used": information["disk"]["used"],
+            },
         }]
         tempinf = [{
             "measurement": "internal",
@@ -339,7 +339,7 @@ class SmartModule(object):
             "fields": {
                 "unit": "C",
                 "unit temp": str(self.rtc.get_temp()),
-            }
+            },
         }]
 
         conn.write_points(cpuinfo + meminfo + netinfo + botinfo + diskinf + tempinf)
