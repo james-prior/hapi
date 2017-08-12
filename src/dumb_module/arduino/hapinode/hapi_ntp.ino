@@ -85,10 +85,10 @@ void sendNTPpacket(IPAddress &address)
   packet_as_bytes[2] = 6;     // Polling Interval
   packet_as_bytes[3] = 0xEC;  // Peer Clock Precision
   // 8 bytes of zero for Root Delay & Root Dispersion
-  packet_as_bytes[12]  = 49;
-  packet_as_bytes[13]  = 0x4E;
-  packet_as_bytes[14]  = 49;
-  packet_as_bytes[15]  = 52;
+  packet_as_bytes[12] = 49;
+  packet_as_bytes[13] = 0x4E;
+  packet_as_bytes[14] = 49;
+  packet_as_bytes[15] = 52;
 
   // all NTP fields have been given values, now
   // you can send a packet requesting a timestamp:
