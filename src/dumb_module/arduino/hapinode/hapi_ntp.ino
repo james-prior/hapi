@@ -70,7 +70,7 @@ time_t getNtpTime(void)
     int size = udp.parsePacket();
     if (size >= NTP_PACKET_SIZE) {
       Serial.println(F("Receive NTP Response"));
-      udp.read(&buffer, NTP_PACKET_SIZE);  // read packet into the buffer
+      udp.read(&packet, NTP_PACKET_SIZE);
       ntp_now = ntohl(packet.now);
       unix_now = ntp_now - NTP_TO_UNIX_SECONDS;
       local_unix_now = unix_now + timeZone * (unsigned long)SECS_PER_HOUR;
