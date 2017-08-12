@@ -68,14 +68,15 @@ time_t getNtpTime(void)
   uint32_t beginWait = millis();
   while (millis() - beginWait < 1500) {
     int size = udp.parsePacket();
-    if (size >= sizeof(packet)) {
-      Serial.println(F("Receive NTP Response"));
-      udp.read(&packet, sizeof(packet));
-      ntp_now = ntohl(packet.now);
-      unix_now = ntp_now - NTP_TO_UNIX_SECONDS;
-      local_unix_now = unix_now + timeZone * (unsigned long)SECS_PER_HOUR;
-      return local_unix_now;
-    }
+    if (size < sizeof(packet))
+      continue;
+
+    Serial.println(F("Receive NTP Response"));
+    udp.read(&packet, sizeof(packet));
+    ntp_now = ntohl(packet.now);
+    unix_now = ntp_now - NTP_TO_UNIX_SECONDS;
+    local_unix_now = unix_now + timeZone * (unsigned long)SECS_PER_HOUR;
+    return local_unix_now;
   }
   Serial.println(F("No NTP Response :-("));
   return 0; // return 0 if unable to get the time
