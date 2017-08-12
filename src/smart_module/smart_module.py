@@ -282,41 +282,65 @@ class SmartModule(object):
         """Push System Status (stats) to InfluxDB server."""
         timestamp = datetime.datetime.now()
         conn = self.connect_influx(asset_context)
-        cpuinfo = [{"measurement": "cpu", "tags": {"asset": self.name}, "time": timestamp,
-                    "fields": {
-                        "unit": "percentage",
-                        "load": information["cpu"]["percentage"]
-                    }}]
-        meminfo = [{"measurement": "memory", "tags": {"asset": self.name}, "time": timestamp,
-                    "fields": {
-                        "unit": "KBytes",
-                        "free": information["memory"]["free"],
-                        "used": information["memory"]["used"],
-                        "cached": information["memory"]["cached"]
-                    }}]
-        netinfo = [{"measurement": "network", "tags": {"asset": self.name}, "time": timestamp,
-                    "fields": {
-                        "unit": "packets",
-                        "packet_recv": information["network"]["packet_recv"],
-                        "packet_sent": information["network"]["packet_sent"]
-                    }}]
-        botinfo = [{"measurement": "boot", "tags": {"asset": self.name}, "time": timestamp,
-                    "fields": {
-                        "unit": "timestamp",
-                        "date": information["boot"]
-                    }}]
-        diskinf = [{"measurement": "disk", "tags": {"asset": self.name}, "time": timestamp,
-                    "fields": {
-                        "unit": "KBytes",
-                        "total": information["disk"]["total"],
-                        "free": information["disk"]["free"],
-                        "used": information["disk"]["used"]
-                    }}]
-        tempinf = [{"measurement": "internal", "tags": {"asset": self.name}, "time": timestamp,
-                    "fields": {
-                        "unit": "C",
-                        "unit temp": str(self.rtc.get_temp()),
-                    }}]
+        cpuinfo = [{
+            "measurement": "cpu",
+            "tags": {"asset": self.name},
+            "time": timestamp,
+            "fields": {
+                "unit": "percentage",
+                "load": information["cpu"]["percentage"]
+            }
+        }]
+        meminfo = [{
+            "measurement": "memory",
+            "tags": {"asset": self.name},
+            "time": timestamp,
+            "fields": {
+                "unit": "KBytes",
+                "free": information["memory"]["free"],
+                "used": information["memory"]["used"],
+                "cached": information["memory"]["cached"]
+            }
+        }]
+        netinfo = [{
+            "measurement": "network",
+            "tags": {"asset": self.name},
+            "time": timestamp,
+            "fields": {
+                "unit": "packets",
+                "packet_recv": information["network"]["packet_recv"],
+                "packet_sent": information["network"]["packet_sent"]
+            }
+        }]
+        botinfo = [{
+            "measurement": "boot",
+            "tags": {"asset": self.name},
+            "time": timestamp,
+            "fields": {
+                "unit": "timestamp",
+                "date": information["boot"]
+            }
+        }]
+        diskinf = [{
+            "measurement": "disk",
+            "tags": {"asset": self.name},
+            "time": timestamp,
+            "fields": {
+                "unit": "KBytes",
+                "total": information["disk"]["total"],
+                "free": information["disk"]["free"],
+                "used": information["disk"]["used"]
+            }
+        }]
+        tempinf = [{
+            "measurement": "internal",
+            "tags": {"asset": self.name},
+            "time": timestamp,
+            "fields": {
+                "unit": "C",
+                "unit temp": str(self.rtc.get_temp()),
+            }
+        }]
 
         conn.write_points(cpuinfo + meminfo + netinfo + botinfo + diskinf + tempinf)
 
