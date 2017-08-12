@@ -36,6 +36,8 @@
     + N_LEAP_DAYS_DELTA(NTP_BASE_YEAR, UNIX_EPOCH_BASE_YEAR))
 #define NTP_TO_UNIX_SECONDS (NTP_TO_UNIX_DAYS * SECONDS_PER_DAY)
 
+typedef unsigned long uint32_t; //^^^ should be in some header file
+
 struct ntp_packet_struct {
   byte ignore1[40];
   uint32_t now; // time since 1900. Unit is 1 second. MSB first
