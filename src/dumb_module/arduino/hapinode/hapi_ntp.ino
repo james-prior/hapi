@@ -90,8 +90,7 @@ void sendNTPpacket(IPAddress &address)
   packet_as_bytes[14] = 49;
   packet_as_bytes[15] = 52;
 
-  // all NTP fields have been given values, now
-  // you can send a packet requesting a timestamp:
+  // send packet that requests time
   udp.beginPacket(address, NTP_port);
   udp.write(&packet, sizeof(packet));
   udp.endPacket();
