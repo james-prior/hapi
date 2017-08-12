@@ -57,6 +57,7 @@ uint32_t ntohl(uint32_t x/*in network order*/)
 time_t getNtpTime(void)
 {
   struct ntp_packet_struct packet;
+  uint32_t ntp_now; // 0 is beginning of 1900. Unit is 1 second.
 
   while (udp.parsePacket() > 0) // discard any previously received packets
     ;
@@ -68,10 +69,8 @@ time_t getNtpTime(void)
     if (size >= NTP_PACKET_SIZE) {
       Serial.println(F("Receive NTP Response"));
       udp.read(&buffer, NTP_PACKET_SIZE);  // read packet into the buffer
-      unsigned long secsSince1900;
-
-      secsSince1900 = ntohl(packet.now);
-      return secsSince1900 - NTP_TO_UNIX_SECONDS + timeZone * (unsigned long)SECS_PER_HOUR;
+      ntp_now = ntohl(packet.now);
+      return ntp_now - NTP_TO_UNIX_SECONDS + timeZone * (unsigned long)SECS_PER_HOUR;
     }
   }
   Serial.println(F("No NTP Response :-("));
