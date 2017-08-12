@@ -70,9 +70,6 @@ time_t getNtpTime(void)
       udp.read(&buffer, NTP_PACKET_SIZE);  // read packet into the buffer
       unsigned long secsSince1900;
 
-      // The timestamp starts at byte 40 of the received packet and is four bytes,
-      // or two words, long. First, extract the two words:
-
       secsSince1900 = ntohl(packet.now);
       return secsSince1900 - NTP_TO_UNIX_SECONDS + timeZone * (unsigned long)SECS_PER_HOUR;
     }
