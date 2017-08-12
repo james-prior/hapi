@@ -68,9 +68,9 @@ time_t getNtpTime(void)
   uint32_t beginWait = millis();
   while (millis() - beginWait < 1500) {
     int size = udp.parsePacket();
-    if (size >= NTP_PACKET_SIZE) {
+    if (size >= sizeof(packet)) {
       Serial.println(F("Receive NTP Response"));
-      udp.read(&packet, NTP_PACKET_SIZE);
+      udp.read(&packet, sizeof(packet));
       ntp_now = ntohl(packet.now);
       unix_now = ntp_now - NTP_TO_UNIX_SECONDS;
       local_unix_now = unix_now + timeZone * (unsigned long)SECS_PER_HOUR;
