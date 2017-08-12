@@ -712,7 +712,7 @@ def main():
     except Exception as e:
         Log.exception("Error initializing Smart Module. %s.", e)
 
-    while 1:
+    while True:
         try:
             time.sleep(0.5)
             schedule.run_pending()
