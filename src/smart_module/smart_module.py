@@ -284,62 +284,62 @@ class SmartModule(object):
         conn = self.connect_influx(asset_context)
         info = [
             {
-                "measurement": "cpu",
-                "tags": {"asset": self.name},
-                "time": timestamp,
-                "fields": {
-                    "unit": "percentage",
-                    "load": information["cpu"]["percentage"],
+                'measurement': 'cpu',
+                'tags': {'asset': self.name},
+                'time': timestamp,
+                'fields': {
+                    'unit': 'percentage',
+                    'load': information['cpu']['percentage'],
                 },
             },
             {
-                "measurement": "memory",
-                "tags": {"asset": self.name},
-                "time": timestamp,
-                "fields": {
-                    "unit": "KBytes",
-                    "free": information["memory"]["free"],
-                    "used": information["memory"]["used"],
-                    "cached": information["memory"]["cached"],
+                'measurement': 'memory',
+                'tags': {'asset': self.name},
+                'time': timestamp,
+                'fields': {
+                    'unit': 'KBytes',
+                    'free': information['memory']['free'],
+                    'used': information['memory']['used'],
+                    'cached': information['memory']['cached'],
                 },
             },
             {
-                "measurement": "network",
-                "tags": {"asset": self.name},
-                "time": timestamp,
-                "fields": {
-                    "unit": "packets",
-                    "packet_recv": information["network"]["packet_recv"],
-                    "packet_sent": information["network"]["packet_sent"],
+                'measurement': 'network',
+                'tags': {'asset': self.name},
+                'time': timestamp,
+                'fields': {
+                    'unit': 'packets',
+                    'packet_recv': information['network']['packet_recv'],
+                    'packet_sent': information['network']['packet_sent'],
                 },
             },
             {
-                "measurement": "boot",
-                "tags": {"asset": self.name},
-                "time": timestamp,
-                "fields": {
-                    "unit": "timestamp",
-                    "date": information["boot"],
+                'measurement': 'boot',
+                'tags': {'asset': self.name},
+                'time': timestamp,
+                'fields': {
+                    'unit': 'timestamp',
+                    'date': information['boot'],
                 },
             },
             {
-                "measurement": "disk",
-                "tags": {"asset": self.name},
-                "time": timestamp,
-                "fields": {
-                    "unit": "KBytes",
-                    "total": information["disk"]["total"],
-                    "free": information["disk"]["free"],
-                    "used": information["disk"]["used"],
+                'measurement': 'disk',
+                'tags': {'asset': self.name},
+                'time': timestamp,
+                'fields': {
+                    'unit': 'KBytes',
+                    'total': information['disk']['total'],
+                    'free': information['disk']['free'],
+                    'used': information['disk']['used'],
                 },
             },
             {
-                "measurement": "internal",
-                "tags": {"asset": self.name},
-                "time": timestamp,
-                "fields": {
-                    "unit": "C",
-                    "unit temp": str(self.rtc.get_temp()),
+                'measurement': 'internal',
+                'tags': {'asset': self.name},
+                'time': timestamp,
+                'fields': {
+                    'unit': 'C',
+                    'unit temp': str(self.rtc.get_temp()),
                 },
             },
         ]
