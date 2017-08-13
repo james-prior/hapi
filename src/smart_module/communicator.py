@@ -25,10 +25,12 @@ from __future__ import print_function
 import sys
 import json
 import datetime
-from log import Log
+
 import paho.mqtt.client as mqtt
-import notification
+
 from alert import Alert
+import notification
+from log import Log
 
 class Communicator(object):
     def __init__(self, sm):
