@@ -45,7 +45,7 @@ import rtc_interface
 from status import SystemStatus
 import utilities
 
-reload(sys)
+reload(sys)  #??? Why? This is suspicious.
 
 class Asset(object):
     """Hold Asset (sensor) information."""
