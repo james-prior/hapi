@@ -64,10 +64,19 @@ class Asset(object):
 
     def __str__(self):
         """Return Asset information in (almost) JSON."""
-        return str({"id": self.id, "name": self.name, "unit": self.unit, "virtual": self.virtual,
-                    "context": self.context, "system": self.system, "enabled": self.enabled,
-                    "type": self.type, "value": self.value, "time": self.time,
-                    "module": self.module})
+        return str({
+            "id": self.id,
+            "name": self.name,
+            "unit": self.unit,
+            "virtual": self.virtual,
+            "context": self.context,
+            "system": self.system,
+            "enabled": self.enabled,
+            "type": self.type,
+            "value": self.value,
+            "time": self.time,
+            "module": self.module,
+        })
 
     def load_asset_info(self):
         """Load asset information based on database."""
