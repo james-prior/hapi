@@ -25,6 +25,7 @@ from __future__ import print_function
 import os
 import glob
 import time
+
 from log import Log
 
 class AssetImpl(object):
