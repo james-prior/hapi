@@ -33,15 +33,17 @@ from multiprocessing import Process
 import urllib2
 import json
 import sqlite3
-from log import Log
+
 import schedule
-import communicator
 from influxdb import InfluxDBClient
-from status import SystemStatus
-import asset_interface
-import rtc_interface
-import utilities
 from zeroconf import ServiceBrowser, ServiceStateChange, Zeroconf
+
+import asset_interface
+import communicator
+from log import Log
+import rtc_interface
+from status import SystemStatus
+import utilities
 
 reload(sys)
 
