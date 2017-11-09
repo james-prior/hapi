@@ -3,7 +3,6 @@
 
 '''
 HAPI Asset Interface for the DS18B20 Temperature Sensor
-Authors: Tyler Reed
 Release: April 2017, Alpha Milestone
 Version: 1.0
 Copyright 2016 Maya Culpa, LLC
@@ -26,7 +25,8 @@ from __future__ import print_function
 import os
 import glob
 import time
-import log
+
+from log import Log
 
 class AssetImpl(object):
     def __init__(self):
@@ -37,20 +37,16 @@ class AssetImpl(object):
             base_dir = '/sys/bus/w1/devices'
             device_dir = glob.glob(os.path.join(base_dir, '28*'))[0]
             self.device_path = os.path.join(device_dir, 'w1_slave')
-            self.log = log.Log("asset.log")
             print('Device file:', self.device_path)
-        except Exception as excpt:
-            self.log.exception("Error initializing sensor interface: %s.", excpt)
+        except Exception as e:
+            Log.info("Error initializing sensor interface: %s.", e)
 
     def read_temp_raw(self):
         try:
-            lines = ""
-            with open(self.device_path, "r") as tempfile:
-                for line in tempfile:
-                    lines = lines + line.decode("utf-8")
-            return lines.split("\n")
-        except Exception as excpt:
-            self.log.exception("Error reading raw temperature data: %s.", excpt)
+            with open(self.device_path, "r") as f:
+                return f.read().decode('utf-8').split('\n')
+        except Exception as e:
+            Log.info("Error reading raw temperature data: %s.", e)
 
     def read_value(self):
         temp_c = -50
@@ -65,7 +61,7 @@ class AssetImpl(object):
                 temp_string = lines[1][equals_pos+2:]
                 temp_c = float(temp_string) / 1000.0
 
-        except Exception as excpt:
-            self.log.exception("Error getting converted sensor data: %s.", excpt)
+        except Exception as e:
+            Log.info("Error getting converted sensor data: %s.", e)
 
         return temp_c

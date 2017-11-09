@@ -1,4 +1,4 @@
-![HAPI Project](/readme/hapi.png?raw=true "HAPI Project")
+![HAPI Project](/docs/img/hapi.png?raw=true "HAPI Project")
 
 # Zero-footprint Autonomous Food Production
 
@@ -33,7 +33,7 @@ Not: http://hapihq.com/ ... pending as to web presence
 Don't forget to check our Wiki Page.
 Pull requests welcomed
 
-![HAPI Wiki Page](/../../wiki "Wiki Page")
+[HAPI Read The Docs](http://hapi.readthedocs.io)
 
 ## Open Source
 This HAPI is an open project, meaning anyone and everyone can participate under conventional Open Source processes
@@ -43,4 +43,6 @@ No closed process, 'team servers', closed mailing lists or such as to substantiv
 If you have found a bug, or have any question or sugestion, please open a bug
 
 ## System Overview
-![System Overview of the HAPI Project](/readme/system-overview.png?raw=true "HAPI Project System Overview")
+![System Overview of the HAPI Project](/docs/img/system-overview.png?raw=true "HAPI Project System Overview")
+
+Please note: we're currently working on the system design. Some changes on this image will probably be necessary in the near future.

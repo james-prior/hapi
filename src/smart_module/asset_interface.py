@@ -3,7 +3,6 @@
 
 '''
 HAPI Generic Asset Interface
-Authors: Tyler Reed
 Release: April 2017, Alpha Milestone
 Copyright 2016 Maya Culpa, LLC
 
@@ -23,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import importlib
 import random
+
 import asset_wt
 
 class AssetInterface(object):
@@ -32,9 +32,7 @@ class AssetInterface(object):
         if asset_type.lower() == "mock":
             self.mock = True
         else:
-            self.asset_lib = importlib.import_module("asset_" + str(asset_type))
-        # Not sure why we should use it?
-        #eval('from "asset_" + str(asset_type) import AssetImpl')
+            self.asset_lib = importlib.import_module('asset_%s' % asset_type)
 
     def read_value(self):
         if self.mock:
