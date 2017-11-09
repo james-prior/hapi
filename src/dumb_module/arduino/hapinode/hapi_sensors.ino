@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "misc.h"
+
 /*
 #*********************************************************************
 #Copyright 2016 Maya Culpa, LLC
@@ -17,63 +19,46 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #*********************************************************************
-
-HAPI Remote Terminal Unit Firmware Code V3.1.1
-Authors: Tyler Reed, Mark Miller
-ESP Modification: John Archbold
-
-Sketch Date: June 29th, 2017
-Sketch Version: V3.1.1
-Implement of MQTT-based HAPInode (HN) for use in Monitoring and Control
-Implements mDNS discovery of MQTT broker
-Implements definitions for
-  ESP-NodeMCU
-  ESP8266
-  WROOM32
-Communications Protocol
-  WiFi
-Communications Method
-  MQTT        Listens for messages on Port 1883
 */
 
-void setupSensors(void){
-// Initialize Digital Pins for Input or Output - From the arrays pinControl and pinDefaults
-  for (int i = 0; i < ArrayLength(pinControl); i++) {
-    switch (pinControl[i]) {
-      case DIGITAL_INPUT_PIN:
-        pinMode(i, INPUT);
-        break;
-      case DIGITAL_INPUT_PULLUP_PIN:
-        pinMode(i, INPUT_PULLUP);
-        break;
-      case DIGITAL_OUTPUT_PIN:
-        pinMode(i, OUTPUT);
-        digitalWrite(i, (pinDefaults[i] ? HIGH : LOW));
-        break;
-      case ANALOG_OUTPUT_PIN:
-        pinMode(i, OUTPUT);
-        break;
-      default:
-        break;
+void setupSensors(void) {
+  // Initialize pins.
+  for (int i = 0; i < ARRAY_LENGTH(pin_configurations); i++) {
+    switch (pin_configurations[i].mode) {
+    case DIGITAL_INPUT_PIN:
+      pinMode(i, INPUT);
+      break;
+    case DIGITAL_INPUT_PULLUP_PIN:
+      pinMode(i, INPUT_PULLUP);
+      break;
+    case DIGITAL_OUTPUT_PIN:
+      pinMode(i, OUTPUT);
+      digitalWrite(i, pin_configurations[i].default_value);
+      break;
+    case ANALOG_OUTPUT_PIN:
+      pinMode(i, OUTPUT);
+      break;
+    default:
+      break;
     }
   }
 
-// Start the DHT-22
+  // Start the DHT-22
   dht1.begin();
-  /*for (int x = 0; x < NUM_DHTS; x++) {
-    dhts[x].begin();
+  /*for (int i = 0; i < ARRAY_LENGTH(dhts); i++) {
+    dhts[i].begin();
   }*/
 
-// Start the DS18B20
+  // Start the DS18B20
   wp_sensors.begin();
 
-// Start the flow sensor
+  // Start the flow sensor
   pinMode(sWtrFlow_PIN, INPUT);
   flowrate.attach(sWtrFlow_PIN);
   flowrate.interval(5);
 
-// Start the I2C
-  Wire.begin(SDA_PIN,SCL_PIN);      // Default
+  // Start the I2C
+  Wire.begin(SDA_PIN, SCL_PIN);      // Default
   Wire.setClock(400000);  // choose 400 kHz I2C rate
   Alarm.delay(100);
 }
@@ -81,147 +66,164 @@ void setupSensors(void){
 String getPinArray() {
   // Returns all pin configuration information
   String response = "";
-  for (int i = 0; i < NUM_DIGITAL+NUM_ANALOG; i++) {
-    if (i <= (NUM_DIGITAL-1)) {
-      response += String(i) + String(pinControl[i]);
+  for (int i = 0; i < ARRAY_LENGTH(pin_configurations); i++) {
+    if (i < NUM_DIGITAL) {
+      response += String(i) + String(pin_configurations[i].mode);
     }
     else {
-      response += "A" + String(i - NUM_DIGITAL) + String(pinControl[i]);
+      response += "A" + String(i - NUM_DIGITAL) + String(pin_configurations[i].mode);
     }
   }
   return response;
 }
 
 float readHumidity(int iDevice) {
-  // readHumidity  - Uses the DHT Library to read the current humidity
-  float returnValue;
-  float h;
-  //h = dhts[iDevice].readHumidity();
-  h = dht1.readHumidity();
+  // readHumidity
+  // Uses the DHT Library to read the current humidity
+  float humidity;
 
-  if (isnan(h)) {
-    returnValue = -1;
+  //humidity = dhts[iDevice].readHumidity();
+  humidity = dht1.readHumidity();
+  if (isnan(humidity)) {
+    humidity = (-1);
   }
-  else {
-    returnValue = h;
-  }
-//  Serial.print(F("DHT Humidity: "));
-//  Serial.println(returnValue);
-  return returnValue;
+  // Serial.print(F("DHT Humidity: "));
+  // Serial.println(humidity);
+  return humidity;
 }
 
 float readTemperatured(int iDevice) {
-  // readTemperature  - Uses the DHT Library to read the current temperature
-  float returnValue;
-  float h;
-  //h = dhts[iDevice].readTemperature();
-  h = dht1.readTemperature();
+  // readTemperature
+  // Uses the DHT Library to read the current temperature
+  float temperature;
 
-  if (isnan(h)) {
-    returnValue = -1;
+  //temperature = dhts[iDevice].readTemperature();
+  temperature = dht1.readTemperature();
+  if (isnan(temperature)) {
+    temperature = (-1);
   }
-  else {
-    returnValue = h;
-    if (!metric) {
-      returnValue = (returnValue * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
-    }
+  else if (!metric) {
+    temperature = FAHRENHEIT(temperature);
   }
-//  Serial.print(F("DHT Temperature: "));
-//  Serial.println(returnValue);
-  return returnValue;
+  // Serial.print(F("DHT Temperature: "));
+  // Serial.println(temperature);
+  return temperature;
 }
 
 float read1WireTemperature(int iDevice) {
-  // readWaterTemperature  - Uses the Dallas Temperature library to read the waterproof temp sensor
-  float returnValue;
+  // readWaterTemperature
+  // Uses the Dallas Temperature library to read the waterproof temp sensor
+  float temperature;
+
   wp_sensors.requestTemperatures();
-  returnValue = wp_sensors.getTempCByIndex(0);
-
-  if (isnan(returnValue)) {
-    returnValue = -1;
+  temperature = wp_sensors.getTempCByIndex(0);
+  if (isnan(temperature)) {
+    temperature = (-1);
   }
-  else
-  {
-    if (!metric) {
-      returnValue = (returnValue * 9.0)/ 5.0 + 32.0; // Convert Celsius to Fahrenheit
-    }
+  else if (!metric) {
+    temperature = FAHRENHEIT(temperature);
   }
-//  Serial.print(F("18B20 Temperature: "));
-//  Serial.println(returnValue);
-  return returnValue;
+  // Serial.print(F("18B20 Temperature: "));
+  // Serial.println(temperature);
+  return temperature;
 }
 
-float readpH(int Device) {
-  // readpH - Reads pH from an analog pH sensor (Robot Mesh SKU: SEN0161, Module version 1.0)
-  unsigned long int avgValue;  //Store the average value of the sensor feedback
-  float b;
-  int buf[10], temp;
-  ControlData d;
-  d = HapicData[Device];
+void swap(unsigned char *x, unsigned char *y, size_t n)
+{
+  unsigned char t;
+  size_t i;
 
-  for (int i = 0; i < 10; i++) // Get 10 sample values from the sensor
-  {
-    buf[i] = analogRead(d.hcs_sensepin);  // Get the correct pin from the ControlData structure
-    delay(10);
+  for (i = 0; i < n; i++) {
+    t = x[i];
+    x[i] = y[i];
+    y[i] = t;
   }
-  for (int i = 0; i < 9; i++) // Sort the analog from small to large
-  {
-    for (int j = i + 1; j < 10; j++)
-    {
-      if (buf[i] > buf[j])
-      {
-        temp = buf[i];
-        buf[i] = buf[j];
-        buf[j] = temp;
+}
+
+void sort(
+  void *values,
+  size_t n,
+  size_t size,
+  int (*compare)(const void *, const void *))
+{
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = i + 1; j < n; j++) {
+      if ((*compare)(values+i*size, values+j*size) > 0) {
+        swap(values+i*size, values+j*size, size);
       }
     }
   }
-  avgValue = 0;
-  for (int i = 2; i < 8; i++)               // Take the average value of 6 center samples
-    avgValue += buf[i];
-  float phValue = ((((float)avgValue * 5.0) / 1024) / 6); // Convert the analog into millivolt
-
-  phValue = 3.5 * phValue;                  //convert the millivolt into pH value
-//  Serial.print(F("pH: "));
-//  Serial.println(phValue);
-  return phValue;
 }
 
-float readTDS(int Device) {
-  // readTDS - Reads pH from an analog TDS sensor
-  unsigned long int avgValue;  //Store the average value of the sensor feedback
-  float b;
-  int buf[10], temp;
-  ControlData d;
-  d = HapicData[Device];
+int compare_int(int *x, int *y)
+{
+    if (*x == *y)
+        return 0;
+    else if (*x > *y)
+        return 1;
+    else /* *x < *y */
+        return -1;
+}
 
-  for (int i = 0; i < 10; i++) // Get 10 sample values from the sensor
-  {
-    buf[i] = analogRead(d.hcs_sensepin);  // Get the correct pin from the ControlData structure
-    delay(10);
-  }
-  for (int i = 0; i < 9; i++) // Sort the analog from small to large
-  {
-    for (int j = i + 1; j < 10; j++)
-    {
-      if (buf[i] > buf[j])
-      {
-        temp = buf[i];
-        buf[i] = buf[j];
-        buf[j] = temp;
-      }
-    }
-  }
-  avgValue = 0;
-  for (int i = 2; i < 8; i++)               // Take the average value of 6 center samples
-    avgValue += buf[i];
-  float TDSValue = ((((float)avgValue * 5.0) / 1024) / 6); // Convert the analog into millivolt
+#define N_SAMPLES (10)
+#define N_OUTLIERS (2)
 
-//TODO Need temperature compensation for TDS
-  TDSValue = 1.0 * TDSValue;                  // Convert the millivolt into TDS value
-//  Serial.print(F("TDS: "));
-//  Serial.println(TDSValue);
-  return TDSValue;
+#define VCC (5.0) // Unit is 1 Volt. ^^^ Should be in some header. ^^^Should this be different for some boards?
+#define MAX_ADC_VALUE ((1<<10)-1) // ^^^ Should be in some header.
+
+float read_voltage(int device) {
+  int buf[N_SAMPLES];
+  int pin;
+  unsigned long int sum;
+  float averaged_voltage;
+
+  // Get samples.
+  pin = c_data[device].hcs_sensepin;
+  for (int i = 0; i < ARRAY_LENGTH(buf); i++) {
+    buf[i] = analogRead(pin);
+    delay(10/*^^^evil magic number*/);
+  }
+
+  sort(
+    buf,
+    ARRAY_LENGTH(buf),
+    sizeof(*buf),
+    (int (*)(const void *, const void *))compare_int);
+
+  // Average the samples, ignoring N_OUTLIERS high and N_OUTLIERS low samples.
+  // Also convert to Volts.
+  sum = 0;
+  for (int i = N_OUTLIERS; i < ARRAY_LENGTH(buf) - N_OUTLIERS; i++)
+    sum += buf[i];
+  averaged_voltage = sum;
+  averaged_voltage *= VCC /
+    (MAX_ADC_VALUE * (ARRAY_LENGTH(buf) - 2*N_OUTLIERS));
+
+  return averaged_voltage;
+}
+
+float readpH(int device) {
+  float voltage;
+  float ph_value;
+
+  voltage = read_voltage(device);
+  ph_value = 3.5 * voltage;
+  //  Serial.print(F("pH: "));
+  //  Serial.println(ph_value);
+  return ph_value;
+}
+
+float readTDS(int device) {
+  float voltage;
+  float tds;
+
+  voltage = read_voltage(device);
+
+  //TODO Need temperature compensation for TDS
+  tds = 1.0 * voltage;
+  //  Serial.print(F("TDS: "));
+  //  Serial.println(tds);
+  return tds;
 }
 
 //  Type                Ambient light (lux)  Photocell resistance (Ω)
@@ -232,35 +234,35 @@ float readTDS(int Device) {
 //  Dark overcast day   Bright room 100 lux   1.5 KΩ
 //  Overcast day        1000 lux              300 Ω
 
-float readLightSensor(int Device) {
+float readLightSensor(int device) {
   // Simple code to read a Light value from a CDS sensor, with 10k to ground
   float Lux;
   ControlData d;
-  d = HapicData[Device];
+  d = c_data[device];
 
   int RawADC = analogRead(d.hcs_sensepin);
-//TODO
+  //TODO
   Lux = (float)RawADC; // Need to do some processing to get lux from CDS reading
   return Lux;
 }
 
-float readFlow(int Device) {
+float readFlow(int device) {
   // readWaterFlowRate  - Uses an input pulse that creates an average flow rate
   //                      The averaging is done in software and stores a 30second rolling count
   ControlData d;
-  d = HapicData[Device];
-//TODO
+  d = c_data[device];
+  //TODO
   return (float)WaterFlowRate;
 }
 
-float readSensorPin(int Device) {
+float readSensorPin(int device) {
   float pinData;
-//TODO
+  //TODO
   return pinData;
 }
 
 void hapiSensors(void) {
-  for (int device = 0; device < ArrayLength(HapisFunctions); device++) {
+  for (int device = 0; device < ARRAY_LENGTH(s_functions); device++) {
     currentTime = now();                  // Set the time
     sendMQTTAsset(SENSORID_FN, device);   // Read the sensor value
   }

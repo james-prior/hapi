@@ -17,73 +17,96 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #*********************************************************************
-
-HAPI Remote Terminal Unit Firmware Code V3.1.1
-Authors: Tyler Reed, Mark Miller
-ESP Modification: John Archbold
-
-Sketch Date: June 29th, 2017
-Sketch Version: V3.1.1
-Implement of MQTT-based HAPInode (HN) for use in Monitoring and Control
-Implements mDNS discovery of MQTT broker
-Implements definitions for
-  ESP-NodeMCU
-  ESP8266
-  WROOM32
-Communications Protocol
-  WiFi
-Communications Method
-  MQTT        Listens for messages on Port 1883
 */
 
-time_t getNtpTime()
+#define SECONDS_PER_MINUTE (60)
+#define MINUTES_PER_HOUR (60)
+#define HOURS_PER_DAY (24)
+#define DAYS_PER_NON_LEAP_YEAR (365)
+#define SECONDS_PER_HOUR (MINUTES_PER_HOUR * SECONDS_PER_MINUTE)
+#define SECONDS_PER_DAY ((unsigned long)HOURS_PER_DAY * SECONDS_PER_HOUR)
+#define N_LEAP_DAYS(year) ((year)/4 - (year)/100 + (year)/400)
+// number of leap days from beginning of first_year to beginning of last_year
+#define N_LEAP_DAYS_DELTA(first_year, last_year) (\
+    N_LEAP_DAYS(last_year) - N_LEAP_DAYS(first_year))
+#define NTP_BASE_YEAR (1900)
+#define UNIX_EPOCH_BASE_YEAR (1970)
+#define NTP_TO_UNIX_DAYS ( \
+    (UNIX_EPOCH_BASE_YEAR - NTP_BASE_YEAR) * DAYS_PER_NON_LEAP_YEAR\
+    + N_LEAP_DAYS_DELTA(NTP_BASE_YEAR, UNIX_EPOCH_BASE_YEAR))
+#define NTP_TO_UNIX_SECONDS (NTP_TO_UNIX_DAYS * SECONDS_PER_DAY)
+
+typedef unsigned long uint32_t; //^^^ should be in some header file
+
+struct ntp_packet_struct {
+  byte ignore1[40];
+  uint32_t now; // time since 1900. Unit is 1 second. MSB first
+  byte ignore2[4];
+};
+
+uint32_t ntohl(uint32_t x/*in network order*/)
 {
-  while (udp.parsePacket() > 0) ; // discard any previously received packets
+  // network order is most significant byte first
+  // https://en.wikipedia.org/wiki/Network_order#Networking
+  unsigned long y = 0UL;
+
+  for (int i = 0; i < sizeof(x); i++)
+    y <<= 8;
+    y |= ((byte *)&x)[i];
+  return y;
+}
+
+time_t getNtpTime(void)
+{
+  struct ntp_packet_struct packet;
+  uint32_t ntp_now; // 0 is beginning of 1900. Unit is 1 second.
+  uint32_t unix_now; // 0 is beginning of 1970. Unit is 1 second.
+  uint32_t local_unix_now; // 0 is beginning of 1970 local time zone. Unit is 1 second.
+
+  while (udp.parsePacket() > 0) // discard any previously received packets
+    ;
   Serial.println(F("Transmit NTP Request"));
   sendNTPpacket(ntpServerIP);
-  uint32_t beginWait = millis();
-  while (millis() - beginWait < 1500) {
+  for (uint32_t begin_wait = millis(); millis() - begin_wait < 1500; ) {
     int size = udp.parsePacket();
-    if (size >= NTP_PACKET_SIZE) {
-      Serial.println(F("Receive NTP Response"));
-      udp.read(packetBuffer, NTP_PACKET_SIZE);  // read packet into the buffer
-      unsigned long secsSince1900;
+    if (size < sizeof(packet))
+      continue;
 
-  // The timestamp starts at byte 40 of the received packet and is four bytes,
-  // or two words, long. First, extract the two words:
-      secsSince1900 =  (unsigned long)packetBuffer[40] << 24;
-      secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
-      secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
-      secsSince1900 |= (unsigned long)packetBuffer[43];
-      return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
-    }
+    Serial.println(F("Receive NTP Response"));
+    udp.read(&packet, sizeof(packet));
+    ntp_now = ntohl(packet.now);
+    unix_now = ntp_now - NTP_TO_UNIX_SECONDS;
+    local_unix_now = unix_now + timeZone * (unsigned long)SECS_PER_HOUR;
+    return local_unix_now;
   }
   Serial.println(F("No NTP Response :-("));
   return 0; // return 0 if unable to get the time
 }
 
 // send an NTP request to the time server at the given address
-unsigned long sendNTPpacket(IPAddress& address)
+void sendNTPpacket(IPAddress &address)
 {
+  struct ntp_packet_struct packet;
+
   Serial.println(F("sending NTP packet..."));
   // set all bytes in the buffer to 0
-  memset(packetBuffer, 0, NTP_PACKET_SIZE);
+  memset(&packet, 0, sizeof(packet));
   // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 0;     // Stratum, or type of clock
-  packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
+  // (see URL above for details on the packets) ^^^ what is that URL?
+  #define packet_as_bytes ((byte *)&packet)
+  packet_as_bytes[0] = 0b11100011;   // LI, Version, Mode
+  packet_as_bytes[1] = 0;     // Stratum, or type of clock
+  packet_as_bytes[2] = 6;     // Polling Interval
+  packet_as_bytes[3] = 0xEC;  // Peer Clock Precision
   // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49;
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
+  packet_as_bytes[12] = 49;
+  packet_as_bytes[13] = 0x4E;
+  packet_as_bytes[14] = 49;
+  packet_as_bytes[15] = 52;
 
-  // all NTP fields have been given values, now
-  // you can send a packet requesting a timestamp:
+  // send packet that requests time
   udp.beginPacket(address, NTP_port);
-  udp.write(packetBuffer, NTP_PACKET_SIZE);
+  udp.write(&packet, sizeof(packet));
   udp.endPacket();
 }
 

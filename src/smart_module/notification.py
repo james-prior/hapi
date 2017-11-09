@@ -76,8 +76,8 @@ class Email(Notification):
             for field, value in zip(field_names, db_elements):
                 setattr(self, field, value)
             Log.info("Mail settings loaded.")
-        except Exception as excpt:
-            Log.exception("Trying to load mail settings: %s.", excpt)
+        except Exception as e:
+            Log.exception("Trying to load mail settings: %s.", e)
         finally:
             database.close()
 
@@ -105,8 +105,8 @@ class Email(Notification):
             server.login(self.username, self.password)
             server.sendmail(self.sender, self.receiver, self.build_message(subject, message))
             Log.info("Email notification sent.")
-        except Exception as excpt:
-            Log.exception("Trying to send notificaton via e-mail: %s.", excpt)
+        except Exception as e:
+            Log.exception("Trying to send notificaton via e-mail: %s.", e)
         finally:
             server.quit()
 
@@ -126,8 +126,8 @@ class SMS(Notification):
             client = TWClient(self.twilio_acct_sid, self.twilio_auth_token)
             message = client.messages.create(to=receiver, from_=sender, body=message)
             Log.info("SMS notification sent: %s", message.sid)
-        except Exception as excpt:
-            Log.exception("Trying to send notificaton via SMS: %s.", excpt)
+        except Exception as e:
+            Log.exception("Trying to send notificaton via SMS: %s.", e)
 
     def load_settings(self):
         """Load SMS settings from the core database."""
@@ -145,7 +145,7 @@ class SMS(Notification):
             for field, value in zip(field_names, db_elements):
                 setattr(self, field, value)
             Log.info("SMS settings loaded.")
-        except Exception as excpt:
-            Log.exception("Trying to load SMS settings: %s.", excpt)
+        except Exception as e:
+            Log.exception("Trying to load SMS settings: %s.", e)
         finally:
             database.close()

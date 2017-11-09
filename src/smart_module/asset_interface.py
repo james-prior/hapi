@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import importlib
 import random
+
 import asset_wt
 
 class AssetInterface(object):
@@ -31,7 +32,7 @@ class AssetInterface(object):
         if asset_type.lower() == "mock":
             self.mock = True
         else:
-            self.asset_lib = importlib.import_module("asset_" + str(asset_type))
+            self.asset_lib = importlib.import_module('asset_%s' % asset_type)
 
     def read_value(self):
         if self.mock:
